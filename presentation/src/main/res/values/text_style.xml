@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="bold_xxl">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">700</item>
+    </style>
+
+
+    <style name="regular_xl">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">400</item>
+    </style>
+</resources>
