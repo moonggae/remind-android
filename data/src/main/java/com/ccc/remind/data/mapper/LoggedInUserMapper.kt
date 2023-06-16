@@ -5,14 +5,14 @@ import com.ccc.remind.domain.entity.LogInType
 import com.ccc.remind.domain.entity.LoggedInUser
 
 // domain -> data
-fun LoggedInUser.toDataModel() = LoggedInUserEntity(
+fun LoggedInUser.toData() = LoggedInUserEntity(
     accessToken,
     refreshToken,
     displayName,
     logInType.name
 )
 
-fun LoggedInUserEntity.toDomainModel() = LoggedInUser(
+fun LoggedInUserEntity.toDomain() = LoggedInUser(
     accessToken,
     refreshToken,
     displayName,

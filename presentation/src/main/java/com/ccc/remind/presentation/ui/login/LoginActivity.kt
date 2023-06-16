@@ -30,6 +30,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
     override fun initListener() {
         binding.kakaoLoginButton.setOnClickListener {
             Log.d(TAG, "LoginActivity - kakaoLoginButton")
+            viewModel.kakaoLogin()
         }
     }
 

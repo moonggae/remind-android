@@ -9,6 +9,6 @@ data class LoggedInUserEntity(
     @PrimaryKey
     val accessToken: String,
     val refreshToken: String,
-    val displayName: String,
+    val displayName: String?,
     val logInType: String
 )

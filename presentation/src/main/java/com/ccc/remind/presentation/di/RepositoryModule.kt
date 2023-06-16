@@ -1,8 +1,9 @@
 package com.ccc.remind.presentation.di
 
-import com.ccc.remind.data.repositoryImp.LoggedInUseRepositoryImpl
-import com.ccc.remind.data.source.local.LoggedInUserLocalDataSource
-import com.ccc.remind.domain.repository.LoggedInUserRepository
+import com.ccc.remind.data.repositoryImp.UserRepositoryImpl
+import com.ccc.remind.data.source.local.UserLocalDataSource
+import com.ccc.remind.data.source.remote.LoginService
+import com.ccc.remind.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,8 +16,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideLoggedInUserRepository(loggedInUserLocalDataSource: LoggedInUserLocalDataSource) : LoggedInUserRepository {
-        return LoggedInUseRepositoryImpl(loggedInUserLocalDataSource)
+    fun provideUserRepository(userLocalDataSource: UserLocalDataSource, loginService: LoginService) : UserRepository {
+        return UserRepositoryImpl(userLocalDataSource, loginService)
     }
 
 }

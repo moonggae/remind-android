@@ -1,7 +1,7 @@
 package com.ccc.remind.presentation.di
 
-import com.ccc.remind.data.dao.LoggedInUserDao
-import com.ccc.remind.data.source.local.LoggedInUserLocalDataSource
+import com.ccc.remind.data.source.local.dao.LoggedInUserDao
+import com.ccc.remind.data.source.local.UserLocalDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,8 +14,8 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideLoggedInUserLocalDataSource(loggedInUserDao: LoggedInUserDao) : LoggedInUserLocalDataSource {
-        return LoggedInUserLocalDataSource(loggedInUserDao)
+    fun provideLoggedInUserLocalDataSource(loggedInUserDao: LoggedInUserDao) : UserLocalDataSource {
+        return UserLocalDataSource(loggedInUserDao)
     }
 
 

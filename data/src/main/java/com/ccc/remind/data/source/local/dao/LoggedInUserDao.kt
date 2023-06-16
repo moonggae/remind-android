@@ -1,4 +1,4 @@
-package com.ccc.remind.data.dao
+package com.ccc.remind.data.source.local.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
