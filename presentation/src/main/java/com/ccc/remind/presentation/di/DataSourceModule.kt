@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @Module
@@ -15,8 +16,6 @@ object DataSourceModule {
     @Provides
     @Singleton
     fun provideLoggedInUserLocalDataSource(loggedInUserDao: LoggedInUserDao) : UserLocalDataSource {
-        return UserLocalDataSource(loggedInUserDao)
+        return UserLocalDataSource(loggedInUserDao, Dispatchers.IO)
     }
-
-
 }

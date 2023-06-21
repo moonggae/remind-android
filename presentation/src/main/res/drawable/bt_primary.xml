@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false">
+        <shape>
+            <size android:height="56dp" />
+            <solid android:color="@color/accent_onAccent" />
+            <corners
+                android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item android:state_pressed="true">
+        <shape>
+            <size android:height="56dp" />
+            <solid android:color="#7993E2" />
+            <corners
+                android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <size android:height="56dp" />
+            <solid android:color="@color/accent_default" />
+            <corners
+                android:radius="8dp" />
+        </shape>
+    </item>
+</selector>

@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.ccc.remind.presentation.ui.login.LoginViewModel" />
+            type="com.ccc.remind.presentation.ui.onboard.login.LoginViewModel" />
     </data>
 
 
@@ -14,7 +14,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.login.LoginActivity">
+        tools:context=".presentation.ui.onboard.login.LoginActivity">
 
 
         <TextView
@@ -73,7 +73,7 @@
         <LinearLayout
             android:id="@+id/kakao_login_button"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="54dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="115dp"
             android:background="@drawable/bt_login_kakao"
@@ -94,14 +94,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:textColor="@color/fg_default"
-                android:text="@string/login_index_kakao_with_kakao"
+                android:text="@string/login_index_login_with_kakao"
                 android:translationY="-2.07sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/apple_login_button"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="54dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/bt_login_apple"
@@ -122,14 +122,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:textColor="@color/bg_default"
-                android:text="@string/login_index_kakao_with_apple"
+                android:text="@string/login_index_login_with_apple"
                 android:translationY="-2.07sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/google_login_button"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="54dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/bt_login_google"
@@ -150,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:textColor="@color/fg_default"
-                android:text="@string/login_index_kakao_with_google"
+                android:text="@string/login_index_login_with_google"
                 android:translationY="-2.07sp" />
         </LinearLayout>
 

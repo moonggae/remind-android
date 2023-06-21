@@ -95,8 +95,12 @@ dependencies {
     // room
     implementation "androidx.room:room-runtime:$room_version"
 
+    // circle indicator for login slide
     implementation 'me.relex:circleindicator:2.1.6'
 
+    // navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 }
 
 kapt {

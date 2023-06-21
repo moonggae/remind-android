@@ -1,18 +1,19 @@
-package com.ccc.remind.presentation.ui.login
+package com.ccc.remind.presentation.ui.onboard.login
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.activity.viewModels
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.ccc.remind.R
 import com.ccc.remind.databinding.ActivityLoginBinding
 import com.ccc.remind.presentation.base.BaseActivity
+import com.ccc.remind.presentation.ui.onboard.displayName.DisplayNameRegisterActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
@@ -29,12 +30,21 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
 
     override fun initListener() {
         binding.kakaoLoginButton.setOnClickListener {
-            Log.d(TAG, "LoginActivity - kakaoLoginButton")
             viewModel.kakaoLogin()
         }
     }
 
-    override fun initObserver() {}
+    override fun initObserver() {
+        lifecycleScope.launch {
+            viewModel.isLoggedIn.collect {
+                if(!it) return@collect
+
+                if(viewModel.displayName.value == null) {
+                    startActivity(Intent(this@LoginActivity, DisplayNameRegisterActivity::class.java))
+                }
+            }
+        }
+    }
 
     @SuppressLint("ResourceAsColor")
     override fun initView() {

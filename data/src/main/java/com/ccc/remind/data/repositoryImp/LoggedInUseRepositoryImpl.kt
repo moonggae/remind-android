@@ -1,10 +1,13 @@
 package com.ccc.remind.data.repositoryImp
 
+import com.ccc.remind.data.mapper.toData
 import com.ccc.remind.data.mapper.toDomain
 import com.ccc.remind.data.mapper.toJwtToken
+import com.ccc.remind.data.model.DisplayNameDto
+import com.ccc.remind.data.model.LoggedInUserEntity
 import com.ccc.remind.data.model.LoginRequest
 import com.ccc.remind.data.source.local.UserLocalDataSource
-import com.ccc.remind.data.source.remote.LoginService
+import com.ccc.remind.data.source.remote.LoginRemoteService
 import com.ccc.remind.domain.entity.JwtToken
 import com.ccc.remind.domain.entity.LogInType
 import com.ccc.remind.domain.entity.LoggedInUser
@@ -12,14 +15,33 @@ import com.ccc.remind.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class UserRepositoryImpl(private val userLocalDataSource: UserLocalDataSource, private val loginService: LoginService) : UserRepository {
-    override suspend fun login(uid: String, logInType: LogInType): JwtToken = loginService.login(LoginRequest(uid, logInType.name)).body()!!.toJwtToken()
+class UserRepositoryImpl(
+    private val userLocalDataSource: UserLocalDataSource,
+    private val loginRemoteService: LoginRemoteService
+) : UserRepository {
+    override suspend fun login(uid: String, logInType: LogInType): JwtToken =
+        loginRemoteService.login(LoginRequest(uid, logInType.name)).body()!!.toJwtToken()
 
-    override fun getLoggedInUser(): Flow<LoggedInUser?> = userLocalDataSource.getLoggedInUser().map { it?.toDomain() }
+    override suspend fun getLoggedInUser(): LoggedInUser? =
+        userLocalDataSource.fetchLoggedInUser()?.toDomain()
 
-    override suspend fun getUserDisplayName(): String? = loginService.getDisplayName().body()?.displayName
+    override suspend fun updateLoggedInUser(loggedInUser: LoggedInUser) =
+        userLocalDataSource.postLoggedInUser(loggedInUser.toData())
+
+    override suspend fun getUserDisplayName(): String? =
+        loginRemoteService.fetchDisplayName().body()?.displayName
 
     override suspend fun updateUserDisplayName(displayName: String) {
-        TODO("Not yet implemented")
+        loginRemoteService.updateDisplayName(DisplayNameDto(displayName))
+        val entity = userLocalDataSource.fetchLoggedInUser()
+        if (entity != null)
+            userLocalDataSource.updateLoggedInUser(
+                LoggedInUserEntity(
+                    entity.accessToken,
+                    entity.refreshToken,
+                    displayName,
+                    entity.logInType
+                )
+            )
     }
 }

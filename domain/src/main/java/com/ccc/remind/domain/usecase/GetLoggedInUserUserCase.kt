@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetLoggedInUserUserCase @Inject constructor(private val userRepository: UserRepository) {
-    operator fun invoke() : Flow<LoggedInUser?> {
+    suspend operator fun invoke() : LoggedInUser? {
         return userRepository.getLoggedInUser()
     }
 }

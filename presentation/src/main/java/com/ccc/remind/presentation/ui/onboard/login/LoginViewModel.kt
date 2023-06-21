@@ -1,4 +1,4 @@
-package com.ccc.remind.presentation.ui.login
+package com.ccc.remind.presentation.ui.onboard.login
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -13,6 +13,8 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,11 +31,20 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase,
         KakaoSdk.init(MyApplication.applicationContext(), "KAKAO_APP_KEY")
     }
 
+    private val _displayName: MutableStateFlow<String?> = MutableStateFlow(null)
+    val displayName : StateFlow<String?>
+        get() = _displayName
+
+    private val _isLoggedIn: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isLoggedIn : StateFlow<Boolean>
+        get() = _isLoggedIn
+
     private fun logIn(uid: String, logInType: LogInType) {
         viewModelScope.launch {
             val token = loginUseCase(uid, logInType)
             MyApplication.setAccessToken(token.accessToken)
-            val displayName = getUserDisplayNameUseCase()
+            _displayName.value = getUserDisplayNameUseCase()
+            _isLoggedIn.value = true
         }
     }
 

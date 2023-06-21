@@ -1,4 +1,4 @@
-package com.ccc.remind.presentation.ui.login
+package com.ccc.remind.presentation.ui.onboard.login
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

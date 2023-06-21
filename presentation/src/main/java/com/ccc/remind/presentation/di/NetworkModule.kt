@@ -1,21 +1,17 @@
 package com.ccc.remind.presentation.di
 
 import android.util.Log
-import com.ccc.remind.data.source.remote.LoginService
+import com.ccc.remind.data.source.remote.LoginRemoteService
 import com.ccc.remind.presentation.MyApplication
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Authenticator
-import okhttp3.Headers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 import javax.inject.Singleton
 
 @Module
@@ -77,7 +73,7 @@ object NetworkModule {
     @Singleton
     fun provideUserService(
         retrofit: Retrofit
-    ): LoginService {
-        return retrofit.create(LoginService::class.java)
+    ): LoginRemoteService {
+        return retrofit.create(LoginRemoteService::class.java)
     }
 }

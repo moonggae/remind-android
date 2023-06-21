@@ -8,7 +8,9 @@ import kotlinx.coroutines.flow.Flow
 interface UserRepository {
     suspend fun login(uid: String, logInType: LogInType) : JwtToken
 
-    fun getLoggedInUser() : Flow<LoggedInUser?>
+    suspend fun getLoggedInUser() : LoggedInUser?
+
+    suspend fun updateLoggedInUser(loggedInUser: LoggedInUser)
 
     suspend fun getUserDisplayName(): String?
 

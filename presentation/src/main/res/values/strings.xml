@@ -2,8 +2,12 @@
     <string name="app_name">remind</string>
     <string name="login_index_title">감정으로 기록하는 일상</string>
     <string name="login_index_subtitle">간단하게 소중한 감정을 공유해요</string>
-    <string name="login_index_kakao_with_kakao">카카오로 시작하기</string>
-    <string name="login_index_kakao_with_apple">Apple로 시작하기</string>
-    <string name="login_index_kakao_with_google">Google로 시작하기</string>
+    <string name="login_index_login_with_kakao">카카오로 시작하기</string>
+    <string name="login_index_login_with_apple">Apple로 시작하기</string>
+    <string name="login_index_login_with_google">Google로 시작하기</string>
+    <string name="login_display_name_register_title">뭐라고 불러드릴까요?</string>
+    <string name="login_display_name_register_placeholder">ex) 여름</string>
+    <string name="login_display_name_register_rule">공백없이 한글,영문,숫자(2~10)자로 설정해주세요.</string>
+    <string name="to_save">저장하기</string>
 
 </resources>

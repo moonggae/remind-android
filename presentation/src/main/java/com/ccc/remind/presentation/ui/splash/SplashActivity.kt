@@ -8,7 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.ccc.remind.presentation.ui.login.LoginActivity
+import com.ccc.remind.presentation.ui.onboard.displayName.DisplayNameRegisterActivity
+import com.ccc.remind.presentation.ui.onboard.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -33,14 +34,18 @@ class SplashActivity : AppCompatActivity() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.getLoggedInUser().collect {
-                        if(it == null) {
+                    viewModel.isInitialized.collect {
+                        val loggedInUser = viewModel.loggedInUser.value
+                        if(loggedInUser == null) {
                             startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                        } else if(loggedInUser.displayName == null) {
+                            startActivity(Intent(this@SplashActivity, DisplayNameRegisterActivity::class.java))
+                        } else {
+                            // todo : go to 메인화면
                         }
                     }
                 }
             }
         }
-
     }
 }

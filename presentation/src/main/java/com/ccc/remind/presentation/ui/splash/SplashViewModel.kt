@@ -21,18 +21,22 @@ class SplashViewModel @Inject constructor(
     private val getLoggedInUserUserCase: GetLoggedInUserUserCase
 ) : ViewModel() {
     private val _isGetLoggedInUserDone = MutableStateFlow<Boolean>(true)
-    val isInitialized : StateFlow<Boolean>
+    val isInitialized: StateFlow<Boolean>
         get() = _isGetLoggedInUserDone
+
+    private val _loggedInUser : MutableStateFlow<LoggedInUser?> = MutableStateFlow(null)
+
+    val loggedInUser : StateFlow<LoggedInUser?>
+        get() = _loggedInUser
 
     init {
         viewModelScope.launch {
-            getLoggedInUser().collect {
-                _isGetLoggedInUserDone.value = true
-            }
+            _loggedInUser.value = getLoggedInUser()
+            _isGetLoggedInUserDone.value = true
         }
     }
 
-    suspend fun getLoggedInUser() : Flow<LoggedInUser?> = getLoggedInUserUserCase.invoke().flowOn(IO)
+    private suspend fun getLoggedInUser(): LoggedInUser? = getLoggedInUserUserCase()
 
 
 }
