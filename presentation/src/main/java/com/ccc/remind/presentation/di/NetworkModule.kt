@@ -3,6 +3,7 @@ package com.ccc.remind.presentation.di
 import android.util.Log
 import com.ccc.remind.data.source.remote.LoginRemoteService
 import com.ccc.remind.presentation.MyApplication
+import com.ccc.remind.presentation.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,7 +35,7 @@ object NetworkModule {
     fun provideAuthorizationInterceptor() : Interceptor {
         return Interceptor { chain ->
             val newRequestBuilder = chain.request().newBuilder()
-            val accessToken = MyApplication.getAccessToken()
+            val accessToken = Constants.accessToken
             Log.d(TAG, "NetworkModule - provideAuthorizationInterceptor - accessToken: ${accessToken}")
             if(accessToken != null) {
                 newRequestBuilder.addHeader("authorization", "Bearer $accessToken")
