@@ -1,5 +1,6 @@
 package com.ccc.remind.presentation.ui.onboard.displayName
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ccc.remind.domain.usecase.UpdateUserDisplayNameUseCase
@@ -23,22 +24,32 @@ class DisplayNameViewModel @Inject constructor(private val updateUserDisplayName
         get() = _userDisplayName
 
 
+    companion object {
+        private const val TAG = "DisplayNameViewModel"
+    }
+
+
     init {
+        Log.d(TAG, "DisplayNameViewModel - init")
         initDisplayNameObserver()
     }
 
     fun registerDisplayName() {
         viewModelScope.launch {
             updateUserDisplayNameUseCase(userDisplayName.value ?: "")
+            _uiState.update {
+                it.copy(isRegisteredDisplayName = true)
+            }
         }
     }
 
     private fun initDisplayNameObserver() {
         viewModelScope.launch {
             _userDisplayName.collect { text ->
+                Log.d(TAG, "DisplayNameViewModel - initDisplayNameObserver - _userDisplayName: ${text}")
                 _uiState.update {
                     it.copy(
-                        isValid = ValidationUtil.displayNameValidate(text ?: ""),
+                        isValidDisplayName = ValidationUtil.displayNameValidate(text ?: ""),
                     )
                 }
             }
@@ -48,7 +59,7 @@ class DisplayNameViewModel @Inject constructor(private val updateUserDisplayName
     fun updateDisplayName(text: String) {
         viewModelScope.launch {
             _userDisplayName.value = text
-            _uiState.update { it.copy(hasChanged = true) }
+            _uiState.update { it.copy(hasEditedDisplayName = true) }
         }
     }
 }

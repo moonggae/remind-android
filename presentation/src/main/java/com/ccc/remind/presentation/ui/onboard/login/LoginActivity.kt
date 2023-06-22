@@ -2,7 +2,6 @@ package com.ccc.remind.presentation.ui.onboard.login
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
@@ -10,9 +9,8 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.ccc.remind.R
 import com.ccc.remind.databinding.ActivityLoginBinding
 import com.ccc.remind.presentation.base.BaseActivity
-import com.ccc.remind.presentation.ui.onboard.displayName.DisplayNameRegisterActivity
+import com.ccc.remind.presentation.ui.onboard.displayName.DisplayNameActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -40,7 +38,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
                 if(!it) return@collect
 
                 if(viewModel.displayName.value == null) {
-                    startActivity(Intent(this@LoginActivity, DisplayNameRegisterActivity::class.java))
+                    startActivity(Intent(this@LoginActivity, DisplayNameActivity::class.java))
                 }
             }
         }

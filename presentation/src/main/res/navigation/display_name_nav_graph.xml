@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/display_name_nav_graph"
+    app:startDestination="@id/displayNameRegisterFragment">
+
+    <fragment
+        tools:layout="@layout/fragment_display_name_register"
+        android:id="@+id/displayNameRegisterFragment"
+        android:name="com.ccc.remind.presentation.ui.onboard.displayName.DisplayNameRegisterFragment"
+        android:label="DisplayNameRegisterFragment" >
+        <action
+            android:id="@+id/action_displayNameRegisterFragment_to_displayNameShowFragment"
+            app:destination="@id/displayNameShowFragment"
+            app:enterAnim="@anim/slide_in_to_left"
+            app:exitAnim="@anim/slide_out_to_left" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_display_name_show"
+        android:id="@+id/displayNameShowFragment"
+        android:name="com.ccc.remind.presentation.ui.onboard.displayName.DisplayNameShowFragment"
+        android:label="DisplayNameShowFragment" />
+</navigation>

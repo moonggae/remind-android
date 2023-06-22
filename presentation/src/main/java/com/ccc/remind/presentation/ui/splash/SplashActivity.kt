@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.ccc.remind.presentation.ui.onboard.displayName.DisplayNameRegisterActivity
+import com.ccc.remind.presentation.ui.onboard.displayName.DisplayNameActivity
 import com.ccc.remind.presentation.ui.onboard.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -39,7 +39,7 @@ class SplashActivity : AppCompatActivity() {
                         if(loggedInUser == null) {
                             startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                         } else if(loggedInUser.displayName == null) {
-                            startActivity(Intent(this@SplashActivity, DisplayNameRegisterActivity::class.java))
+                            startActivity(Intent(this@SplashActivity, DisplayNameActivity::class.java))
                         } else {
                             // todo : go to 메인화면
                         }

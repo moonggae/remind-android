@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <style name="primary_button_text">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textFontWeight" tools:targetApi="p">700</item>
+        <item name="android:textColor">@color/bg_default</item>
+    </style>
+
     <style name="bold_xl">
         <item name="android:textSize">20sp</item>
         <item name="android:textFontWeight" tools:targetApi="p">700</item>
