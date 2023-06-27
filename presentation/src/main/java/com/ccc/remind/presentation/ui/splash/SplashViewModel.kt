@@ -20,7 +20,7 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
     private val getLoggedInUserUserCase: GetLoggedInUserUserCase
 ) : ViewModel() {
-    private val _isGetLoggedInUserDone = MutableStateFlow<Boolean>(true)
+    private val _isGetLoggedInUserDone = MutableStateFlow(false)
     val isInitialized: StateFlow<Boolean>
         get() = _isGetLoggedInUserDone
 
@@ -31,12 +31,14 @@ class SplashViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _loggedInUser.value = getLoggedInUser()
+            getLoggedInUserUserCase().collect {
+                _loggedInUser.value = it
+            }
+
             _isGetLoggedInUserDone.value = true
         }
     }
 
-    private suspend fun getLoggedInUser(): LoggedInUser? = getLoggedInUserUserCase()
 
 
 }

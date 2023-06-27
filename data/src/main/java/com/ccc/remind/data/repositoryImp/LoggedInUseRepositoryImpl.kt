@@ -13,23 +13,27 @@ import com.ccc.remind.domain.entity.LogInType
 import com.ccc.remind.domain.entity.LoggedInUser
 import com.ccc.remind.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 class UserRepositoryImpl(
     private val userLocalDataSource: UserLocalDataSource,
     private val loginRemoteService: LoginRemoteService
 ) : UserRepository {
-    override suspend fun login(uid: String, logInType: LogInType): JwtToken =
-        loginRemoteService.login(LoginRequest(uid, logInType.name)).body()!!.toJwtToken()
+    override fun login(uid: String, logInType: LogInType): Flow<JwtToken> = flow {
+        emit(loginRemoteService.login(LoginRequest(uid, logInType.name)).body()!!.toJwtToken())
+    }
 
-    override suspend fun getLoggedInUser(): LoggedInUser? =
-        userLocalDataSource.fetchLoggedInUser()?.toDomain()
+    override fun getLoggedInUser(): Flow<LoggedInUser?> = flow {
+        emit(userLocalDataSource.fetchLoggedInUser()?.toDomain())
+    }
 
     override suspend fun updateLoggedInUser(loggedInUser: LoggedInUser) =
         userLocalDataSource.postLoggedInUser(loggedInUser.toData())
 
-    override suspend fun getUserDisplayName(): String? =
-        loginRemoteService.fetchDisplayName().body()?.displayName
+    override fun getUserDisplayName(): Flow<String?> = flow {
+        emit(loginRemoteService.fetchDisplayName().body()?.displayName)
+    }
 
     override suspend fun updateUserDisplayName(displayName: String) {
         loginRemoteService.updateDisplayName(DisplayNameDto(displayName))

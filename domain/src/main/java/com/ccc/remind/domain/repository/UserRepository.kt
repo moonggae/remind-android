@@ -6,13 +6,13 @@ import com.ccc.remind.domain.entity.LoggedInUser
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
-    suspend fun login(uid: String, logInType: LogInType) : JwtToken
+    fun login(uid: String, logInType: LogInType) : Flow<JwtToken>
 
-    suspend fun getLoggedInUser() : LoggedInUser?
+    fun getLoggedInUser() : Flow<LoggedInUser?>
 
     suspend fun updateLoggedInUser(loggedInUser: LoggedInUser)
 
-    suspend fun getUserDisplayName(): String?
+    fun getUserDisplayName(): Flow<String?>
 
     suspend fun updateUserDisplayName(displayName: String)
 }

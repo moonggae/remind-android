@@ -42,9 +42,14 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase,
 
     private fun logIn(uid: String, logInType: LogInType) {
         viewModelScope.launch {
-            val token = loginUseCase(uid, logInType)
-            Constants.accessToken = token.accessToken
-            _displayName.value = getUserDisplayNameUseCase()
+            loginUseCase(uid, logInType).collect {
+                Constants.accessToken = it.accessToken
+            }
+
+            getUserDisplayNameUseCase().collect {
+                _displayName.value = it
+            }
+
             _isLoggedIn.value = true
         }
     }
