@@ -14,7 +14,6 @@ import com.ccc.remind.domain.entity.LoggedInUser
 import com.ccc.remind.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 
 class UserRepositoryImpl(
     private val userLocalDataSource: UserLocalDataSource,
@@ -28,11 +27,15 @@ class UserRepositoryImpl(
         emit(userLocalDataSource.fetchLoggedInUser()?.toDomain())
     }
 
-    override suspend fun updateLoggedInUser(loggedInUser: LoggedInUser) =
+    override suspend fun replaceLoggedInUser(loggedInUser: LoggedInUser) {
+        userLocalDataSource.deleteLoggedInUser()
         userLocalDataSource.postLoggedInUser(loggedInUser.toData())
+    }
 
     override fun getUserDisplayName(): Flow<String?> = flow {
-        emit(loginRemoteService.fetchDisplayName().body()?.displayName)
+        var remoteDisplayName: String? = loginRemoteService.fetchDisplayName().body()?.displayName
+        emit(remoteDisplayName)
+        if(remoteDisplayName != null) updateUserDisplayName(remoteDisplayName)
     }
 
     override suspend fun updateUserDisplayName(displayName: String) {

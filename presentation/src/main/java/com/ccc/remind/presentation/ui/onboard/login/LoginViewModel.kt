@@ -7,7 +7,6 @@ import com.ccc.remind.domain.entity.LogInType
 import com.ccc.remind.domain.usecase.GetUserDisplayNameUseCase
 import com.ccc.remind.domain.usecase.LoginUseCase
 import com.ccc.remind.presentation.MyApplication
-import com.ccc.remind.presentation.util.Constants
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.ClientError
@@ -43,14 +42,9 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase,
     private fun logIn(uid: String, logInType: LogInType) {
         viewModelScope.launch {
             loginUseCase(uid, logInType).collect {
-                Constants.accessToken = it.accessToken
+                _displayName.value = it.displayName
+                _isLoggedIn.value = true
             }
-
-            getUserDisplayNameUseCase().collect {
-                _displayName.value = it
-            }
-
-            _isLoggedIn.value = true
         }
     }
 

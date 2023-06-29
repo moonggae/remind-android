@@ -10,7 +10,7 @@ interface UserRepository {
 
     fun getLoggedInUser() : Flow<LoggedInUser?>
 
-    suspend fun updateLoggedInUser(loggedInUser: LoggedInUser)
+    suspend fun replaceLoggedInUser(loggedInUser: LoggedInUser)
 
     fun getUserDisplayName(): Flow<String?>
 

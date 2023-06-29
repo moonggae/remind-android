@@ -20,6 +20,6 @@ interface LoggedInUserDao {
     @Update
     fun update(entity: LoggedInUserEntity)
 
-    @Delete
-    fun delete(loggedInUser: LoggedInUserEntity)
+    @Query("DELETE FROM logged_in_user")
+    fun delete()
 }
