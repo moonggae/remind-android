@@ -10,9 +10,8 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 
 interface LoginRemoteService {
-
-    @POST("auth/login")
-    suspend fun login(@Body() loginRequest: LoginRequest): Response<LoginResponse>
+    @POST("auth/login/kakao")
+    suspend fun loginKakao(@Body() loginRequest: LoginRequest): Response<LoginResponse>
 
     @GET("users/displayName")
     suspend fun fetchDisplayName() : Response<DisplayNameDto>

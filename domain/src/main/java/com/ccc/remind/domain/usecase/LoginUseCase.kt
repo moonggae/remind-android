@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(private val userRepository: UserRepository) {
-    suspend operator fun invoke(uid: String, logInType: LogInType) : Flow<LoggedInUser> = flow {
+    suspend operator fun invoke(accessToken: String, logInType: LogInType) : Flow<LoggedInUser> = flow {
         lateinit var loggedInUser : LoggedInUser
 
-        userRepository.login(uid, logInType).collect { jwtToken ->
+        userRepository.login(accessToken, logInType).collect { jwtToken ->
             loggedInUser = LoggedInUser(accessToken = jwtToken.accessToken, refreshToken = jwtToken.refreshToken, displayName = null, logInType = logInType)
         }
 

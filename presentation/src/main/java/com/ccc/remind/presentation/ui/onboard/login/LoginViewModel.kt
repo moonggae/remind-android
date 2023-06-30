@@ -39,9 +39,9 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase,
     val isLoggedIn : StateFlow<Boolean>
         get() = _isLoggedIn
 
-    private fun logIn(uid: String, logInType: LogInType) {
+    private fun logIn(accessToken: String, logInType: LogInType) {
         viewModelScope.launch {
-            loginUseCase(uid, logInType).collect {
+            loginUseCase(accessToken, logInType).collect {
                 _displayName.value = it.displayName
                 _isLoggedIn.value = true
             }
@@ -54,14 +54,7 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase,
             Log.e(TAG, "카카오계정으로 로그인 실패", error)
         } else if (token != null) {
             Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
-            UserApiClient.instance.me { user, error ->
-                if (error != null) {
-                    Log.e(TAG, "사용자 정보 요청 실패", error)
-                }
-                else if (user != null) {
-                    logIn(user.id?.toString() ?: "", LogInType.KAKAO)
-                }
-            }
+            logIn(token.accessToken, LogInType.KAKAO)
         }
     }
 

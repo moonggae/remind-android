@@ -19,8 +19,14 @@ class UserRepositoryImpl(
     private val userLocalDataSource: UserLocalDataSource,
     private val loginRemoteService: LoginRemoteService
 ) : UserRepository {
-    override fun login(uid: String, logInType: LogInType): Flow<JwtToken> = flow {
-        emit(loginRemoteService.login(LoginRequest(uid, logInType.name)).body()!!.toJwtToken())
+    override fun login(accessToken: String, logInType: LogInType): Flow<JwtToken> = flow {
+        when(logInType) {
+            LogInType.KAKAO ->
+                emit(loginRemoteService.loginKakao(LoginRequest(accessToken)).body()!!.toJwtToken())
+            else -> {
+                // todo: 다른 로그인 구현시 추가
+            }
+        }
     }
 
     override fun getLoggedInUser(): Flow<LoggedInUser?> = flow {
