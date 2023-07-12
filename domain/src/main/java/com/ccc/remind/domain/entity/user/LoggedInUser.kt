@@ -1,4 +1,4 @@
-package com.ccc.remind.domain.entity
+package com.ccc.remind.domain.entity.user
 
 data class LoggedInUser(
     val accessToken: String,

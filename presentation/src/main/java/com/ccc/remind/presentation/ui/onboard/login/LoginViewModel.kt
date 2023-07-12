@@ -3,7 +3,7 @@ package com.ccc.remind.presentation.ui.onboard.login
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ccc.remind.domain.entity.LogInType
+import com.ccc.remind.domain.entity.user.LogInType
 import com.ccc.remind.domain.usecase.GetUserDisplayNameUseCase
 import com.ccc.remind.domain.usecase.LoginUseCase
 import com.ccc.remind.presentation.MyApplication

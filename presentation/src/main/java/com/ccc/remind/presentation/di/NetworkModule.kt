@@ -1,7 +1,8 @@
 package com.ccc.remind.presentation.di
 
-import com.ccc.remind.data.source.remote.model.LoginResponse
 import com.ccc.remind.data.source.remote.LoginRemoteService
+import com.ccc.remind.data.source.remote.MindRemoteService
+import com.ccc.remind.data.source.remote.model.user.LoginResponse
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import dagger.Module
@@ -89,4 +90,11 @@ object NetworkModule {
     fun provideUserService(
         retrofit: Retrofit
     ): LoginRemoteService = retrofit.create(LoginRemoteService::class.java)
+
+
+    @Provides
+    @Singleton
+    fun provideMindService(
+        retrofit: Retrofit
+    ): MindRemoteService = retrofit.create(MindRemoteService::class.java)
 }

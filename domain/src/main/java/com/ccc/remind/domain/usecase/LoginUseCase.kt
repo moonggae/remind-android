@@ -1,7 +1,7 @@
 package com.ccc.remind.domain.usecase
 
-import com.ccc.remind.domain.entity.LogInType
-import com.ccc.remind.domain.entity.LoggedInUser
+import com.ccc.remind.domain.entity.user.LogInType
+import com.ccc.remind.domain.entity.user.LoggedInUser
 import com.ccc.remind.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

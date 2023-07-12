@@ -1,8 +1,8 @@
 package com.ccc.remind.domain.repository
 
-import com.ccc.remind.domain.entity.JwtToken
-import com.ccc.remind.domain.entity.LogInType
-import com.ccc.remind.domain.entity.LoggedInUser
+import com.ccc.remind.domain.entity.user.JwtToken
+import com.ccc.remind.domain.entity.user.LogInType
+import com.ccc.remind.domain.entity.user.LoggedInUser
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
