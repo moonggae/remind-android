@@ -3,9 +3,9 @@ package com.ccc.remind.data.repositoryImp
 import com.ccc.remind.data.mapper.toData
 import com.ccc.remind.data.mapper.toDomain
 import com.ccc.remind.data.mapper.toJwtToken
-import com.ccc.remind.data.model.DisplayNameDto
-import com.ccc.remind.data.model.LoggedInUserEntity
-import com.ccc.remind.data.model.LoginRequest
+import com.ccc.remind.data.source.remote.model.DisplayNameDto
+import com.ccc.remind.data.source.local.model.LoggedInUserEntity
+import com.ccc.remind.data.source.remote.model.LoginRequest
 import com.ccc.remind.data.source.local.UserLocalDataSource
 import com.ccc.remind.data.source.remote.LoginRemoteService
 import com.ccc.remind.domain.entity.JwtToken

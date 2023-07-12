@@ -1,4 +1,4 @@
-package com.ccc.remind.data.model
+package com.ccc.remind.data.source.remote.model
 
 import com.google.gson.annotations.SerializedName
 

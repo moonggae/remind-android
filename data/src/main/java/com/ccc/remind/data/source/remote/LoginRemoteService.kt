@@ -1,8 +1,8 @@
 package com.ccc.remind.data.source.remote
 
-import com.ccc.remind.data.model.DisplayNameDto
-import com.ccc.remind.data.model.LoginRequest
-import com.ccc.remind.data.model.LoginResponse
+import com.ccc.remind.data.source.remote.model.DisplayNameDto
+import com.ccc.remind.data.source.remote.model.LoginRequest
+import com.ccc.remind.data.source.remote.model.LoginResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

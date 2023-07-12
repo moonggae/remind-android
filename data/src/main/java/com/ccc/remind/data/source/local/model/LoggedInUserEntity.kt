@@ -1,8 +1,7 @@
-package com.ccc.remind.data.model
+package com.ccc.remind.data.source.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ccc.remind.domain.entity.LogInType
 
 @Entity(tableName = "logged_in_user")
 data class LoggedInUserEntity(

@@ -1,11 +1,9 @@
 package com.ccc.remind.data.source.local
 
 import com.ccc.remind.data.source.local.dao.LoggedInUserDao
-import com.ccc.remind.data.model.LoggedInUserEntity
+import com.ccc.remind.data.source.local.model.LoggedInUserEntity
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 
 class UserLocalDataSource(

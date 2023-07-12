@@ -1,13 +1,11 @@
 package com.ccc.remind.data.source.local.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.ccc.remind.data.model.LoggedInUserEntity
-import kotlinx.coroutines.flow.Flow
+import com.ccc.remind.data.source.local.model.LoggedInUserEntity
 
 @Dao
 interface LoggedInUserDao {

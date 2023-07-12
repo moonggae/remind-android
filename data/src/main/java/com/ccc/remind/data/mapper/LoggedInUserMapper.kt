@@ -1,6 +1,6 @@
 package com.ccc.remind.data.mapper
 
-import com.ccc.remind.data.model.LoggedInUserEntity
+import com.ccc.remind.data.source.local.model.LoggedInUserEntity
 import com.ccc.remind.domain.entity.LogInType
 import com.ccc.remind.domain.entity.LoggedInUser
 

@@ -1,6 +1,6 @@
 package com.ccc.remind.presentation.di
 
-import com.ccc.remind.data.model.LoginResponse
+import com.ccc.remind.data.source.remote.model.LoginResponse
 import com.ccc.remind.data.source.remote.LoginRemoteService
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
