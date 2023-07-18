@@ -1,4 +1,4 @@
-package com.ccc.remind.data.repositoryImp
+package com.ccc.remind.data.repository
 
 import com.ccc.remind.data.mapper.toDomain
 import com.ccc.remind.data.source.remote.MindRemoteService

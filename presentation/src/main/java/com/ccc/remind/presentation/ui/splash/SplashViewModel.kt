@@ -2,7 +2,7 @@ package com.ccc.remind.presentation.ui.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ccc.remind.domain.entity.user.LoggedInUser
+import com.ccc.remind.domain.entity.user.User
 import com.ccc.remind.domain.usecase.GetLoggedInUserUserCase
 import com.ccc.remind.domain.usecase.GetMindCardsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,15 +25,15 @@ class SplashViewModel @Inject constructor(
     val isInitialized: StateFlow<Boolean>
         get() = _isGetLoggedInUserDone
 
-    private val _loggedInUser : MutableStateFlow<LoggedInUser?> = MutableStateFlow(null)
+    private val _User : MutableStateFlow<User?> = MutableStateFlow(null)
 
-    val loggedInUser : StateFlow<LoggedInUser?>
-        get() = _loggedInUser
+    val user : StateFlow<User?>
+        get() = _User
 
     init {
         viewModelScope.launch {
             getLoggedInUserUserCase().collect {
-                _loggedInUser.value = it
+                _User.value = it
             }
 
 //            getMindCards().collect {

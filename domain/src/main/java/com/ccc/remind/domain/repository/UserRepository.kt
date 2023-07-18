@@ -2,15 +2,15 @@ package com.ccc.remind.domain.repository
 
 import com.ccc.remind.domain.entity.user.JwtToken
 import com.ccc.remind.domain.entity.user.LogInType
-import com.ccc.remind.domain.entity.user.LoggedInUser
+import com.ccc.remind.domain.entity.user.User
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     fun login(uid: String, logInType: LogInType) : Flow<JwtToken>
 
-    fun getLoggedInUser() : Flow<LoggedInUser?>
+    fun getLoggedInUser() : Flow<User?>
 
-    suspend fun replaceLoggedInUser(loggedInUser: LoggedInUser)
+    suspend fun replaceLoggedInUser(user: User)
 
     fun getUserDisplayName(): Flow<String?>
 

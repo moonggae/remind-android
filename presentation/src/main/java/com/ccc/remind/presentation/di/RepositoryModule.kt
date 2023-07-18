@@ -1,7 +1,7 @@
 package com.ccc.remind.presentation.di
 
-import com.ccc.remind.data.repositoryImp.MindRepositoryImpl
-import com.ccc.remind.data.repositoryImp.UserRepositoryImpl
+import com.ccc.remind.data.repository.MindRepositoryImpl
+import com.ccc.remind.data.repository.UserRepositoryImpl
 import com.ccc.remind.data.source.local.UserLocalDataSource
 import com.ccc.remind.data.source.remote.LoginRemoteService
 import com.ccc.remind.data.source.remote.MindRemoteService

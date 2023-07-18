@@ -35,7 +35,7 @@ class SplashActivity : AppCompatActivity() {
                 launch {
                     viewModel.isInitialized.collect {
                         startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-//                        val loggedInUser = viewModel.loggedInUser.value
+//                        val loggedInUser = viewModel.user.value
 //                        if(loggedInUser == null) {
 //                            startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
 //                        } else if(loggedInUser.displayName == null) {

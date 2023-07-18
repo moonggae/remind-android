@@ -1,23 +1,23 @@
 package com.ccc.remind.data.source.local
 
-import com.ccc.remind.data.source.local.dao.LoggedInUserDao
-import com.ccc.remind.data.source.local.model.LoggedInUserEntity
+import com.ccc.remind.data.source.local.dao.UserDao
+import com.ccc.remind.data.source.local.model.UserEntity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
 
 class UserLocalDataSource(
-    private val loggedInUserDao: LoggedInUserDao, private val ioDispatcher: CoroutineDispatcher
+    private val userDao: UserDao, private val ioDispatcher: CoroutineDispatcher
 ) {
-    suspend fun fetchLoggedInUser(): LoggedInUserEntity? =
-        withContext(ioDispatcher) { loggedInUserDao.get() }
+    suspend fun fetchLoggedInUser(): UserEntity? =
+        withContext(ioDispatcher) { userDao.get() }
 
-    suspend fun postLoggedInUser(loggedInUserEntity: LoggedInUserEntity) =
-        withContext(ioDispatcher) { loggedInUserDao.insert(loggedInUserEntity) }
+    suspend fun postLoggedInUser(userEntity: UserEntity) =
+        withContext(ioDispatcher) { userDao.insert(userEntity) }
 
-    suspend fun updateLoggedInUser(loggedInUserEntity: LoggedInUserEntity) =
-        withContext(ioDispatcher) { loggedInUserDao.update(loggedInUserEntity) }
+    suspend fun updateLoggedInUser(userEntity: UserEntity) =
+        withContext(ioDispatcher) { userDao.update(userEntity) }
 
     suspend fun deleteLoggedInUser() =
-        withContext(ioDispatcher) { loggedInUserDao.delete() }
+        withContext(ioDispatcher) { userDao.delete() }
 }

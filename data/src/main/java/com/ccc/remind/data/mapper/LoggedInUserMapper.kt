@@ -1,18 +1,18 @@
 package com.ccc.remind.data.mapper
 
-import com.ccc.remind.data.source.local.model.LoggedInUserEntity
+import com.ccc.remind.data.source.local.model.UserEntity
 import com.ccc.remind.domain.entity.user.LogInType
-import com.ccc.remind.domain.entity.user.LoggedInUser
+import com.ccc.remind.domain.entity.user.User
 
 // domain -> data
-fun LoggedInUser.toData() = LoggedInUserEntity(
+fun User.toData() = UserEntity(
     accessToken,
     refreshToken,
     displayName,
     logInType.name
 )
 
-fun LoggedInUserEntity.toDomain() = LoggedInUser(
+fun UserEntity.toDomain() = User(
     accessToken,
     refreshToken,
     displayName,

@@ -2,14 +2,14 @@ package com.ccc.remind.data.source
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.ccc.remind.data.source.local.dao.LoggedInUserDao
-import com.ccc.remind.data.source.local.model.LoggedInUserEntity
+import com.ccc.remind.data.source.local.dao.UserDao
+import com.ccc.remind.data.source.local.model.UserEntity
 
 @Database(
-    entities = [LoggedInUserEntity::class],
+    entities = [UserEntity::class],
     version = 1,
     exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun loggedInUserDao() : LoggedInUserDao
+    abstract fun userDao() : UserDao
 }

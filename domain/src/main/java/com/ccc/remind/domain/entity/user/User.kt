@@ -1,6 +1,6 @@
 package com.ccc.remind.domain.entity.user
 
-data class LoggedInUser(
+data class User(
     val accessToken: String,
     val refreshToken: String,
     val displayName: String?,

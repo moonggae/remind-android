@@ -2,8 +2,8 @@ package com.ccc.remind.presentation.di
 
 import android.content.Context
 import androidx.room.Room
-import com.ccc.remind.data.source.local.dao.LoggedInUserDao
 import com.ccc.remind.data.source.AppDatabase
+import com.ccc.remind.data.source.local.dao.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,5 +23,5 @@ object DataBaseModule {
 
     @Provides
     @Singleton
-    fun provideLoggedInUserDao(appDatabase: AppDatabase) : LoggedInUserDao = appDatabase.loggedInUserDao()
+    fun provideUserDao(appDatabase: AppDatabase) : UserDao = appDatabase.userDao()
 }
