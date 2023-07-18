@@ -41,13 +41,17 @@ class UserRepositoryImpl(
     override fun getUserDisplayName(): Flow<String?> = flow {
         var remoteDisplayName: String? = loginRemoteService.fetchDisplayName().body()?.displayName
         emit(remoteDisplayName)
-        if(remoteDisplayName != null) updateUserDisplayName(remoteDisplayName)
+        if(remoteDisplayName != null) updateLocalUserDisplayName(remoteDisplayName)
     }
 
     override suspend fun updateUserDisplayName(displayName: String) {
         loginRemoteService.updateDisplayName(DisplayNameDto(displayName))
+        updateLocalUserDisplayName(displayName)
+    }
+
+    private suspend fun updateLocalUserDisplayName(displayName: String) {
         val entity = userLocalDataSource.fetchLoggedInUser()
-        if (entity != null)
+        if (entity != null && entity.displayName != displayName)
             userLocalDataSource.updateLoggedInUser(
                 LoggedInUserEntity(
                     entity.accessToken,
