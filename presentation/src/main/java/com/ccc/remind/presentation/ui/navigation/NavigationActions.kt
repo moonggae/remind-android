@@ -4,12 +4,6 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.ccc.remind.R
 
-object Route {
-    const val CARDS = "Cards"
-    const val HOME = "Home"
-    const val USER = "User"
-}
-
 data class TopLevelDestination(
     val route: String,
     val selectedIconId: Int,
@@ -28,23 +22,33 @@ class NavigationActions(private val navController: NavHostController) {
             restoreState = true
         }
     }
+
+    fun navigateTo(destination: Route) {
+        navController.navigate(destination.name) {
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
 }
 
 val TOP_LEVEL_DESTINATIONS = listOf(
     TopLevelDestination(
-        route = Route.CARDS,
+        route = Route.Main.Cards.name,
         selectedIconId = R.drawable.ic_stack_up_square,
         unselectedIconId = R.drawable.ic_stack_up_square,
         iconTextId = R.string.tab_cards
     ),
     TopLevelDestination(
-        route = Route.HOME,
+        route = Route.Main.Home.name,
         selectedIconId = R.drawable.ic_home,
         unselectedIconId = R.drawable.ic_home,
         iconTextId = R.string.tab_home
     ),
     TopLevelDestination(
-        route = Route.USER,
+        route = Route.Main.User.name,
         selectedIconId = R.drawable.ic_user,
         unselectedIconId = R.drawable.ic_user,
         iconTextId = R.string.tab_user

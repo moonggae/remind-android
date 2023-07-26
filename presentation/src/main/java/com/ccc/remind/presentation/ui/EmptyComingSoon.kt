@@ -16,7 +16,8 @@ import com.ccc.remind.R
 
 @Composable
 fun EmptyComingSoon(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    name: String? = null
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -25,7 +26,7 @@ fun EmptyComingSoon(
     ) {
         Text(
             modifier = Modifier.padding(8.dp),
-            text = stringResource(id = R.string.empty_screen_title),
+            text = name ?: "empty",
             style = MaterialTheme.typography.titleLarge,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.primary
