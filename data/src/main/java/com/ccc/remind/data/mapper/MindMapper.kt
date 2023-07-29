@@ -1,9 +1,9 @@
 package com.ccc.remind.data.mapper
 
-import com.ccc.remind.data.source.remote.model.mind.ImageFileVO
-import com.ccc.remind.data.source.remote.model.mind.MindCardTagVO
-import com.ccc.remind.data.source.remote.model.mind.MindCardVO
-import com.ccc.remind.data.source.remote.model.mind.MindTagVO
+import com.ccc.remind.data.source.remote.model.mind.vo.ImageFileVO
+import com.ccc.remind.data.source.remote.model.mind.vo.MindCardTagVO
+import com.ccc.remind.data.source.remote.model.mind.vo.MindCardVO
+import com.ccc.remind.data.source.remote.model.mind.vo.MindTagVO
 import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.domain.entity.mind.MindCard
 import com.ccc.remind.domain.entity.mind.MindCardTag

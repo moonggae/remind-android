@@ -41,7 +41,7 @@ class SplashActivity : AppCompatActivity() {
 //                        } else if(loggedInUser.displayName == null) {
 //                            startActivity(Intent(this@SplashActivity, DisplayNameActivity::class.java))
 //                        } else {
-//                            // todo : go to 메인화면
+//                            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
 //                        }
                     }
                 }

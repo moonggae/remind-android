@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface MindRepository {
     fun getMindCards(): Flow<List<MindCard>>
+
+    suspend fun postMinds()
 }

@@ -123,6 +123,8 @@ val dark_shadows_default = Color(0x4d000000)
 
 val all_kakao = Color(0xFFE812)
 
+val all_button_disabled = Color(0xFFD1DDFF)
+
 
 
 object RemindLightColorTokens {
@@ -137,6 +139,7 @@ object RemindLightColorTokens {
     val accent_bg = light_accent_bg
     val shadows_default = light_shadows_default
     val kakao = all_kakao
+    val button_disabled = all_button_disabled
 }
 
 object RemindDarkColorTokens {
@@ -151,6 +154,7 @@ object RemindDarkColorTokens {
     val accent_bg = dark_accent_bg
     val shadows_default = dark_shadows_default
     val kakao = all_kakao
+    val button_disabled = all_button_disabled
 }
 
 class RemindColorScheme(
@@ -164,7 +168,8 @@ class RemindColorScheme(
     val accent_onAccent: Color,
     val accent_bg: Color,
     val shadows_default: Color,
-    val kakao: Color
+    val kakao: Color,
+    val button_disabled: Color,
 )
 
 fun remindLightColorScheme(
@@ -179,6 +184,7 @@ fun remindLightColorScheme(
     accent_bg: Color = RemindLightColorTokens.accent_bg,
     shadows_default: Color = RemindLightColorTokens.shadows_default,
     kakao: Color = RemindLightColorTokens.kakao,
+    button_disabled: Color = RemindLightColorTokens.button_disabled,
 ) : RemindColorScheme = RemindColorScheme(
     fg_default = fg_default,
     fg_muted = fg_muted,
@@ -191,6 +197,7 @@ fun remindLightColorScheme(
     accent_bg = accent_bg,
     shadows_default = shadows_default,
     kakao = kakao,
+    button_disabled = button_disabled,
 )
 
 fun remindDarkColorScheme(
@@ -205,6 +212,7 @@ fun remindDarkColorScheme(
     accent_bg: Color = RemindDarkColorTokens.accent_bg,
     shadows_default: Color = RemindDarkColorTokens.shadows_default,
     kakao: Color = RemindDarkColorTokens.kakao,
+    button_disabled: Color = RemindDarkColorTokens.button_disabled,
 ) : RemindColorScheme = RemindColorScheme(
     fg_default = fg_default,
     fg_muted = fg_muted,
@@ -217,4 +225,5 @@ fun remindDarkColorScheme(
     accent_bg = accent_bg,
     shadows_default = shadows_default,
     kakao = kakao,
+    button_disabled = button_disabled,
 )

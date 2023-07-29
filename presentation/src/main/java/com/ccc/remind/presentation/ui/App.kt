@@ -6,17 +6,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ccc.remind.presentation.ui.main.MainUIState
+import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
 import com.ccc.remind.presentation.ui.navigation.BottomNavigationBar
 import com.ccc.remind.presentation.ui.navigation.NavigationActions
 import com.ccc.remind.presentation.ui.navigation.Route
 import com.ccc.remind.presentation.ui.navigation.mainNavGraph
 import com.ccc.remind.presentation.ui.navigation.postMindNavGraph
 
+
+@Preview
+@Composable
+fun AppPreview() {
+    App(
+        MainUIState = MainUIState()
+    )
+}
 
 @Composable
 fun App(
@@ -45,13 +55,14 @@ private fun NavigationWrapper(
     val isNavigationBarVisible = destination?.startsWith(Route.Main.name) ?: false
 
     Column(modifier = Modifier.fillMaxSize()) {
+        val mindPostViewModel: MindPostViewModel = hiltViewModel()
         NavHost(
             navController = navController,
             modifier = Modifier.weight(1f),
-            startDestination = Route.MindPost.CardList.name
+            startDestination = Route.MindPost.name
         ) {
             mainNavGraph(navController)
-            postMindNavGraph(navController)
+            postMindNavGraph(navController, mindPostViewModel)
         }
 
         if(isNavigationBarVisible) {

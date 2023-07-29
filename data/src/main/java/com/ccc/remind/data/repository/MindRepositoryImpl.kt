@@ -11,4 +11,8 @@ class MindRepositoryImpl(private val mindRemoteService: MindRemoteService) : Min
     override fun getMindCards(): Flow<List<MindCard>> = flow {
         emit(mindRemoteService.fetchMindCards().body()?.map { it.toDomain() } ?: listOf() )
     }
+
+    override suspend fun postMinds() {
+        TODO("Not yet implemented")
+    }
 }

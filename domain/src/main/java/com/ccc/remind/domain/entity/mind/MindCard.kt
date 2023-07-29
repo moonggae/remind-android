@@ -7,4 +7,10 @@ data class MindCard(
     val description: String?,
     val tags: List<MindCardTag>,
     val imageFile: ImageFile?
-)
+) {
+    val imageUrl: String?
+        get() =
+            if(imageFile?.id != null)
+                "http://10.0.2.2:3000/image/${imageFile.id}"
+            else null
+}

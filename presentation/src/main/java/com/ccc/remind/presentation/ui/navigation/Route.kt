@@ -6,6 +6,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.ccc.remind.presentation.ui.EmptyComingSoon
 import com.ccc.remind.presentation.ui.home.HomeScreen
+import com.ccc.remind.presentation.ui.mindPost.MindPostCardListScreen
+import com.ccc.remind.presentation.ui.mindPost.MindPostEditScreen
+import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
 
 sealed class Route(val name: String, val parent: Route? = null) {
     object Main: Route("Main") {
@@ -38,16 +41,25 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController) {
 }
 
 
-fun NavGraphBuilder.postMindNavGraph(navController: NavController) {
+fun NavGraphBuilder.postMindNavGraph(
+    navController: NavController,
+    viewModel: MindPostViewModel
+) {
     navigation(
         startDestination = Route.MindPost.CardList.name,
         route = Route.MindPost.name
     ) {
         composable(Route.MindPost.CardList.name) {
-            EmptyComingSoon(name = Route.MindPost.CardList.name)
+            MindPostCardListScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
         }
         composable(Route.MindPost.Edit.name) {
-            EmptyComingSoon(name = Route.MindPost.Edit.name)
+            MindPostEditScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
         }
         composable(Route.MindPost.Complete.name) {
             EmptyComingSoon(name = Route.MindPost.Complete.name)
