@@ -18,6 +18,7 @@ import com.ccc.remind.presentation.ui.navigation.NavigationActions
 import com.ccc.remind.presentation.ui.navigation.Route
 import com.ccc.remind.presentation.ui.navigation.mainNavGraph
 import com.ccc.remind.presentation.ui.navigation.postMindNavGraph
+import com.ccc.remind.presentation.util.Constants
 
 
 @Preview
@@ -59,7 +60,7 @@ private fun NavigationWrapper(
         NavHost(
             navController = navController,
             modifier = Modifier.weight(1f),
-            startDestination = Route.MindPost.name
+            startDestination = Constants.START_TOP_SCREEN.root.name
         ) {
             mainNavGraph(navController)
             postMindNavGraph(navController, mindPostViewModel)

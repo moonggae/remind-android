@@ -9,6 +9,7 @@ import com.ccc.remind.presentation.ui.home.HomeScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostCardListScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostEditScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
+import com.ccc.remind.presentation.util.Constants
 
 sealed class Route(val name: String, val parent: Route? = null) {
     object Main: Route("Main") {
@@ -21,11 +22,17 @@ sealed class Route(val name: String, val parent: Route? = null) {
         object Edit: Route("MindPost.Edit", MindPost)
         object Complete: Route("MindPost.Complete", MindPost)
     }
+
+    val root: Route
+        get() = parent?.root ?: this
 }
 
 fun NavGraphBuilder.mainNavGraph(navController: NavController) {
+    val startDestination =
+        if(Constants.START_TOP_SCREEN.root == Route.Main) Constants.START_TOP_SCREEN
+        else Route.Main.Home
     navigation(
-        startDestination = Route.Main.Home.name,
+        startDestination = startDestination.name,
         route = Route.Main.name,
     ) {
         composable(Route.Main.Cards.name) {
@@ -45,8 +52,11 @@ fun NavGraphBuilder.postMindNavGraph(
     navController: NavController,
     viewModel: MindPostViewModel
 ) {
+    val startDestination =
+        if(Constants.START_TOP_SCREEN.root == Route.MindPost) Constants.START_TOP_SCREEN
+        else Route.MindPost
     navigation(
-        startDestination = Route.MindPost.CardList.name,
+        startDestination = startDestination.name,
         route = Route.MindPost.name
     ) {
         composable(Route.MindPost.CardList.name) {
