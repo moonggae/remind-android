@@ -1,9 +1,13 @@
 package com.ccc.remind.presentation.ui.mindPost
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.domain.entity.mind.MindCard
 import com.ccc.remind.domain.usecase.GetMindCardsUseCase
+import com.ccc.remind.domain.usecase.PostImagesUseCase
+import com.ccc.remind.presentation.MyApplication
 import com.ccc.remind.presentation.ui.component.model.MindFilter
 import com.ccc.remind.presentation.util.toggle
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,8 +20,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MindPostViewModel @Inject constructor(
-    private val getMindCards: GetMindCardsUseCase
+    private val getMindCards: GetMindCardsUseCase,
+    private val postImages: PostImagesUseCase
 ) : ViewModel() {
+
+    companion object {
+        private const val TAG = "MindPostViewModel"
+    }
+    
     private val _uiState = MutableStateFlow(
         MindPostUiState(
             selectedMindFilters = listOf(MindFilter.ALL),
@@ -76,6 +86,29 @@ class MindPostViewModel @Inject constructor(
             it.copy(
                 selectedMindCards = emptyList()
             )
+        }
+    }
+
+    fun uploadPhotos(uris: List<Uri>) {
+        viewModelScope.launch {
+            val uploadedImages = postImages(MyApplication.applicationContext(), uris)
+            _uiState.update {
+                it.copy(
+                    uploadedPhotos = it.uploadedPhotos.plus(uploadedImages)
+                )
+            }
+        }
+    }
+
+    fun deleteUploadedPhoto(imageFile: ImageFile) {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    uploadedPhotos = it.uploadedPhotos.minus(imageFile)
+                )
+            }
+
+            // todo: request to delete to server
         }
     }
 }

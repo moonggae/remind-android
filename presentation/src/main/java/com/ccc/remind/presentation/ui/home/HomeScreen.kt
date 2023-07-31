@@ -1,11 +1,5 @@
 package com.ccc.remind.presentation.ui.home
 
-import android.content.Intent
-import android.provider.MediaStore
-import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -37,28 +31,6 @@ import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 fun HomeScreen(
     navController: NavController
 ) {
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
-        if (uris.isNotEmpty()) {
-            Log.d("PhotoPicker", "Number of items selected: ${uris.size}")
-            uris.forEach {  uri ->
-                Log.d("PhotoPicker", "uri: $uri")
-            }
-        } else {
-            Log.d("PhotoPicker", "No media selected")
-        }
-    }
-
-    val takePhotoFromAlbumIntent =
-        Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
-            type = "image/*"
-            action = Intent.ACTION_GET_CONTENT
-            putExtra(
-                Intent.EXTRA_MIME_TYPES,
-                arrayOf("image/jpeg", "image/png", "image/bmp", "image/webp")
-            )
-            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
-        }
-
     Column(
         modifier = Modifier
             .padding(horizontal = 20.dp)
@@ -81,7 +53,7 @@ fun HomeScreen(
                 modifier = Modifier.padding(top = 28.dp)
             ) {
                 IconButton(onClick = {
-                    launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                    // todo
                 }, modifier = Modifier.size(40.dp)) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_notification_off),
