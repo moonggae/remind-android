@@ -6,6 +6,7 @@ import com.ccc.remind.data.source.remote.model.user.LoginResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 
@@ -18,4 +19,7 @@ interface LoginRemoteService {
 
     @PATCH("users/displayName")
     suspend fun updateDisplayName(@Body() displayNameDto: DisplayNameDto)
+
+    @POST("auth/refresh")
+    suspend fun refreshJwtToken(@Header("authorization") authorizationToken: String): Response<LoginResponse>
 }

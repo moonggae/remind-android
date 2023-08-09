@@ -124,6 +124,7 @@ val dark_shadows_default = Color(0x4d000000)
 val all_kakao = Color(0xFFE812)
 
 val all_button_disabled = Color(0xFFD1DDFF)
+val all_text_button_blue = Color(0xFF1456FF)
 
 
 
@@ -140,6 +141,7 @@ object RemindLightColorTokens {
     val shadows_default = light_shadows_default
     val kakao = all_kakao
     val button_disabled = all_button_disabled
+    val text_button_blue = all_text_button_blue
 }
 
 object RemindDarkColorTokens {
@@ -155,6 +157,7 @@ object RemindDarkColorTokens {
     val shadows_default = dark_shadows_default
     val kakao = all_kakao
     val button_disabled = all_button_disabled
+    val text_button_blue = all_text_button_blue
 }
 
 class RemindColorScheme(
@@ -170,6 +173,7 @@ class RemindColorScheme(
     val shadows_default: Color,
     val kakao: Color,
     val button_disabled: Color,
+    val text_button_blue: Color
 )
 
 fun remindLightColorScheme(
@@ -185,6 +189,7 @@ fun remindLightColorScheme(
     shadows_default: Color = RemindLightColorTokens.shadows_default,
     kakao: Color = RemindLightColorTokens.kakao,
     button_disabled: Color = RemindLightColorTokens.button_disabled,
+    text_button_blue: Color = RemindLightColorTokens.text_button_blue,
 ) : RemindColorScheme = RemindColorScheme(
     fg_default = fg_default,
     fg_muted = fg_muted,
@@ -198,6 +203,7 @@ fun remindLightColorScheme(
     shadows_default = shadows_default,
     kakao = kakao,
     button_disabled = button_disabled,
+    text_button_blue = text_button_blue,
 )
 
 fun remindDarkColorScheme(
@@ -213,6 +219,7 @@ fun remindDarkColorScheme(
     shadows_default: Color = RemindDarkColorTokens.shadows_default,
     kakao: Color = RemindDarkColorTokens.kakao,
     button_disabled: Color = RemindDarkColorTokens.button_disabled,
+    text_button_blue: Color = RemindLightColorTokens.text_button_blue,
 ) : RemindColorScheme = RemindColorScheme(
     fg_default = fg_default,
     fg_muted = fg_muted,
@@ -226,4 +233,5 @@ fun remindDarkColorScheme(
     shadows_default = shadows_default,
     kakao = kakao,
     button_disabled = button_disabled,
+    text_button_blue = text_button_blue,
 )

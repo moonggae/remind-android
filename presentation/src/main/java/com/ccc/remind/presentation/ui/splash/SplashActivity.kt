@@ -9,6 +9,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.ccc.remind.presentation.ui.main.MainActivity
+import com.ccc.remind.presentation.ui.onboard.displayName.DisplayNameActivity
+import com.ccc.remind.presentation.ui.onboard.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -27,22 +29,21 @@ class SplashActivity : AppCompatActivity() {
 
         val content: View = findViewById(android.R.id.content)
         content.viewTreeObserver.addOnPreDrawListener {
-            return@addOnPreDrawListener viewModel.isInitialized.value
+            return@addOnPreDrawListener viewModel.uiState.value.isInitialized
         }
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.isInitialized.collect {
-                        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-//                        val loggedInUser = viewModel.user.value
-//                        if(loggedInUser == null) {
-//                            startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
-//                        } else if(loggedInUser.displayName == null) {
-//                            startActivity(Intent(this@SplashActivity, DisplayNameActivity::class.java))
-//                        } else {
-//                            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-//                        }
+                    viewModel.uiState.collect {
+                        when(it.loginState) {
+                            LoginState.EMPTY ->
+                                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                            LoginState.LOGGED_IN_NO_DISPLAY_NAME ->
+                                startActivity(Intent(this@SplashActivity, DisplayNameActivity::class.java))
+                            LoginState.LOGGED_IN ->
+                                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                        }
                     }
                 }
             }

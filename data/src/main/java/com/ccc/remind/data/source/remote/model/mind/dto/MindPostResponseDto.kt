@@ -10,5 +10,5 @@ data class MindPostResponseDto(
     val id: Int,
     val cards: List<MindPostCardVO>,
     val images: List<MindPostImageVO>,
-    val memo: MindMemoVO
+    val memo: MindMemoVO?
 )

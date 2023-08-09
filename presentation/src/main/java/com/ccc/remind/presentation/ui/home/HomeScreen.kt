@@ -14,14 +14,18 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ccc.remind.R
+import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.container.BackgroundContainer
 import com.ccc.remind.presentation.ui.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
@@ -29,8 +33,11 @@ import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 
 @Composable
 fun HomeScreen(
-    navController: NavController
+    navController: NavController,
+    sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
+    val sharedUiState by sharedViewModel.uiState.collectAsState()
+
     Column(
         modifier = Modifier
             .padding(horizontal = 20.dp)
@@ -42,7 +49,7 @@ fun HomeScreen(
 
         ) {
             Text(
-                stringResource(id = R.string.home_title_greeting, "유저"),
+                stringResource(id = R.string.home_title_greeting, sharedUiState.user?.displayName ?: "유저"),
                 style = RemindMaterialTheme.typography.bold_xxl,
                 modifier = Modifier.padding(top = 40.dp)
             )
@@ -63,7 +70,7 @@ fun HomeScreen(
 
                 IconButton(
                     onClick = {
-                        navController.navigate(Route.MindPost.Edit.name)
+                        // todo
                     },
                     modifier = Modifier.size(40.dp))
                 {
@@ -83,7 +90,7 @@ fun HomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = stringResource(id = R.string.home_empty_mind_box_message, "유저"),
+                    text = stringResource(id = R.string.home_empty_mind_box_message, sharedUiState.user?.displayName ?: "유저"),
                     style = RemindMaterialTheme.typography.bold_lg,
                     color = RemindMaterialTheme.colorScheme.fg_muted,
                     textAlign = TextAlign.Center,
@@ -93,7 +100,7 @@ fun HomeScreen(
                     modifier = Modifier
                         .size(40.dp)
                         .background(color = RemindMaterialTheme.colorScheme.fg_subtle, shape = CircleShape),
-                    onClick = { /*TODO*/ }
+                    onClick = { navController.navigate(Route.MindPost.CardList.name) }
                 ) {
                     Image(painter = painterResource(id = R.drawable.ic_plus), contentDescription = null)
                 }

@@ -15,4 +15,13 @@ interface UserRepository {
     fun getUserDisplayName(): Flow<String?>
 
     suspend fun updateUserDisplayName(displayName: String)
+
+    suspend fun updateLocalUser(
+        accessToken: String? = null,
+        refreshToken: String? = null,
+        displayName: String? = null,
+        logInType: LogInType? = null
+    )
+
+    suspend fun refreshJwtToken(refreshToken: String): JwtToken
 }

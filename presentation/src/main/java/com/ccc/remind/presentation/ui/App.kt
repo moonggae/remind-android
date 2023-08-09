@@ -11,7 +11,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.ccc.remind.presentation.ui.main.MainUIState
 import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
 import com.ccc.remind.presentation.ui.navigation.BottomNavigationBar
 import com.ccc.remind.presentation.ui.navigation.NavigationActions
@@ -24,27 +23,18 @@ import com.ccc.remind.presentation.util.Constants
 @Preview
 @Composable
 fun AppPreview() {
-    App(
-        MainUIState = MainUIState()
-    )
+    App()
 }
 
 @Composable
 fun App(
-    MainUIState: MainUIState,
-    viewModel: SharedViewModel = hiltViewModel()
+    sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
-    NavigationWrapper(
-        HomeUIState = MainUIState,
-        viewModel
-    )
+    NavigationWrapper()
 }
 
 @Composable
-private fun NavigationWrapper(
-    HomeUIState: MainUIState,
-    viewModel: SharedViewModel
-) {
+private fun NavigationWrapper() {
     val navController = rememberNavController()
     val navigationActions = remember(navController) {
         NavigationActions(navController)

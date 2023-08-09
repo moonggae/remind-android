@@ -4,7 +4,9 @@ import com.ccc.remind.data.source.remote.ImageRemoteService
 import com.ccc.remind.data.source.remote.LoginRemoteService
 import com.ccc.remind.data.source.remote.MindRemoteService
 import com.ccc.remind.data.source.remote.model.user.LoginResponse
+import com.ccc.remind.presentation.util.ZonedDateTimeTypeAdapter
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
 import dagger.Module
 import dagger.Provides
@@ -17,6 +19,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.nio.charset.Charset
+import java.time.ZonedDateTime
 import javax.inject.Singleton
 
 @Module
@@ -24,6 +27,13 @@ import javax.inject.Singleton
 object NetworkModule {
     private const val BASE_URL = "http://10.0.2.2:3000"
     private var accessToken: String? = null
+    private var refreshToken: String? = null
+    private const val loginPath = "auth/login"
+
+    fun updateToken(accessToken: String, refreshToken: String) {
+        this.accessToken = accessToken
+        this.refreshToken = refreshToken
+    }
 
     @Provides
     @Singleton
@@ -33,29 +43,33 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAuthorizationInterceptor() : Interceptor = Interceptor { chain ->
+    fun provideAuthorizationInterceptor(): Interceptor = Interceptor { chain ->
         val newRequestBuilder = chain.request().newBuilder()
-        if(accessToken != null) {
+        if (accessToken != null) {
             newRequestBuilder.addHeader("authorization", "Bearer $accessToken")
         }
 
         val response = chain.proceed(newRequestBuilder.build())
-        saveAccessToken(response)
+        if (response.isSuccessful && response.request.url.toUrl().path.lowercase().contains(loginPath)) {
+            saveAccessToken(response)
+            return@Interceptor response
+        }
+
+        // todo: refresh token
+
         response
     }
 
-    private fun saveAccessToken(response: Response) {
-        if(response.isSuccessful && response.request.url.toUrl().path.lowercase().contains("auth/login")) {
-            val responseSource = response.body?.source()
-            responseSource?.request(Long.MAX_VALUE)
-            val responseBody : String? = responseSource?.buffer?.clone()?.readString(Charset.forName("UTF-8"))
-            if(responseBody != null) {
-                try {
-                    val token = Gson().fromJson(responseBody, LoginResponse::class.java)
-                    accessToken = token.accessToken
-                } catch (e: JsonSyntaxException) {
-                    return
-                }
+    private fun saveAccessToken(response: Response) { // todo: refresh token - loggedInUser update 필요
+        val responseSource = response.body?.source()
+        responseSource?.request(Long.MAX_VALUE)
+        val responseBody: String? = responseSource?.buffer?.clone()?.readString(Charset.forName("UTF-8"))
+        if (responseBody != null) {
+            try {
+                val token = Gson().fromJson(responseBody, LoginResponse::class.java)
+                accessToken = token.accessToken
+            } catch (e: JsonSyntaxException) {
+                return
             }
         }
     }
@@ -73,7 +87,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
+    fun provideGsonConverterFactory(): GsonConverterFactory =
+        GsonConverterFactory.create(
+            GsonBuilder()
+                .serializeNulls()
+                .registerTypeAdapter(ZonedDateTime::class.java, ZonedDateTimeTypeAdapter()) // ZonedDateTime converter
+                .create() // include null value
+        )
 
     @Provides
     @Singleton

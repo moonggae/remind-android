@@ -25,8 +25,13 @@
     <string name="mind_post_card_list_title">감정 기록을 시작할게요!</string>
     <string name="mind_post_card_list_label">가장 가까운 감정은 무엇인가요?</string>
     <string name="mind_post_card_list_label_sub">여러 개 선택이 가능해요!</string>
+    <string name="mind_post_edit_title">%1$s님의 감정을 알려주세요!</string>
+    <string name="mind_post_edit_label_main_mind">대표 감정</string>
+    <string name="mind_post_edit_label_sub_main_mind">선택 된 대표감정은 홈에 보여져요</string>
+    <string name="mind_post_edit_label_sub_mind">함께 일어난 감정</string>
+    <string name="mind_post_edit_label_memo">무슨 일이 있었나요?</string>
 
-
+    <string name="mind_memo_placeholder">메모를 남길 수 있어요.\n어떤 상황에서 이 감정을 느끼셨나요?\n기록해서 감정 이야기를 들려주세요✨</string>
 
     <string name="tab_cards">감정카드</string>
     <string name="tab_home">홈</string>
@@ -35,9 +40,18 @@
     <string name="to_next">다음</string>
     <string name="to_save">저장하기</string>
     <string name="to_complete">완료</string>
+    <string name="to_confirm">확인</string>
 
     <string name="exit">exit</string>
     <string name="step">STEP</string>
     <string name="refresh_button">refresh_button</string>
     <string name="camera">camera</string>
+    <string name="back">back</string>
+    <string name="mind_post_complete_title">%1$s님의 소중한 감정을\n완성했어요!</string>
+    <string name="mind_post_complete_label_posted_minds">기록된 감정</string>
+    <string name="mind_post_complete_label_memo">감정메모</string>
+    <string name="mind_post_complete_label_photo">사진</string>
+    <string name="to_detail_view">자세히 보기</string>
+    <string name="arrow_light">arrow_light</string>
+
 </resources>

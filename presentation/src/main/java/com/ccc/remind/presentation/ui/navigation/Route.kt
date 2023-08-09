@@ -7,6 +7,7 @@ import androidx.navigation.compose.navigation
 import com.ccc.remind.presentation.ui.EmptyComingSoon
 import com.ccc.remind.presentation.ui.home.HomeScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostCardListScreen
+import com.ccc.remind.presentation.ui.mindPost.MindPostCompleteScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostEditScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
 import com.ccc.remind.presentation.util.Constants
@@ -54,7 +55,7 @@ fun NavGraphBuilder.postMindNavGraph(
 ) {
     val startDestination =
         if(Constants.START_TOP_SCREEN.root == Route.MindPost) Constants.START_TOP_SCREEN
-        else Route.MindPost
+        else Route.MindPost.CardList
     navigation(
         startDestination = startDestination.name,
         route = Route.MindPost.name
@@ -72,7 +73,10 @@ fun NavGraphBuilder.postMindNavGraph(
             )
         }
         composable(Route.MindPost.Complete.name) {
-            EmptyComingSoon(name = Route.MindPost.Complete.name)
+            MindPostCompleteScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
         }
     }
 }

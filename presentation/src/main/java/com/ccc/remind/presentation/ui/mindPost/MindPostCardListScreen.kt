@@ -2,20 +2,27 @@ package com.ccc.remind.presentation.ui.mindPost
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,7 +31,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ccc.remind.R
-import com.ccc.remind.presentation.ui.component.button.PrimaryButton
 import com.ccc.remind.presentation.ui.component.mindPost.MindCardGrid
 import com.ccc.remind.presentation.ui.component.mindPost.MindCardListFilterBar
 import com.ccc.remind.presentation.ui.component.mindPost.StepBar
@@ -40,6 +46,7 @@ fun MindPostCardListScreenPreview() {
     MindPostCardListScreen(navController = rememberNavController())
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MindPostCardListScreen(
     navController: NavController,
@@ -55,20 +62,45 @@ fun MindPostCardListScreen(
         )
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
         ) {
             IconButton(
-                modifier = Modifier
-                    .width(24.dp)
-                    .height(24.dp),
-                onClick = { /*TODO*/ }) {
+                modifier = Modifier.size(24.dp),
+                onClick = { navController.popBackStack() }) {
                 Icon(
                     painterResource(id = R.drawable.ic_x),
                     contentDescription = stringResource(R.string.exit)
                 )
             }
+
+            CompositionLocalProvider( // TextButton padding 제거
+                LocalMinimumInteractiveComponentEnforcement provides false
+            ) {
+                TextButton(
+                    onClick = { navController.navigate(Route.MindPost.Edit.name) },
+                    contentPadding = PaddingValues(0.dp),
+                    modifier = Modifier.padding(0.dp),
+                    enabled = uiState.enabledCardListSubmit,
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = RemindMaterialTheme.colorScheme.text_button_blue,
+                        disabledContentColor = RemindMaterialTheme.colorScheme.accent_onAccent,
+                        containerColor = Color.Transparent,
+                        disabledContainerColor = Color.Transparent
+                    )
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.to_next),
+                        style = RemindMaterialTheme.typography.regular_xl
+                    )
+                }
+            }
         }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+
         Text(
             text = "${stringResource(R.string.step)} 1 / 2",
             style = RemindMaterialTheme.typography.bold_md
@@ -115,18 +147,18 @@ fun MindPostCardListScreen(
         )
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(28.dp),
-        verticalArrangement = Arrangement.Bottom
-    ) {
-        PrimaryButton(
-            onClick = {
-                navController.navigate(Route.MindPost.Edit.name)
-            },
-            text = stringResource(R.string.to_next),
-            enabled = uiState.enabledCardListSubmit
-        )
-    }
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .padding(28.dp),
+//        verticalArrangement = Arrangement.Bottom
+//    ) {
+//        PrimaryButton(
+//            onClick = {
+//                navController.navigate(Route.MindPost.Edit.name)
+//            },
+//            text = stringResource(R.string.to_next),
+//            enabled = uiState.enabledCardListSubmit
+//        )
+//    }
 }

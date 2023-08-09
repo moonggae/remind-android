@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ccc.remind.domain.entity.mind.MindCard
-import com.ccc.remind.presentation.ui.component.model.MindCardSelectType
+import com.ccc.remind.domain.entity.mind.MindCardSelectType
 
 @Composable
 fun MindCardGrid(

@@ -41,24 +41,31 @@ class UserRepositoryImpl(
     override fun getUserDisplayName(): Flow<String?> = flow {
         var remoteDisplayName: String? = loginRemoteService.fetchDisplayName().body()?.displayName
         emit(remoteDisplayName)
-        if(remoteDisplayName != null) updateLocalUserDisplayName(remoteDisplayName)
+        if(remoteDisplayName != null) updateLocalUser(displayName = remoteDisplayName)
     }
 
     override suspend fun updateUserDisplayName(displayName: String) {
         loginRemoteService.updateDisplayName(DisplayNameDto(displayName))
-        updateLocalUserDisplayName(displayName)
+        updateLocalUser(displayName = displayName)
     }
 
-    private suspend fun updateLocalUserDisplayName(displayName: String) {
+    override suspend fun updateLocalUser(accessToken: String?, refreshToken: String?, displayName: String?, logInType: LogInType?) {
         val entity = userLocalDataSource.fetchLoggedInUser()
-        if (entity != null && entity.displayName != displayName)
-            userLocalDataSource.updateLoggedInUser(
+        if(entity != null) {
+            userLocalDataSource.deleteLoggedInUser()
+            userLocalDataSource.postLoggedInUser(
                 UserEntity(
-                    entity.accessToken,
-                    entity.refreshToken,
-                    displayName,
-                    entity.logInType
-                )
-            )
+                    accessToken = accessToken ?: entity.accessToken,
+                    refreshToken = refreshToken ?: entity.refreshToken,
+                    displayName = displayName ?: entity.displayName,
+                    logInType = (logInType ?: entity.logInType) as String
+            ))
+        }
+    }
+
+    override suspend fun refreshJwtToken(refreshToken: String): JwtToken {
+        val refreshedToken = loginRemoteService.refreshJwtToken("Bearer $refreshToken").body()!!
+        updateLocalUser(accessToken = refreshedToken.accessToken, refreshToken = refreshedToken.refreshToken)
+        return refreshedToken.toJwtToken()
     }
 }

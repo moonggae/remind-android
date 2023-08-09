@@ -29,7 +29,7 @@ import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 fun UploadedPhotoCard(
     item: ImageFile,
     modifier: Modifier = Modifier,
-    onDelete: (ImageFile) -> Unit
+    onDelete: ((ImageFile) -> Unit)? = null
 ) {
     Box(
         modifier = Modifier
@@ -57,26 +57,25 @@ fun UploadedPhotoCard(
             contentScale = ContentScale.Crop
         )
 
-        Surface(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(top = 8.dp, end = 8.dp),
-            color = Color.Transparent
-        ) {
-            IconButton(
-                onClick = { onDelete(item) },
-                colors = IconButtonDefaults.iconButtonColors(
-                    contentColor = RemindMaterialTheme.colorScheme.fg_subtle,
-                ),
-                modifier = Modifier.size(24.dp)
+        if (onDelete != null)
+            Surface(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 8.dp, end = 8.dp),
+                color = Color.Transparent
             ) {
-                Icon(
-                    painterResource(id = R.drawable.ic_x),
-                    contentDescription = "Close"
-                )
+                IconButton(
+                    onClick = { onDelete?.invoke(item) },
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = RemindMaterialTheme.colorScheme.fg_subtle,
+                    ),
+                    modifier = Modifier.size(24.dp)
+                ) {
+                    Icon(
+                        painterResource(id = R.drawable.ic_x),
+                        contentDescription = "Close"
+                    )
+                }
             }
-        }
-
-
     }
 }

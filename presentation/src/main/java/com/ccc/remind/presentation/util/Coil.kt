@@ -6,8 +6,10 @@ import coil.ImageLoader
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import coil.request.CachePolicy
+import coil.request.ImageRequest
+import okhttp3.OkHttpClient
 
-fun initCoil(context: Context) {
+fun initCoil(context: Context, okHttpClient: OkHttpClient) {
     Coil.setImageLoader(
         ImageLoader
             .Builder(context)
@@ -16,6 +18,7 @@ fun initCoil(context: Context) {
             .diskCachePolicy(CachePolicy.ENABLED)
             .memoryCachePolicy(CachePolicy.ENABLED)
             .networkCachePolicy(CachePolicy.ENABLED)
+            .okHttpClient(okHttpClient)
             .memoryCache {
                 MemoryCache.Builder(context).build()
             }
@@ -28,3 +31,12 @@ fun initCoil(context: Context) {
             .build()
     )
 }
+
+fun buildCoilRequest(context: Context, url: String) =
+    ImageRequest.Builder(context)
+        .data(url)
+        .crossfade(true)
+        .diskCachePolicy(CachePolicy.ENABLED)
+        .memoryCachePolicy(CachePolicy.ENABLED)
+        .networkCachePolicy(CachePolicy.ENABLED)
+        .build()

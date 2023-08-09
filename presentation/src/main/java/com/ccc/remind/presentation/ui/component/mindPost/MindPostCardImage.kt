@@ -1,6 +1,5 @@
 package com.ccc.remind.presentation.ui.component.mindPost
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -20,10 +19,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.imageLoader
-import coil.request.CachePolicy
-import coil.request.ImageRequest
-import com.ccc.remind.presentation.ui.component.model.MindCardSelectType
+import com.ccc.remind.domain.entity.mind.MindCardSelectType
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
+import com.ccc.remind.presentation.util.buildCoilRequest
 
 
 @Composable
@@ -40,7 +38,7 @@ fun MindCardImage(
 
     Box(modifier = appliedModifier) {
         val context = LocalContext.current
-        val request = setupImageCardRequest(context, url)
+        val request = buildCoilRequest(context, url)
 
         Box(
             contentAlignment = Alignment.Center,
@@ -104,12 +102,3 @@ private fun setupMindCardImageModifier(
         )
         .then(modifier)
 }
-
-private fun setupImageCardRequest(context: Context, url: String) =
-    ImageRequest.Builder(context)
-        .data(url)
-        .crossfade(true)
-        .diskCachePolicy(CachePolicy.ENABLED)
-        .memoryCachePolicy(CachePolicy.ENABLED)
-        .networkCachePolicy(CachePolicy.ENABLED)
-        .build()

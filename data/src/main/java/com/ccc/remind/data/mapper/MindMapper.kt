@@ -1,13 +1,25 @@
 package com.ccc.remind.data.mapper
 
+import com.ccc.remind.data.source.remote.model.mind.dto.MindPostResponseDto
 import com.ccc.remind.data.source.remote.model.mind.vo.ImageFileVO
 import com.ccc.remind.data.source.remote.model.mind.vo.MindCardTagVO
 import com.ccc.remind.data.source.remote.model.mind.vo.MindCardVO
+import com.ccc.remind.data.source.remote.model.mind.vo.MindPostCardVO
 import com.ccc.remind.data.source.remote.model.mind.vo.MindTagVO
 import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.domain.entity.mind.MindCard
+import com.ccc.remind.domain.entity.mind.MindCardSelectType
 import com.ccc.remind.domain.entity.mind.MindCardTag
+import com.ccc.remind.domain.entity.mind.MindPost
+import com.ccc.remind.domain.entity.mind.MindPostCard
 import com.ccc.remind.domain.entity.mind.MindTag
+
+fun MindPostResponseDto.toDomain() = MindPost(
+    id = this.id,
+    cards = this.cards.map { it.toDomain() },
+    images = this.images.map { it.image.toDomain() },
+    memo = this.memo?.text
+)
 
 fun MindCardVO.toDomain() = MindCard(
     id,
@@ -17,7 +29,6 @@ fun MindCardVO.toDomain() = MindCard(
     tags.map { it.toDomain() },
     imageFile?.toDomain()
 )
-
 
 fun MindCardTagVO.toDomain() = MindCardTag(
     id,
@@ -35,4 +46,10 @@ fun MindTagVO.toDomain() = MindTag(
 fun ImageFileVO.toDomain() = ImageFile(
     id,
     fileName
+)
+
+fun MindPostCardVO.toDomain() = MindPostCard(
+    id = this.id,
+    type = MindCardSelectType.valueOf(this.type),
+    card = this.card.toDomain()
 )
