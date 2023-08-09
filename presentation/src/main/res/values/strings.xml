@@ -53,5 +53,6 @@
     <string name="mind_post_complete_label_photo">사진</string>
     <string name="to_detail_view">자세히 보기</string>
     <string name="arrow_light">arrow_light</string>
+    <string name="close_button">close button</string>
 
 </resources>
