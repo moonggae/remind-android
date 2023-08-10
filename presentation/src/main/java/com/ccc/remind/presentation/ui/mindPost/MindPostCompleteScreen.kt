@@ -15,18 +15,22 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -45,13 +49,16 @@ import coil.compose.AsyncImage
 import com.ccc.remind.R
 import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.presentation.ui.SharedViewModel
+import com.ccc.remind.presentation.ui.component.button.BottomSheetButton
 import com.ccc.remind.presentation.ui.component.button.PrimaryButton
+import com.ccc.remind.presentation.ui.component.container.ModalBottomSheet
 import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
 import com.ccc.remind.presentation.ui.component.mindPost.ImageDialog
 import com.ccc.remind.presentation.ui.component.mindPost.ImageListBar
 import com.ccc.remind.presentation.ui.component.mindPost.MindMemoField
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.buildCoilRequest
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,6 +75,10 @@ fun MindPostCompleteScreen(
     var selectedImage by remember {
         mutableStateOf<ImageFile?>(null)
     }
+
+    val scope = rememberCoroutineScope()
+    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
+
 
     if (selectedImage != null) {
         ImageDialog(
@@ -114,7 +125,9 @@ fun MindPostCompleteScreen(
                 IconButton(
                     modifier = Modifier.size(24.dp),
                     onClick = {
-                        // todo
+                        scope.launch {
+                            openBottomSheet = true
+                        }
                     }) {
                     Icon(
                         painterResource(id = R.drawable.ic_meatball),
@@ -247,13 +260,64 @@ fun MindPostCompleteScreen(
     ) {
         PrimaryButton(
             text = stringResource(id = R.string.to_confirm),
-        ) {
-
-        }
+            onClick = {
+                // todo
+            }
+        )
         
         Spacer(modifier = Modifier.height(38.dp))
-
-
     }
+
+
+    if(openBottomSheet) {
+        ModalBottomSheet( // todo divider color check
+            onDismissRequest = { openBottomSheet = false },
+            sheetState = rememberModalBottomSheetState(
+                skipPartiallyExpanded = true
+            ),
+            padding = PaddingValues(
+                bottom = 30.dp,
+                start = 20.dp,
+                end = 20.dp
+            )
+        ) {
+            BottomSheetButton(
+                text = "수정",
+                onClick = {
+                    // todo
+                }
+            )
+
+            Divider(
+                thickness = 0.5.dp,
+                color = RemindMaterialTheme.colorScheme.fg_muted
+            )
+
+            BottomSheetButton(
+                text = "삭제",
+                onClick = {
+                    // todo
+                }
+            )
+
+            Divider(
+                thickness = 0.5.dp,
+                color = RemindMaterialTheme.colorScheme.fg_muted
+            )
+
+            BottomSheetButton(
+                text = "취소",
+                contentColor = RemindMaterialTheme.colorScheme.accent_default,
+                onClick = {
+                    scope.launch {
+                        openBottomSheet = false
+                    }
+                }
+            )
+        }
+    }
+
+
+
 
 }
