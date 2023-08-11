@@ -56,6 +56,7 @@ import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
 import com.ccc.remind.presentation.ui.component.mindPost.ImageDialog
 import com.ccc.remind.presentation.ui.component.mindPost.ImageListBar
 import com.ccc.remind.presentation.ui.component.mindPost.MindMemoField
+import com.ccc.remind.presentation.ui.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.buildCoilRequest
 import kotlinx.coroutines.launch
@@ -284,7 +285,10 @@ fun MindPostCompleteScreen(
             BottomSheetButton(
                 text = "수정",
                 onClick = {
-                    // todo
+                    scope.launch {
+                        openBottomSheet = false
+                        navController.popBackStack(Route.MindPost.CardList.name, saveState = true, inclusive = false)
+                    }
                 }
             )
 

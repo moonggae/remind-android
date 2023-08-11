@@ -6,15 +6,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.domain.entity.mind.MindCard
-import com.ccc.remind.domain.entity.mind.MindCardSelectType
 import com.ccc.remind.domain.entity.mind.MindPost
 import com.ccc.remind.domain.usecase.GetMindCardsUseCase
 import com.ccc.remind.domain.usecase.PostImagesUseCase
 import com.ccc.remind.domain.usecase.PostMindUseCase
+import com.ccc.remind.domain.usecase.UpdateMindUseCase
 import com.ccc.remind.presentation.MyApplication
 import com.ccc.remind.presentation.ui.component.model.MindFilter
 import com.ccc.remind.presentation.util.toggle
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -26,7 +27,8 @@ import javax.inject.Inject
 class MindPostViewModel @Inject constructor(
     private val getMindCards: GetMindCardsUseCase,
     private val postImages: PostImagesUseCase,
-    private val postMind: PostMindUseCase
+    private val postMind: PostMindUseCase,
+    private val updateMind: UpdateMindUseCase
 ) : ViewModel() {
 
     companion object {
@@ -132,19 +134,24 @@ class MindPostViewModel @Inject constructor(
 
     fun submitMind(onSuccess: (postedMind: MindPost) -> Unit = {}) {
         viewModelScope.launch {
-            val mindCards = mutableMapOf<MindCard, MindCardSelectType>()
-            _uiState.value.selectedMindCards.forEach {
-                mindCards[it] =
-                    if (_uiState.value.selectedMindCards.indexOf(it) == 0) MindCardSelectType.MAIN
-                    else MindCardSelectType.SUB
-            }
-
             try {
-                postMind(
-                    mindCards = mindCards,
-                    images = _uiState.value.uploadedPhotos.map { it.id }.toList(),
-                    memo = _uiState.value.memo
-                ).collect { post ->
+                val mindCards = _uiState.value.selectedMindCardsMap
+                val images = _uiState.value.uploadedPhotos.map { it.id }.toList()
+                val memo = _uiState.value.memo
+
+                val response: Flow<MindPost> =
+                    if (_uiState.value.postedMind == null) {
+                        postMind(
+                            mindCards, images, memo
+                        )
+                    } else {
+                        updateMind(
+                            id = _uiState.value.postedMind!!.id,
+                            mindCards, images, memo
+                        )
+                    }
+
+                response.collect { post ->
                     _uiState.update {
                         it.copy(postedMind = post)
                     }

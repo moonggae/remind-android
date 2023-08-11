@@ -14,4 +14,11 @@ interface MindRepository {
         images: List<UUID>,
         memo: String?
     ): Flow<MindPost>
+
+    fun updateMinds(
+        id: Int,
+        mindCards: Map<MindCard, MindCardSelectType>,
+        images: List<UUID>,
+        memo: String?
+    ): Flow<MindPost>
 }

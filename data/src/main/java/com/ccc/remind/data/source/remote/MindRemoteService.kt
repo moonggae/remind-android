@@ -7,6 +7,8 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface MindRemoteService {
     @GET("mind/card")
@@ -14,4 +16,7 @@ interface MindRemoteService {
 
     @POST("mind/post")
     suspend fun postMindPost(@Body() requestDto: MindPostRequestDto): Response<MindPostResponseDto>
+
+    @PUT("mind/post/{id}")
+    suspend fun putMindPost(@Path("id") id: Int, @Body() requestDto: MindPostRequestDto): Response<MindPostResponseDto>
 }
