@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.domain.entity.mind.MindCard
 import com.ccc.remind.domain.entity.mind.MindPost
+import com.ccc.remind.domain.usecase.DeleteMindUseCase
 import com.ccc.remind.domain.usecase.GetMindCardsUseCase
 import com.ccc.remind.domain.usecase.PostImagesUseCase
 import com.ccc.remind.domain.usecase.PostMindUseCase
@@ -28,7 +29,8 @@ class MindPostViewModel @Inject constructor(
     private val getMindCards: GetMindCardsUseCase,
     private val postImages: PostImagesUseCase,
     private val postMind: PostMindUseCase,
-    private val updateMind: UpdateMindUseCase
+    private val updateMind: UpdateMindUseCase,
+    private val deleteMind: DeleteMindUseCase
 ) : ViewModel() {
 
     companion object {
@@ -47,14 +49,17 @@ class MindPostViewModel @Inject constructor(
 
 
     init {
-        initMindCards()
+        initUiState()
     }
 
-    private fun initMindCards() {
+    fun initUiState() {
         viewModelScope.launch {
             getMindCards().collect { mindCards ->
                 _uiState.update {
-                    it.copy(mindCards = mindCards)
+                    MindPostUiState(
+                        selectedMindFilters = listOf(MindFilter.ALL),
+                        mindCards = mindCards
+                    )
                 }
             }
         }
@@ -162,6 +167,19 @@ class MindPostViewModel @Inject constructor(
                 Log.e(TAG, "submitMind: $e", )
             }
             
+        }
+    }
+
+    fun deleteMind(onSuccess: () -> Unit = {}) {
+        viewModelScope.launch {
+            deleteMind(_uiState.value.postedMind!!.id).collect {
+                _uiState.update {
+                    it.copy(
+                        postedMind = null
+                    )
+                }
+                onSuccess()
+            }
         }
     }
 }

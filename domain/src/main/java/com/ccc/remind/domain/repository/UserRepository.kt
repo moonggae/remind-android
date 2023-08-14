@@ -6,7 +6,7 @@ import com.ccc.remind.domain.entity.user.User
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
-    fun login(uid: String, logInType: LogInType) : Flow<JwtToken>
+    fun login(accessToken: String, logInType: LogInType) : Flow<JwtToken>
 
     fun getLoggedInUser() : Flow<User?>
 

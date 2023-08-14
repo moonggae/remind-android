@@ -1,5 +1,6 @@
-package com.ccc.remind.presentation.ui.component.container
+package com.ccc.remind.presentation.ui.component.dialog
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,10 +14,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
+import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ModalBottomSheet(
+    modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     shape: Shape = RoundedCornerShape(8.dp),
     sheetState: SheetState,
@@ -33,7 +36,9 @@ fun ModalBottomSheet(
         Column(
             modifier = Modifier
                 .padding(padding)
-                .clip(shape),
+                .clip(shape)
+                .background(color = RemindMaterialTheme.colorScheme.bg_default)
+            ,
             content = content
         )
     }

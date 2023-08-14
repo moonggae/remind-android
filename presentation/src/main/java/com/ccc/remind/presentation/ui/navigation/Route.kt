@@ -53,6 +53,12 @@ fun NavGraphBuilder.postMindNavGraph(
     navController: NavController,
     viewModel: MindPostViewModel
 ) {
+    navController.addOnDestinationChangedListener { _, destination, _ ->
+        if(destination.route == Route.Main.Home.name) {
+            viewModel.initUiState()
+        }
+    }
+
     val startDestination =
         if(Constants.START_TOP_SCREEN.root == Route.MindPost) Constants.START_TOP_SCREEN
         else Route.MindPost.CardList

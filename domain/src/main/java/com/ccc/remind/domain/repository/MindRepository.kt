@@ -21,4 +21,8 @@ interface MindRepository {
         images: List<UUID>,
         memo: String?
     ): Flow<MindPost>
+
+    suspend fun deleteMind(
+        id: Int
+    ): Flow<Unit>
 }

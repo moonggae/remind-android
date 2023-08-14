@@ -1,10 +1,7 @@
 package com.ccc.remind.presentation.ui.component.button
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,10 +18,11 @@ import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheetButton(
+fun TextFillButton(
     text: String,
     style: TextStyle = RemindMaterialTheme.typography.bold_xl,
     modifier: Modifier = Modifier,
+    containerColor: Color = RemindMaterialTheme.colorScheme.bg_default,
     contentColor: Color = RemindMaterialTheme.colorScheme.fg_muted,
     onClick: () -> Unit
 ) {
@@ -34,18 +32,15 @@ fun BottomSheetButton(
         Button(
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
-                containerColor = RemindMaterialTheme.colorScheme.bg_default,
+                containerColor = containerColor,
                 contentColor = contentColor
             ),
             shape = RectangleShape,
             modifier = modifier.then(
                 Modifier
                     .fillMaxWidth()
-                    .padding(0.dp)
-                    .defaultMinSize(minHeight = 1.dp)
                     .height(68.dp)
-            ),
-            contentPadding = PaddingValues(0.dp)
+            )
         ) {
             Text(
                 text = text,

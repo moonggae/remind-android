@@ -50,4 +50,8 @@ class MindRepositoryImpl(private val mindRemoteService: MindRemoteService) : Min
 
         emit(mindRemoteService.putMindPost(id, dto).body()!!.toDomain())
     }
+
+    override suspend fun deleteMind(id: Int) = flow {
+        emit(mindRemoteService.deleteMindPost(id))
+    }
 }

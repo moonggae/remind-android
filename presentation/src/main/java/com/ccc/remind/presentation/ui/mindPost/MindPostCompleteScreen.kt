@@ -49,9 +49,10 @@ import coil.compose.AsyncImage
 import com.ccc.remind.R
 import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.presentation.ui.SharedViewModel
-import com.ccc.remind.presentation.ui.component.button.BottomSheetButton
 import com.ccc.remind.presentation.ui.component.button.PrimaryButton
-import com.ccc.remind.presentation.ui.component.container.ModalBottomSheet
+import com.ccc.remind.presentation.ui.component.button.TextFillButton
+import com.ccc.remind.presentation.ui.component.dialog.AlertDialog
+import com.ccc.remind.presentation.ui.component.dialog.ModalBottomSheet
 import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
 import com.ccc.remind.presentation.ui.component.mindPost.ImageDialog
 import com.ccc.remind.presentation.ui.component.mindPost.ImageListBar
@@ -79,6 +80,7 @@ fun MindPostCompleteScreen(
 
     val scope = rememberCoroutineScope()
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
+    var openAlertDialog by rememberSaveable { mutableStateOf(false) }
 
 
     if (selectedImage != null) {
@@ -119,7 +121,7 @@ fun MindPostCompleteScreen(
                     }) {
                     Icon(
                         painterResource(id = R.drawable.ic_share),
-                        contentDescription = stringResource(R.string.back)
+                        contentDescription = stringResource(R.string.share)
                     )
                 }
 
@@ -132,7 +134,7 @@ fun MindPostCompleteScreen(
                     }) {
                     Icon(
                         painterResource(id = R.drawable.ic_meatball),
-                        contentDescription = stringResource(R.string.back)
+                        contentDescription = stringResource(R.string.menu)
                     )
                 }
             }
@@ -201,7 +203,6 @@ fun MindPostCompleteScreen(
                     }
                 }
             }
-
         }
 
 
@@ -215,7 +216,7 @@ fun MindPostCompleteScreen(
             }
         }
 
-        if(uiState.memo?.isNotEmpty() == true) {
+        if (uiState.memo?.isNotEmpty() == true) {
             Spacer(modifier = Modifier.height(38.dp))
 
             Text(
@@ -233,7 +234,7 @@ fun MindPostCompleteScreen(
             )
         }
 
-        if(uiState.uploadedPhotos.isNotEmpty()) {
+        if (uiState.uploadedPhotos.isNotEmpty()) {
             Spacer(modifier = Modifier.height(38.dp))
 
             Text(
@@ -262,16 +263,20 @@ fun MindPostCompleteScreen(
         PrimaryButton(
             text = stringResource(id = R.string.to_confirm),
             onClick = {
-                // todo
+                navController.popBackStack(
+                    route = Route.Main.Home.name,
+                    inclusive = false,
+                    saveState = false
+                )
             }
         )
-        
+
         Spacer(modifier = Modifier.height(38.dp))
     }
 
 
-    if(openBottomSheet) {
-        ModalBottomSheet( // todo divider color check
+    if (openBottomSheet) {
+        ModalBottomSheet( // todo: divider color check
             onDismissRequest = { openBottomSheet = false },
             sheetState = rememberModalBottomSheetState(
                 skipPartiallyExpanded = true
@@ -280,10 +285,10 @@ fun MindPostCompleteScreen(
                 bottom = 30.dp,
                 start = 20.dp,
                 end = 20.dp
-            )
+            ) // todo : divider height 다름 현상
         ) {
-            BottomSheetButton(
-                text = "수정",
+            TextFillButton(
+                text = stringResource(R.string.to_update),
                 onClick = {
                     scope.launch {
                         openBottomSheet = false
@@ -297,10 +302,12 @@ fun MindPostCompleteScreen(
                 color = RemindMaterialTheme.colorScheme.fg_muted
             )
 
-            BottomSheetButton(
-                text = "삭제",
+            TextFillButton(
+                text = stringResource(R.string.to_delete),
                 onClick = {
-                    // todo
+                    scope.launch {
+                        openAlertDialog = true
+                    }
                 }
             )
 
@@ -309,8 +316,8 @@ fun MindPostCompleteScreen(
                 color = RemindMaterialTheme.colorScheme.fg_muted
             )
 
-            BottomSheetButton(
-                text = "취소",
+            TextFillButton(
+                text = stringResource(R.string.to_cancel),
                 contentColor = RemindMaterialTheme.colorScheme.accent_default,
                 onClick = {
                     scope.launch {
@@ -322,6 +329,27 @@ fun MindPostCompleteScreen(
     }
 
 
-
-
+    if (openAlertDialog) {
+        AlertDialog(
+            contentText = stringResource(R.string.mind_post_complete_alert_delete),
+            cancelLabelText = stringResource(R.string.to_cancel),
+            confirmLabelText = stringResource(R.string.to_delete),
+            onClickConfirmButton = {
+                scope.launch {
+                    openAlertDialog = false
+                    openBottomSheet = false
+                    viewModel.deleteMind {
+                        navController.popBackStack(
+                            route = Route.Main.Home.name,
+                            saveState = false,
+                            inclusive = false
+                        )
+                    }
+                }
+            },
+            onClickCancelButton = { scope.launch { openAlertDialog = false } },
+            onDismissRequest = { scope.launch { openAlertDialog = false } }
+        )
+    }
 }
+

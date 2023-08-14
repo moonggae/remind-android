@@ -46,7 +46,7 @@ fun MindMemoField(
         singleLine = false,
         placeholder = {
             Text(
-                text = stringResource(R.string.mind_memo_placeholder),
+                text = stringResource(R.string.mind_post_edit_placeholder_memo),
                 style = RemindMaterialTheme.typography.regular_lg
             )
         },
