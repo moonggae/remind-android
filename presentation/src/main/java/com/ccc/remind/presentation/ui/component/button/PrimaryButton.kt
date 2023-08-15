@@ -8,6 +8,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 
@@ -16,6 +17,7 @@ fun PrimaryButton(
     modifier: Modifier = Modifier,
     text: String,
     enabled: Boolean = true,
+    textStyle: TextStyle = RemindMaterialTheme.typography.bold_xl.copy(color = RemindMaterialTheme.colorScheme.bg_default),
     onClick: () -> Unit
 ) {
     Button(
@@ -26,15 +28,15 @@ fun PrimaryButton(
             disabledContainerColor = RemindMaterialTheme.colorScheme.button_disabled
         ),
         enabled = enabled,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(56.dp)
-            .then(modifier)
+        modifier = modifier.then(
+            Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+        )
     ) {
         Text(
             text = text,
-            style = RemindMaterialTheme.typography.bold_xl
-                .copy(color = RemindMaterialTheme.colorScheme.bg_default)
+            style = textStyle
         )
     }
 }

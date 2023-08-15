@@ -17,7 +17,7 @@ import com.ccc.remind.R
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 
 @Composable
-fun MindMemoField(
+fun MindMemoTextField(
     modifier: Modifier = Modifier,
     value: String,
     enabled: Boolean = true,

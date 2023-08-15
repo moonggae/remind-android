@@ -25,4 +25,6 @@ interface MindRepository {
     suspend fun deleteMind(
         id: Int
     ): Flow<Unit>
+
+    fun getLastPostedMind(): Flow<MindPost?>
 }

@@ -15,6 +15,9 @@ interface MindRemoteService {
     @GET("mind/card")
     suspend fun fetchMindCards() : Response<List<MindCardVO>>
 
+    @GET("mind/post/last")
+    suspend fun fetchLastPostMind(): Response<MindPostResponseDto?>
+
     @POST("mind/post")
     suspend fun postMindPost(@Body() requestDto: MindPostRequestDto): Response<MindPostResponseDto>
 

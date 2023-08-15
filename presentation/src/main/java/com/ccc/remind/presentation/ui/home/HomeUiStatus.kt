@@ -1,6 +1,7 @@
 package com.ccc.remind.presentation.ui.home
 
-//data class HomeUiStatus(
-//    val profile: Profile,
-//    val MindCards: List<MindCard>
-//)
+import com.ccc.remind.domain.entity.mind.MindPost
+
+data class HomeUiStatus(
+    val lastPostedMind: MindPost? = null
+)

@@ -54,4 +54,8 @@ class MindRepositoryImpl(private val mindRemoteService: MindRemoteService) : Min
     override suspend fun deleteMind(id: Int) = flow {
         emit(mindRemoteService.deleteMindPost(id))
     }
+
+    override fun getLastPostedMind(): Flow<MindPost?> = flow {
+        emit(mindRemoteService.fetchLastPostMind().body()?.toDomain())
+    }
 }

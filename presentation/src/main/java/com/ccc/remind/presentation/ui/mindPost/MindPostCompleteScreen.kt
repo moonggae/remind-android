@@ -19,12 +19,9 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -56,7 +53,8 @@ import com.ccc.remind.presentation.ui.component.dialog.ModalBottomSheet
 import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
 import com.ccc.remind.presentation.ui.component.mindPost.ImageDialog
 import com.ccc.remind.presentation.ui.component.mindPost.ImageListBar
-import com.ccc.remind.presentation.ui.component.mindPost.MindMemoField
+import com.ccc.remind.presentation.ui.component.mindPost.MindMemoTextField
+import com.ccc.remind.presentation.ui.component.mindPost.ViewDetailTextButton
 import com.ccc.remind.presentation.ui.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.buildCoilRequest
@@ -174,34 +172,8 @@ fun MindPostCompleteScreen(
                 color = RemindMaterialTheme.colorScheme.fg_muted
             )
 
-            CompositionLocalProvider( // TextButton padding 제거
-                LocalMinimumInteractiveComponentEnforcement provides false
-            ) {
-                TextButton(
-                    contentPadding = PaddingValues(0.dp),
-                    modifier = Modifier
-                        .padding(0.dp)
-                        .height(30.dp),
-                    onClick = { /*TODO*/ }
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(4.dp, CenterHorizontally),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = stringResource(R.string.to_detail_view),
-                            style = RemindMaterialTheme.typography.regular_lg,
-                            color = RemindMaterialTheme.colorScheme.accent_default
-                        )
-
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_arrow_light),
-                            contentDescription = stringResource(R.string.arrow_light),
-                            tint = RemindMaterialTheme.colorScheme.accent_default,
-                            modifier = Modifier.size(16.dp)
-                        )
-                    }
-                }
+            ViewDetailTextButton {
+                // todo
             }
         }
 
@@ -227,7 +199,7 @@ fun MindPostCompleteScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            MindMemoField(
+            MindMemoTextField(
                 value = uiState.memo ?: "",
                 enabled = false,
                 modifier = Modifier.defaultMinSize(minHeight = 34.dp)

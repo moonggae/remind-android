@@ -9,4 +9,6 @@ object Constants {
         else Route.Main.Home
 
     val BASE_URL = "http://10.0.2.2:3000"
+
+    val POST_MIND_RESULT_KEY = "_POST_MIND_RESULT_KEY_"
 }
