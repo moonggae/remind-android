@@ -39,6 +39,8 @@
     <string name="mind_post_complete_label_photo">사진</string>
     <string name="mind_post_complete_alert_delete">방금 기록한 감정을 삭제 할까요?</string>
 
+    <string name="mind_memo_edit_appbar_title">감정메모</string>
+    <string name="mind_memo_edit_alert_delete">메모를 삭제 할까요?</string>
 
 
     <string name="tab_cards">감정카드</string>
@@ -54,17 +56,23 @@
     <string name="to_cancel">취소</string>
     <string name="to_detail_view">자세히 보기</string>
 
+    <string name="yyyy_mm_dd_e">yyyy년 MM월 dd일 E요일</string>
+
     <string name="exit">exit</string>
     <string name="step">STEP</string>
     <string name="refresh_button">refresh_button</string>
     <string name="camera">camera</string>
     <string name="back">back</string>
-
     <string name="arrow_light">arrow_light</string>
     <string name="close_button">close button</string>
     <string name="share">share</string>
     <string name="menu">menu</string>
     <string name="comment">comment</string>
+    <string name="arrow_left">arrow left</string>
+    <string name="heart_fill">heart fill</string>
+    <string name="heart_empty">heart empty</string>
+    <string name="heart">heart</string>
+    <string name="send_button">send button</string>
 
 
 </resources>

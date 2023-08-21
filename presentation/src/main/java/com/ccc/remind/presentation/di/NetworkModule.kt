@@ -2,6 +2,7 @@ package com.ccc.remind.presentation.di
 
 import com.ccc.remind.data.source.remote.ImageRemoteService
 import com.ccc.remind.data.source.remote.LoginRemoteService
+import com.ccc.remind.data.source.remote.MindMemoRemoteService
 import com.ccc.remind.data.source.remote.MindRemoteService
 import com.ccc.remind.data.source.remote.model.user.LoginResponse
 import com.ccc.remind.presentation.util.ZonedDateTimeTypeAdapter
@@ -124,4 +125,10 @@ object NetworkModule {
     fun provideImageService(
         retrofit: Retrofit
     ): ImageRemoteService = retrofit.create(ImageRemoteService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMindMemoService(
+        retrofit: Retrofit
+    ): MindMemoRemoteService = retrofit.create(MindMemoRemoteService::class.java)
 }

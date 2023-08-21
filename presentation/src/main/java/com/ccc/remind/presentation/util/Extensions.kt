@@ -1,5 +1,9 @@
 package com.ccc.remind.presentation.util
 
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
+
 fun <E> List<E>.toggle(value: E): List<E> {
     return if(contains(value)) {
         minus(value)
@@ -14,4 +18,14 @@ fun <E> MutableList<E>.toggle(value: E): Boolean {
     } else {
         remove(value)
     }
+}
+
+fun ZonedDateTime.toFormatString(
+    pattern: String,
+    locale: Locale = Locale.KOREA
+): String {
+    val formatter = DateTimeFormatter
+        .ofPattern(pattern)
+        .withLocale(locale)
+    return this.format(formatter)
 }

@@ -7,10 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.domain.entity.mind.MindCard
 import com.ccc.remind.domain.entity.mind.MindPost
-import com.ccc.remind.domain.usecase.DeleteMindUseCase
+import com.ccc.remind.domain.usecase.post.DeleteMindUseCase
 import com.ccc.remind.domain.usecase.GetMindCardsUseCase
 import com.ccc.remind.domain.usecase.PostImagesUseCase
-import com.ccc.remind.domain.usecase.PostMindUseCase
+import com.ccc.remind.domain.usecase.post.PostMindUseCase
 import com.ccc.remind.domain.usecase.UpdateMindUseCase
 import com.ccc.remind.presentation.MyApplication
 import com.ccc.remind.presentation.ui.component.model.MindFilter

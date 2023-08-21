@@ -1,13 +1,16 @@
 package com.ccc.remind.presentation.di
 
 import com.ccc.remind.data.repository.ImageRepositoryImpl
+import com.ccc.remind.data.repository.MindMemoRepositoryImpl
 import com.ccc.remind.data.repository.MindRepositoryImpl
 import com.ccc.remind.data.repository.UserRepositoryImpl
 import com.ccc.remind.data.source.local.UserLocalDataSource
 import com.ccc.remind.data.source.remote.ImageRemoteService
 import com.ccc.remind.data.source.remote.LoginRemoteService
+import com.ccc.remind.data.source.remote.MindMemoRemoteService
 import com.ccc.remind.data.source.remote.MindRemoteService
 import com.ccc.remind.domain.repository.ImageRepository
+import com.ccc.remind.domain.repository.MindMemoRepository
 import com.ccc.remind.domain.repository.MindRepository
 import com.ccc.remind.domain.repository.UserRepository
 import dagger.Module
@@ -38,4 +41,9 @@ object RepositoryModule {
         return ImageRepositoryImpl(imageRemoteService)
     }
 
+    @Provides
+    @Singleton
+    fun provideMindMemoRepository(mindMemoRemoteService: MindMemoRemoteService): MindMemoRepository {
+        return MindMemoRepositoryImpl(mindMemoRemoteService)
+    }
 }

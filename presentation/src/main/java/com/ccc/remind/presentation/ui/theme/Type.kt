@@ -39,6 +39,12 @@ val ts_bold_xxl = TextStyle(
     fontSize = 24.sp,
     fontWeight = FontWeight(700)
 )
+val ts_regular_sm = TextStyle(
+    fontFamily = pretendardFontFamily,
+    fontSize = 12.sp,
+    lineHeight = 16.8.sp,
+    fontWeight = FontWeight(400),
+)
 val ts_regular_md = TextStyle(
     fontFamily = pretendardFontFamily,
     fontSize = 14.sp,
@@ -63,10 +69,13 @@ class RemindTypography(
     val bold_lg: TextStyle,
     val bold_xl: TextStyle,
     val bold_xxl: TextStyle,
+    val regular_sm: TextStyle,
     val regular_md: TextStyle,
     val regular_lg: TextStyle,
     val regular_xl: TextStyle,
-)
+) {
+
+}
 
 
 object RemindTypographyTokens {
@@ -75,6 +84,7 @@ object RemindTypographyTokens {
     val bold_lg = ts_bold_lg
     val bold_xl = ts_bold_xl
     val bold_xxl = ts_bold_xxl
+    val regular_sm = ts_regular_sm
     val regular_md = ts_regular_md
     val regular_lg = ts_regular_lg
     val regular_xl = ts_regular_xl
@@ -86,6 +96,7 @@ fun remindTypography(
     bold_lg: TextStyle = RemindTypographyTokens.bold_lg,
     bold_xl: TextStyle = RemindTypographyTokens.bold_xl,
     bold_xxl: TextStyle = RemindTypographyTokens.bold_xxl,
+    regular_sm: TextStyle = RemindTypographyTokens.regular_sm,
     regular_md: TextStyle = RemindTypographyTokens.regular_md,
     regular_lg: TextStyle = RemindTypographyTokens.regular_lg,
     regular_xl: TextStyle = RemindTypographyTokens.regular_xl,
@@ -95,6 +106,7 @@ fun remindTypography(
     bold_lg,
     bold_xl,
     bold_xxl,
+    regular_sm,
     regular_md,
     regular_lg,
     regular_xl

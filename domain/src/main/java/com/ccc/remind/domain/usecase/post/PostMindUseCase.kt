@@ -1,4 +1,4 @@
-package com.ccc.remind.domain.usecase
+package com.ccc.remind.domain.usecase.post
 
 import com.ccc.remind.domain.entity.mind.MindCard
 import com.ccc.remind.domain.entity.mind.MindCardSelectType

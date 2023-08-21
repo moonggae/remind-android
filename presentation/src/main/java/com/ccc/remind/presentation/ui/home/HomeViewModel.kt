@@ -2,7 +2,7 @@ package com.ccc.remind.presentation.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ccc.remind.domain.usecase.GetLastMindUseCase
+import com.ccc.remind.domain.usecase.post.GetLastMindUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -24,6 +24,8 @@ sealed class Route(val name: String, val parent: Route? = null) {
         object Complete: Route("MindPost.Complete", MindPost)
     }
 
+    object MemoEdit: Route("MemoEdit")
+
     val root: Route
         get() = parent?.root ?: this
 }

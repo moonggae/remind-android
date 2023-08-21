@@ -3,7 +3,6 @@ package com.ccc.remind.presentation.ui.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,10 +16,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
@@ -60,6 +63,7 @@ todo
 background color
 refresh token
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -79,7 +83,6 @@ fun HomeScreen(
                 horizontal = 20.dp,
                 vertical = 28.dp
             )
-            .background(color = RemindMaterialTheme.colorScheme.bg_default)
     ) {
         Row(
             Modifier.fillMaxWidth(),
@@ -108,7 +111,8 @@ fun HomeScreen(
                     onClick = {
                         // todo
                     },
-                    modifier = Modifier.size(40.dp))
+                    modifier = Modifier.size(40.dp)
+                )
                 {
                     Image(
                         painter = painterResource(id = R.drawable.ic_calendar),
@@ -120,7 +124,7 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(25.dp))
 
-        if(uiState.lastPostedMind == null) {
+        if (uiState.lastPostedMind == null) {
             EmptyPostMindCard(
                 userDisplayName = sharedUiState.user?.displayName ?: "유저",
                 onClickAddButton = { navController.navigate(Route.MindPost.CardList.name) }
@@ -161,7 +165,7 @@ fun HomeScreen(
             Text(
                 text = stringResource(id = R.string.home_label_mind_history),
                 style = RemindMaterialTheme.typography.bold_lg,
-                color = RemindMaterialTheme.colorScheme.fg_default
+                color = RemindMaterialTheme.colorScheme.fg_muted
             )
 
             ViewDetailTextButton {
@@ -171,7 +175,7 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        if(uiState.lastPostedMind == null) {
+        if (uiState.lastPostedMind == null) {
             EmptyPostMindLabelCard()
         } else {
             LazyRow(
@@ -179,7 +183,7 @@ fun HomeScreen(
             ) {
                 items(
                     count = uiState.lastPostedMind?.cards?.size ?: 0
-                ) {index ->
+                ) { index ->
                     RoundedTextIcon(
                         text = uiState.lastPostedMind?.cards?.get(index)?.card?.displayName ?: ""
                     )
@@ -190,18 +194,45 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(26.dp))
 
-        Text(
-            text = stringResource(id = R.string.home_label_mind_memo),
-            style = RemindMaterialTheme.typography.bold_lg,
-            color = RemindMaterialTheme.colorScheme.fg_default
-        )
-        Spacer(modifier = Modifier.height(8.dp))
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(id = R.string.home_label_mind_memo),
+                style = RemindMaterialTheme.typography.bold_lg,
+                color = RemindMaterialTheme.colorScheme.fg_muted
+            )
+
+            CompositionLocalProvider( // TextButton padding 제거
+                LocalMinimumInteractiveComponentEnforcement provides false
+            ) {
+                IconButton(
+                    onClick = { /*TODO*/
+                        navController.navigate(route = "${Route.MemoEdit.name}/${uiState.lastPostedMind?.id}/${uiState.lastPostedMind?.memo?.id ?: -1}")
+                    }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_arrow_light),
+                        contentDescription = stringResource(id = R.string.arrow_light),
+                        tint = Color(0xFF686868),
+                        modifier = Modifier.size(16.dp)
+                    )
+                }
+
+            }
+        }
+
 
         when {
             uiState.lastPostedMind == null -> EmptyMemoCard()
-            uiState.lastPostedMind?.memo == null -> Box{} // todo
+            uiState.lastPostedMind?.memo == null -> EmptyMemoCard(
+                onClickAddButton = {
+                    navController.navigate(route = "${Route.MemoEdit.name}/${uiState.lastPostedMind?.id}/${uiState.lastPostedMind?.memo?.id ?: -1}")
+                }
+            )
             else -> MindMemoCard(
-                text = uiState.lastPostedMind?.memo ?: "",
+                text = uiState.lastPostedMind?.memo?.text ?: "",
                 modifier = Modifier.fillMaxHeight()
             )
         }
@@ -231,8 +262,8 @@ fun MindMemoCard(
                     scope.launch {
                         val height = with(density) { it.height.toDp() }
                         val textHeight = with(density) { 16.sp.toDp() }
-                        val line = ((height - if(commentSize > 0) 21.dp else 0.dp) / textHeight).toInt()
-                        if(line > 0) memoMaxLine = line
+                        val line = ((height - if (commentSize > 0) 21.dp else 0.dp) / textHeight).toInt()
+                        if (line > 0) memoMaxLine = line
                     }
                 }
         ),
@@ -246,7 +277,7 @@ fun MindMemoCard(
             maxLines = memoMaxLine
         )
 
-        if(commentSize > 0) {
+        if (commentSize > 0) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End,
@@ -322,9 +353,39 @@ private fun EmptyPostMindLabelCard() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun EmptyMemoCard() {
-    BackgroundContainer(modifier = Modifier.padding(vertical = 32.dp)) {
+private fun EmptyMemoCard(
+    onClickAddButton: (() -> Unit)? = null
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .clip(RoundedCornerShape(size = 20.dp))
+            .background(RemindMaterialTheme.colorScheme.bg_muted)
+            .fillMaxWidth()
+            .fillMaxHeight()
+    ) {
         Text(text = stringResource(id = R.string.home_empty_mind_memo), style = RemindMaterialTheme.typography.regular_lg)
+
+        if (onClickAddButton != null) {
+            Spacer(modifier = Modifier.height(12.dp))
+
+            CompositionLocalProvider(
+                LocalMinimumInteractiveComponentEnforcement provides false
+            ) {
+                IconButton(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(color = RemindMaterialTheme.colorScheme.fg_subtle),
+                    onClick = onClickAddButton
+                ) {
+                    Image(painter = painterResource(id = R.drawable.ic_plus), contentDescription = null)
+                }
+            }
+
+        }
     }
 }
