@@ -20,6 +20,3 @@ interface MindMemoRepository {
 
     suspend fun deleteLike(id: Int)
 }
-/*
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU3YTNiM2ZhLWQwODctNGE2ZC1hYzg4LTFmZDEyODA0YzE1ZCIsImlhdCI6MTY5MjQzMDM3MCwiZXhwIjoxNjkyNTE2NzcwfQ._NjV0E0iLMKBW2scshy_wIixuvKAwkAKU3u2PIhKOZM
- */

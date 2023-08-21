@@ -1,8 +1,8 @@
 package com.ccc.remind.data.mapper
 
-import com.ccc.remind.data.source.remote.model.user.LoginResponse
+import com.ccc.remind.data.source.remote.model.user.TokenResponse
 import com.ccc.remind.domain.entity.user.JwtToken
 
-fun LoginResponse.toJwtToken() = JwtToken(
+fun TokenResponse.toJwtToken() = JwtToken(
     accessToken, refreshToken
 )

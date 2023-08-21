@@ -2,13 +2,10 @@ package com.ccc.remind.data.repository
 
 import com.ccc.remind.data.mapper.toData
 import com.ccc.remind.data.mapper.toDomain
-import com.ccc.remind.data.mapper.toJwtToken
 import com.ccc.remind.data.source.local.UserLocalDataSource
 import com.ccc.remind.data.source.local.model.UserEntity
-import com.ccc.remind.data.source.remote.LoginRemoteService
+import com.ccc.remind.data.source.remote.UserRemoteService
 import com.ccc.remind.data.source.remote.model.user.DisplayNameDto
-import com.ccc.remind.data.source.remote.model.user.LoginRequest
-import com.ccc.remind.domain.entity.user.JwtToken
 import com.ccc.remind.domain.entity.user.LogInType
 import com.ccc.remind.domain.entity.user.User
 import com.ccc.remind.domain.repository.UserRepository
@@ -17,18 +14,8 @@ import kotlinx.coroutines.flow.flow
 
 class UserRepositoryImpl(
     private val userLocalDataSource: UserLocalDataSource,
-    private val loginRemoteService: LoginRemoteService
+    private val userRemoteService: UserRemoteService
 ) : UserRepository {
-    override fun login(accessToken: String, logInType: LogInType): Flow<JwtToken> = flow {
-        when(logInType) {
-            LogInType.KAKAO ->
-                emit(loginRemoteService.loginKakao(LoginRequest(accessToken)).body()!!.toJwtToken())
-            else -> {
-                // todo: 다른 로그인 구현시 추가
-            }
-        }
-    }
-
     override fun getLoggedInUser(): Flow<User?> = flow {
         emit(userLocalDataSource.fetchLoggedInUser()?.toDomain())
     }
@@ -39,13 +26,13 @@ class UserRepositoryImpl(
     }
 
     override fun getUserDisplayName(): Flow<String?> = flow {
-        var remoteDisplayName: String? = loginRemoteService.fetchDisplayName().body()?.displayName
+        var remoteDisplayName: String? = userRemoteService.fetchDisplayName().body()?.displayName
         emit(remoteDisplayName)
         if(remoteDisplayName != null) updateLocalUser(displayName = remoteDisplayName)
     }
 
     override suspend fun updateUserDisplayName(displayName: String) {
-        loginRemoteService.updateDisplayName(DisplayNameDto(displayName))
+        userRemoteService.updateDisplayName(DisplayNameDto(displayName))
         updateLocalUser(displayName = displayName)
     }
 
@@ -61,11 +48,5 @@ class UserRepositoryImpl(
                     logInType = (logInType ?: entity.logInType) as String
             ))
         }
-    }
-
-    override suspend fun refreshJwtToken(refreshToken: String): JwtToken {
-        val refreshedToken = loginRemoteService.refreshJwtToken("Bearer $refreshToken").body()!!
-        updateLocalUser(accessToken = refreshedToken.accessToken, refreshToken = refreshedToken.refreshToken)
-        return refreshedToken.toJwtToken()
     }
 }
