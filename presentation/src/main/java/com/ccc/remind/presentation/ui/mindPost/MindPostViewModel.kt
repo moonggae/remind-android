@@ -7,11 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.domain.entity.mind.MindCard
 import com.ccc.remind.domain.entity.mind.MindPost
-import com.ccc.remind.domain.usecase.post.DeleteMindUseCase
 import com.ccc.remind.domain.usecase.GetMindCardsUseCase
 import com.ccc.remind.domain.usecase.PostImagesUseCase
-import com.ccc.remind.domain.usecase.post.PostMindUseCase
 import com.ccc.remind.domain.usecase.UpdateMindUseCase
+import com.ccc.remind.domain.usecase.post.DeleteMindUseCase
+import com.ccc.remind.domain.usecase.post.PostMindUseCase
 import com.ccc.remind.presentation.MyApplication
 import com.ccc.remind.presentation.ui.component.model.MindFilter
 import com.ccc.remind.presentation.util.toggle
@@ -49,15 +49,26 @@ class MindPostViewModel @Inject constructor(
 
 
     init {
+        initMindCards()
         initUiState()
     }
 
     fun initUiState() {
         viewModelScope.launch {
+            _uiState.update {
+                MindPostUiState(
+                    selectedMindFilters = listOf(MindFilter.ALL),
+                    mindCards = it.mindCards
+                )
+            }
+        }
+    }
+
+    private fun initMindCards() {
+        viewModelScope.launch {
             getMindCards().collect { mindCards ->
                 _uiState.update {
-                    MindPostUiState(
-                        selectedMindFilters = listOf(MindFilter.ALL),
+                    it.copy(
                         mindCards = mindCards
                     )
                 }

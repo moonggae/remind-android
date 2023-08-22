@@ -73,8 +73,8 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsState()
     val sharedUiState by sharedViewModel.uiState.collectAsState()
 
-    addOnPostMindResult(navController = navController) {
-        viewModel.refreshLastPostedMind()
+    addOnPostMindResult(navController = navController) { posted ->
+        if(posted) viewModel.refreshLastPostedMind()
     }
 
     Column(
@@ -305,7 +305,7 @@ fun MindMemoCard(
 @Composable
 private fun addOnPostMindResult(
     navController: NavController,
-    onResult: () -> Unit,
+    onResult: (Boolean) -> Unit,
 ) {
     val postMindResult = navController.previousBackStackEntry
         ?.savedStateHandle
@@ -313,9 +313,7 @@ private fun addOnPostMindResult(
         ?.collectAsState()
 
     postMindResult?.value?.let { posted ->
-        if(posted) {
-            onResult()
-        }
+        onResult(posted)
     }
 }
 
