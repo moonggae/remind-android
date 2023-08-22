@@ -312,8 +312,10 @@ private fun addOnPostMindResult(
         ?.getStateFlow<Boolean>(POST_MIND_RESULT_KEY, false)
         ?.collectAsState()
 
-    postMindResult?.value.let {
-        onResult()
+    postMindResult?.value?.let { posted ->
+        if(posted) {
+            onResult()
+        }
     }
 }
 
