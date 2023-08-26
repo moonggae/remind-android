@@ -17,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -60,6 +61,13 @@ fun MemoEditScreen(
     var openDeleteMemoAlertDialog by remember { mutableStateOf(false) }
     var commentInputBoxHeight by remember { mutableStateOf(0.dp) }
 
+    var isInitialized by remember { mutableStateOf(false) }
+    LaunchedEffect(isInitialized) {
+        if(!isInitialized) {
+            isInitialized = true
+            viewModel.fetchMemoData()
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize()

@@ -30,23 +30,35 @@ class MemoEditViewModel @Inject constructor(
     val uiStatus: StateFlow<MemoEditUiStatus>
         get() = _uiState
 
-    fun initMemo(postId: Int, memoId: Int?) {
+    fun setInitData(postId: Int, memoId: Int?) {
+        _uiState.update {
+            it.copy(
+                initData = MemoEditInitialData(postId, memoId)
+            )
+        }
+    }
+
+    fun fetchMemoData() {
         viewModelScope.launch {
-            if(memoId == null || memoId < 0) {
-                _uiState.update {
-                    MemoEditUiStatus(
-                        postId = postId
-                    )
-                }
-            }
-            else {
-                getMemo(memoId).collect { memo ->
+            if(_uiState.value.initData != null) {
+                val memoId = _uiState.value.initData!!.memoId
+                val postId = _uiState.value.initData!!.postId
+                if(memoId == null || memoId < 0) {
                     _uiState.update {
                         MemoEditUiStatus(
                             postId = postId,
-                            openedMemo = memo,
-                            memoText = memo?.text ?: ""
                         )
+                    }
+                }
+                else {
+                    getMemo(memoId).collect { memo ->
+                        _uiState.update {
+                            MemoEditUiStatus(
+                                postId = postId,
+                                openedMemo = memo,
+                                memoText = memo?.text ?: "",
+                            )
+                        }
                     }
                 }
             }

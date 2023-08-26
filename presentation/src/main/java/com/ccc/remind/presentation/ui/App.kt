@@ -73,7 +73,7 @@ private fun NavigationWrapper() {
                 )
             ) {
                 val memoEditViewModel: MemoEditViewModel = hiltViewModel()
-                memoEditViewModel.initMemo(
+                memoEditViewModel.setInitData(
                     postId = it.arguments!!.getInt("postId"),
                     memoId = it.arguments?.getInt("memoId")
                 )
