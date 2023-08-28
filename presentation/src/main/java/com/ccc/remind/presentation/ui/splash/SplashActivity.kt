@@ -36,13 +36,15 @@ class SplashActivity : AppCompatActivity() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.uiState.collect {
-                        when(it.loginState) {
-                            LoginState.EMPTY ->
-                                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
-                            LoginState.LOGGED_IN_NO_DISPLAY_NAME ->
-                                startActivity(Intent(this@SplashActivity, DisplayNameActivity::class.java))
-                            LoginState.LOGGED_IN ->
-                                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                        if(it.isInitialized) {
+                            when(it.loginState) {
+                                LoginState.EMPTY ->
+                                    startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                                LoginState.LOGGED_IN_NO_DISPLAY_NAME ->
+                                    startActivity(Intent(this@SplashActivity, DisplayNameActivity::class.java))
+                                LoginState.LOGGED_IN ->
+                                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                            }
                         }
                     }
                 }

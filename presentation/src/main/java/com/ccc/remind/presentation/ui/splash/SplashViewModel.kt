@@ -35,7 +35,8 @@ class SplashViewModel @Inject constructor(
                             user == null -> LoginState.EMPTY
                             user.displayName == null -> LoginState.LOGGED_IN_NO_DISPLAY_NAME
                             else -> LoginState.LOGGED_IN
-                        }
+                        },
+                        isInitialized = true
                     )
                 }
             }
