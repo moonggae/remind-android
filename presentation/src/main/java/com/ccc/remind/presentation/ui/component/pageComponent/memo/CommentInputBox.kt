@@ -1,4 +1,4 @@
-package com.ccc.remind.presentation.ui.component.memo
+package com.ccc.remind.presentation.ui.component.pageComponent.memo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

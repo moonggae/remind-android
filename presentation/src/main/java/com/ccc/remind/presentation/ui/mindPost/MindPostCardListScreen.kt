@@ -31,9 +31,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ccc.remind.R
-import com.ccc.remind.presentation.ui.component.mindPost.MindCardGrid
-import com.ccc.remind.presentation.ui.component.mindPost.MindCardListFilterBar
-import com.ccc.remind.presentation.ui.component.mindPost.StepBar
+import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindCardGrid
+import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindCardListFilterBar
+import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.StepBar
 import com.ccc.remind.presentation.ui.component.model.MindFilter
 import com.ccc.remind.presentation.ui.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme

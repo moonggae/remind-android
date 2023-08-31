@@ -1,4 +1,4 @@
-package com.ccc.remind.presentation.ui.component.mindPost
+package com.ccc.remind.presentation.ui.component.pageComponent.mindPost
 
 import android.net.Uri
 import androidx.compose.foundation.clickable

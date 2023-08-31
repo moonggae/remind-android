@@ -37,10 +37,10 @@ import com.ccc.remind.R
 import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
-import com.ccc.remind.presentation.ui.component.mindPost.ImageDialog
-import com.ccc.remind.presentation.ui.component.mindPost.ImageUploadBar
-import com.ccc.remind.presentation.ui.component.mindPost.MindMemoTextField
-import com.ccc.remind.presentation.ui.component.mindPost.StepBar
+import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageDialog
+import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageUploadBar
+import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindMemoTextField
+import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.StepBar
 import com.ccc.remind.presentation.ui.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.Constants.POST_MIND_RESULT_KEY

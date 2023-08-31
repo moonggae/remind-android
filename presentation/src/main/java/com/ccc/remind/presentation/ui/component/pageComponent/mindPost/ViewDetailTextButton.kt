@@ -1,4 +1,4 @@
-package com.ccc.remind.presentation.ui.component.mindPost
+package com.ccc.remind.presentation.ui.component.pageComponent.mindPost
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -52,7 +52,7 @@ fun ViewDetailTextButton(
 
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_light),
-                    contentDescription = stringResource(R.string.arrow_light),
+                    contentDescription = stringResource(R.string.arrow_light_icon),
                     tint = RemindMaterialTheme.colorScheme.accent_default,
                     modifier = Modifier.size(16.dp)
                 )

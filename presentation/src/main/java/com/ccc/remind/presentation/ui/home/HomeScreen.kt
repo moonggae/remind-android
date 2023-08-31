@@ -58,7 +58,7 @@ import com.ccc.remind.presentation.ui.component.button.PrimaryButton
 import com.ccc.remind.presentation.ui.component.container.BackgroundContainer
 import com.ccc.remind.presentation.ui.component.icon.CircleIndicator
 import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
-import com.ccc.remind.presentation.ui.component.mindPost.ViewDetailTextButton
+import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ViewDetailTextButton
 import com.ccc.remind.presentation.ui.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.Constants.POST_MIND_RESULT_KEY
@@ -246,7 +246,7 @@ fun OtherHomeContents(
                         }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_arrow_light),
-                            contentDescription = stringResource(id = R.string.arrow_light),
+                            contentDescription = stringResource(id = R.string.arrow_light_icon),
                             tint = Color(0xFF686868),
                             modifier = Modifier.size(16.dp)
                         )
@@ -342,7 +342,7 @@ fun MyHomeContents(
                         }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_arrow_light),
-                            contentDescription = stringResource(id = R.string.arrow_light),
+                            contentDescription = stringResource(id = R.string.arrow_light_icon),
                             tint = Color(0xFF686868),
                             modifier = Modifier.size(16.dp)
                         )

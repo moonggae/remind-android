@@ -43,6 +43,15 @@
     <string name="mind_memo_edit_appbar_title">감정메모</string>
     <string name="mind_memo_edit_alert_delete">메모를 삭제 할까요?</string>
 
+    <string name="user_appbar_title">MY</string>
+    <string name="user_display_name_suffix">%1$s 님</string>
+    <string name="user_profile_management_button">프로필 관리</string>
+    <string name="user_menu_button_setting">설정</string>
+    <string name="user_menu_button_qna">건의 및 문의하기</string>
+    <string name="user_menu_button_user_terms">이용약관</string>
+    <string name="user_menu_button_personal_information_terms">개인정보 처리방침</string>
+
+    <string name="empty_user_display_name">유저</string>
 
     <string name="tab_cards">감정카드</string>
     <string name="tab_home">홈</string>
@@ -56,15 +65,16 @@
     <string name="to_delete">삭제</string>
     <string name="to_cancel">취소</string>
     <string name="to_detail_view">자세히 보기</string>
+    <string name="to_logout">로그아웃</string>
 
     <string name="yyyy_mm_dd_e">yyyy년 MM월 dd일 E요일</string>
 
     <string name="exit">exit</string>
     <string name="step">STEP</string>
-    <string name="refresh_button">refresh_button</string>
+    <string name="refresh_button">refresh button</string>
     <string name="camera">camera</string>
     <string name="back">back</string>
-    <string name="arrow_light">arrow_light</string>
+    <string name="arrow_light_icon">arrow light icon</string>
     <string name="close_button">close button</string>
     <string name="share">share</string>
     <string name="menu">menu</string>
@@ -74,6 +84,5 @@
     <string name="heart_empty">heart empty</string>
     <string name="heart">heart</string>
     <string name="send_button">send button</string>
-
-
+    <string name="user_icon">user icon</string>
 </resources>

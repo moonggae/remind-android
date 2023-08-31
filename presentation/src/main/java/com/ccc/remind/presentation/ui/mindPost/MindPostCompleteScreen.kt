@@ -51,10 +51,10 @@ import com.ccc.remind.presentation.ui.component.button.TextFillButton
 import com.ccc.remind.presentation.ui.component.dialog.AlertDialog
 import com.ccc.remind.presentation.ui.component.dialog.ModalBottomSheet
 import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
-import com.ccc.remind.presentation.ui.component.mindPost.ImageDialog
-import com.ccc.remind.presentation.ui.component.mindPost.ImageListBar
-import com.ccc.remind.presentation.ui.component.mindPost.MindMemoTextField
-import com.ccc.remind.presentation.ui.component.mindPost.ViewDetailTextButton
+import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageDialog
+import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageListBar
+import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindMemoTextField
+import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ViewDetailTextButton
 import com.ccc.remind.presentation.ui.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.buildCoilRequest

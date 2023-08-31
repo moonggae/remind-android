@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 
@@ -16,6 +17,8 @@ import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 fun OutlinedTextButton(
     modifier: Modifier = Modifier,
     text: String,
+    contentPadding: PaddingValues = PaddingValues(vertical = 4.dp, horizontal = 12.dp),
+    textStyle: TextStyle = RemindMaterialTheme.typography.regular_lg,
     containerColor: Color = RemindMaterialTheme.colorScheme.bg_default,
     contentColor: Color = RemindMaterialTheme.colorScheme.accent_default,
     onClick: () -> Unit
@@ -24,21 +27,18 @@ fun OutlinedTextButton(
         onClick = onClick,
         border = BorderStroke(
             1.dp,
-            color = RemindMaterialTheme.colorScheme.accent_default
+            color = contentColor
         ),
         shape = RoundedCornerShape(20.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor
         ),
-        contentPadding = PaddingValues(
-            vertical = 4.dp,
-            horizontal = 12.dp
-        ),
+        contentPadding = contentPadding,
         modifier = modifier
     ) {
         Text(
             text = text,
-            style = RemindMaterialTheme.typography.regular_lg,
+            style = textStyle,
             color = contentColor
         )
     }

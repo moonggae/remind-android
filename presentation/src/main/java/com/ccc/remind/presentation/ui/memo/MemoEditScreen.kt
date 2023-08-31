@@ -36,9 +36,9 @@ import com.ccc.remind.R
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.dialog.AlertDialog
 import com.ccc.remind.presentation.ui.component.layout.AppBar
-import com.ccc.remind.presentation.ui.component.memo.CommentInputBox
-import com.ccc.remind.presentation.ui.component.memo.CommentList
-import com.ccc.remind.presentation.ui.component.mindPost.MindMemoTextField
+import com.ccc.remind.presentation.ui.component.pageComponent.memo.CommentInputBox
+import com.ccc.remind.presentation.ui.component.pageComponent.memo.CommentList
+import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindMemoTextField
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.toFormatString
 import kotlinx.coroutines.launch
