@@ -33,6 +33,7 @@ import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.pageComponent.user.MenuButton
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserProfileCard
+import com.ccc.remind.presentation.ui.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 
 @Composable
@@ -65,7 +66,7 @@ fun UserScreen(
                     .height(24.dp),
                 contentPadding = PaddingValues()
             ) {
-
+                navController.navigate(Route.Main.User.ProfileEdit.name)
             }
         }
 

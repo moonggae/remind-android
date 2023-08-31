@@ -51,6 +51,8 @@
     <string name="user_menu_button_user_terms">이용약관</string>
     <string name="user_menu_button_personal_information_terms">개인정보 처리방침</string>
 
+    <string name="user_profile_edit_appbar_title">프로필 관리</string>
+
     <string name="empty_user_display_name">유저</string>
 
     <string name="tab_cards">감정카드</string>
@@ -85,4 +87,6 @@
     <string name="heart">heart</string>
     <string name="send_button">send button</string>
     <string name="user_icon">user icon</string>
+    <string name="user_profile_edit_label_display_name">닉네임</string>
+
 </resources>

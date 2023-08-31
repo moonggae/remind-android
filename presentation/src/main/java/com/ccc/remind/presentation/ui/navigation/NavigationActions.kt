@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import com.ccc.remind.R
 
 data class TopLevelDestination(
-    val route: String,
+    val route: Route,
     val selectedIconId: Int,
     val unselectedIconId: Int,
     val iconTextId: Int
@@ -14,7 +14,7 @@ data class TopLevelDestination(
 class NavigationActions(private val navController: NavHostController) {
 
     fun navigateTo(destination: TopLevelDestination) {
-        navController.navigate(destination.route) {
+        navController.navigate(destination.route.name) {
             popUpTo(navController.graph.findStartDestination().id) {
                 saveState = true
             }
@@ -36,19 +36,19 @@ class NavigationActions(private val navController: NavHostController) {
 
 val TOP_LEVEL_DESTINATIONS = listOf(
     TopLevelDestination(
-        route = Route.Main.Cards.name,
+        route = Route.Main.Cards,
         selectedIconId = R.drawable.ic_stack_up_square,
         unselectedIconId = R.drawable.ic_stack_up_square,
         iconTextId = R.string.tab_cards
     ),
     TopLevelDestination(
-        route = Route.Main.Home.name,
+        route = Route.Main.Home,
         selectedIconId = R.drawable.ic_home,
         unselectedIconId = R.drawable.ic_home,
         iconTextId = R.string.tab_home
     ),
     TopLevelDestination(
-        route = Route.Main.User.name,
+        route = Route.Main.User,
         selectedIconId = R.drawable.ic_user,
         unselectedIconId = R.drawable.ic_user,
         iconTextId = R.string.tab_user

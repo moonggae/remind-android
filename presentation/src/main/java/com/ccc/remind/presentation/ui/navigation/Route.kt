@@ -10,13 +10,42 @@ import com.ccc.remind.presentation.ui.mindPost.MindPostCardListScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostCompleteScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostEditScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
+import com.ccc.remind.presentation.ui.user.UserProfileEditScreen
+import com.ccc.remind.presentation.ui.user.UserScreen
 import com.ccc.remind.presentation.util.Constants
 
 sealed class Route(val name: String, val parent: Route? = null) {
+
+    companion object {
+        private val allRoutes: List<Route> by lazy {
+            Route::class.nestedClasses
+                .mapNotNull { it.objectInstance as? Route }
+                .flatMap { route ->
+                    listOf(route) + collectSubRoutes(route)
+                }
+        }
+
+        private fun collectSubRoutes(route: Route): List<Route> {
+            return route::class.nestedClasses
+                .mapNotNull { it.objectInstance as? Route }
+                .flatMap { listOf(it) + collectSubRoutes(it) }
+        }
+
+        /* TODO
+        * 리플렉션 사용으로 런타임 오류가 발생할 가능성이 있음
+        * proguard 적용 후 정상작동 확인 필요
+        * */
+        fun fromName(name: String): Route? {
+            return allRoutes.find { it.name == name }
+        }
+    }
+
     object Main: Route("Main") {
         object Home: Route("Main.Home", Main)
         object Cards: Route("Main.Cards", Main)
-        object User: Route("Main.User", Main)
+        object User: Route("Main.User", Main) {
+            object ProfileEdit: Route("Main.User.ProfileEdit", User)
+        }
     }
     object MindPost: Route("MindPost") {
         object CardList: Route("MindPost.CardList", MindPost)
@@ -45,7 +74,10 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController) {
             HomeScreen(navController)
         }
         composable(Route.Main.User.name) {
-            EmptyComingSoon(name = Route.Main.User.name)
+            UserScreen(navController)
+        }
+        composable(Route.Main.User.ProfileEdit.name) {
+            UserProfileEditScreen(navController)
         }
     }
 }
