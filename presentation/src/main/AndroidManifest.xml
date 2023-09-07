@@ -19,7 +19,7 @@
         tools:targetApi="31">
         <activity
             android:name=".presentation.ui.main.MainActivity"
-            android:exported="false" />
+            android:exported="false"></activity>
         <activity
             android:name=".presentation.ui.onboard.displayName.DisplayNameActivity"
             android:exported="false"
@@ -35,6 +35,26 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <data android:scheme="https" />
+                <data android:host="egchoi.dev" />
+                <data android:pathPrefix="/app/android" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:host="egchoi.dev" />
+                <data android:pathPrefix="/app/android" />
             </intent-filter>
         </activity>
         <activity

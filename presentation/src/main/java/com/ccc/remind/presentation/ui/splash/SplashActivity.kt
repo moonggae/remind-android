@@ -1,7 +1,9 @@
 package com.ccc.remind.presentation.ui.splash
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -24,8 +26,20 @@ class SplashActivity : AppCompatActivity() {
         private const val TAG = "SplashActivity"
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent) {
+        val appLinkAction = intent.action
+        val appLinkData: Uri? = intent.data
+        Log.d(TAG, "SplashActivity - handleIntent - appLinkData: ${appLinkData}")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        handleIntent(intent)
 
         val content: View = findViewById(android.R.id.content)
         content.viewTreeObserver.addOnPreDrawListener {
