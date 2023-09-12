@@ -1,5 +1,6 @@
 package com.ccc.remind.data.source.local.model
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -9,5 +10,6 @@ data class UserEntity(
     val accessToken: String,
     val refreshToken: String,
     val displayName: String?,
-    val logInType: String
+    val logInType: String,
+    @Embedded val profileImage: ImageEntity?
 )

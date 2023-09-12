@@ -1,4 +1,4 @@
-package com.ccc.remind.domain.usecase
+package com.ccc.remind.domain.usecase.user
 
 import com.ccc.remind.domain.entity.user.User
 import com.ccc.remind.domain.repository.UserRepository

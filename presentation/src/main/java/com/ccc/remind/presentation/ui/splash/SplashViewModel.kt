@@ -2,7 +2,7 @@ package com.ccc.remind.presentation.ui.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ccc.remind.domain.usecase.GetLoggedInUserUserCase
+import com.ccc.remind.domain.usecase.user.GetLoggedInUserUserCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

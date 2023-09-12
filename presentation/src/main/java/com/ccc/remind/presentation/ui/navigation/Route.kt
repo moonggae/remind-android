@@ -1,16 +1,23 @@
 package com.ccc.remind.presentation.ui.navigation
 
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.navArgument
 import com.ccc.remind.presentation.ui.EmptyComingSoon
+import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.home.HomeScreen
+import com.ccc.remind.presentation.ui.memo.MemoEditScreen
+import com.ccc.remind.presentation.ui.memo.MemoEditViewModel
 import com.ccc.remind.presentation.ui.mindPost.MindPostCardListScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostCompleteScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostEditScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
 import com.ccc.remind.presentation.ui.user.UserProfileEditScreen
+import com.ccc.remind.presentation.ui.user.UserProfileViewModel
 import com.ccc.remind.presentation.ui.user.UserScreen
 import com.ccc.remind.presentation.util.Constants
 
@@ -59,7 +66,10 @@ sealed class Route(val name: String, val parent: Route? = null) {
         get() = parent?.root ?: this
 }
 
-fun NavGraphBuilder.mainNavGraph(navController: NavController) {
+fun NavGraphBuilder.mainNavGraph(
+    navController: NavController,
+    sharedViewModel: SharedViewModel
+) {
     val startDestination =
         if(Constants.START_TOP_SCREEN.root == Route.Main) Constants.START_TOP_SCREEN
         else Route.Main.Home
@@ -71,13 +81,25 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController) {
             EmptyComingSoon(name = Route.Main.Cards.name)
         }
         composable(Route.Main.Home.name) {
-            HomeScreen(navController)
+            HomeScreen(
+                navController = navController,
+                sharedViewModel = sharedViewModel
+            )
         }
         composable(Route.Main.User.name) {
-            UserScreen(navController)
+            UserScreen(
+                navController = navController,
+                sharedViewModel = sharedViewModel
+            )
         }
         composable(Route.Main.User.ProfileEdit.name) {
-            UserProfileEditScreen(navController)
+            val userProfileViewModel: UserProfileViewModel = hiltViewModel()
+            userProfileViewModel.initUserProfile()
+            UserProfileEditScreen(
+                navController =  navController,
+                viewModel =  userProfileViewModel,
+                sharedViewModel = sharedViewModel
+            )
         }
     }
 }
@@ -85,7 +107,8 @@ fun NavGraphBuilder.mainNavGraph(navController: NavController) {
 
 fun NavGraphBuilder.postMindNavGraph(
     navController: NavController,
-    viewModel: MindPostViewModel
+    viewModel: MindPostViewModel,
+    sharedViewModel: SharedViewModel
 ) {
     navController.addOnDestinationChangedListener { _, destination, _ ->
         if(destination.route == Route.Main.Home.name) {
@@ -109,14 +132,40 @@ fun NavGraphBuilder.postMindNavGraph(
         composable(Route.MindPost.Edit.name) {
             MindPostEditScreen(
                 navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                sharedViewModel = sharedViewModel
             )
         }
         composable(Route.MindPost.Complete.name) {
             MindPostCompleteScreen(
                 navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                sharedViewModel = sharedViewModel
             )
         }
+    }
+}
+
+fun NavGraphBuilder.memoEditNavGraph(
+    navController: NavController,
+    sharedViewModel: SharedViewModel
+) {
+    composable(
+        route = "${Route.MemoEdit.name}/{postId}/{memoId}",
+        arguments = listOf(
+            navArgument("postId") { type = NavType.IntType },
+            navArgument("memoId") { type = NavType.IntType }
+        )
+    ) {
+        val memoEditViewModel: MemoEditViewModel = hiltViewModel()
+        memoEditViewModel.setInitData(
+            postId = it.arguments!!.getInt("postId"),
+            memoId = it.arguments?.getInt("memoId")
+        )
+        MemoEditScreen(
+            navController = navController,
+            memoEditViewModel,
+            sharedViewModel = sharedViewModel
+        )
     }
 }

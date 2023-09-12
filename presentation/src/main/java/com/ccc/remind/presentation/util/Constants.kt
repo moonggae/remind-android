@@ -8,7 +8,8 @@ object Constants {
         if(BuildConfig.DEBUG) Route.Main.Home
         else Route.Main.Home
 
-    const val BASE_URL = "https://egchoi.dev"
+//    const val BASE_URL = "https://egchoi.dev"
+    const val BASE_URL = "http://10.0.2.2"
 
     const val POST_MIND_RESULT_KEY = "_POST_MIND_RESULT_KEY_"
 }

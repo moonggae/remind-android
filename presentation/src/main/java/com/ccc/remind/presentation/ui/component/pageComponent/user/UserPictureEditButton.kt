@@ -11,17 +11,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.ccc.remind.R
+import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
+import com.ccc.remind.presentation.util.buildCoilRequest
 
 @Composable
 fun UserPictureEditButton(
     modifier: Modifier = Modifier,
-    painter: Painter? = null,
+    profileImage: ImageFile? = null,
     onClick: () -> Unit
 ) {
     Box(modifier) {
@@ -30,16 +34,29 @@ fun UserPictureEditButton(
             shape = CircleShape,
             modifier = Modifier.size(100.dp)
         ) {
-            Icon(
-                painter = painter ?: painterResource(id = R.drawable.ic_user),
-                contentDescription = stringResource(id = R.string.user_icon),
-                tint = RemindMaterialTheme.colorScheme.bg_muted,
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(CircleShape)
-                    .background(RemindMaterialTheme.colorScheme.fg_subtle)
-                    .padding(16.dp)
-            )
+            if(profileImage == null) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_user),
+                    contentDescription = stringResource(id = R.string.user_icon),
+                    tint = RemindMaterialTheme.colorScheme.bg_muted,
+                    modifier = Modifier
+                        .size(100.dp)
+                        .clip(CircleShape)
+                        .background(RemindMaterialTheme.colorScheme.fg_subtle)
+                        .padding(16.dp)
+                )
+            }
+            else {
+                AsyncImage(
+                    model = buildCoilRequest(
+                        LocalContext.current,
+                        profileImage.url
+                    ),
+                    contentDescription = "user profile image",
+                    contentScale = ContentScale.Crop
+                )
+            }
+
         }
 
         Icon(

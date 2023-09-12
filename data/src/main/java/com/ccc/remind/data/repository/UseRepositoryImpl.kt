@@ -1,13 +1,18 @@
 package com.ccc.remind.data.repository
 
+import android.util.Log
 import com.ccc.remind.data.mapper.toData
 import com.ccc.remind.data.mapper.toDomain
+import com.ccc.remind.data.mapper.toEntity
 import com.ccc.remind.data.source.local.UserLocalDataSource
 import com.ccc.remind.data.source.local.model.UserEntity
 import com.ccc.remind.data.source.remote.UserRemoteService
 import com.ccc.remind.data.source.remote.model.user.DisplayNameDto
+import com.ccc.remind.data.source.remote.model.user.UserProfileUpdateDto
+import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.domain.entity.user.LogInType
 import com.ccc.remind.domain.entity.user.User
+import com.ccc.remind.domain.entity.user.UserProfile
 import com.ccc.remind.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,8 +21,14 @@ class UserRepositoryImpl(
     private val userLocalDataSource: UserLocalDataSource,
     private val userRemoteService: UserRemoteService
 ) : UserRepository {
+    companion object {
+        private const val TAG = "UseRepositoryImpl"
+    }
+    
     override fun getLoggedInUser(): Flow<User?> = flow {
-        emit(userLocalDataSource.fetchLoggedInUser()?.toDomain())
+        val user = userLocalDataSource.fetchLoggedInUser()?.toDomain()
+        Log.d(TAG, "UserRepositoryImpl - getLoggedInUser - user: ${user}")
+        emit(user)
     }
 
     override suspend fun replaceLoggedInUser(user: User) {
@@ -25,10 +36,9 @@ class UserRepositoryImpl(
         userLocalDataSource.postLoggedInUser(user.toData())
     }
 
-    override fun getUserDisplayName(): Flow<String?> = flow {
-        var remoteDisplayName: String? = userRemoteService.fetchDisplayName().body()?.displayName
-        emit(remoteDisplayName)
-        if(remoteDisplayName != null) updateLocalUser(displayName = remoteDisplayName)
+    override fun getUserProfile(): Flow<UserProfile> = flow {
+        val profile: UserProfile = userRemoteService.fetchUserProfile().body()!!.toDomain()
+        emit(profile)
     }
 
     override suspend fun updateUserDisplayName(displayName: String) {
@@ -36,7 +46,19 @@ class UserRepositoryImpl(
         updateLocalUser(displayName = displayName)
     }
 
-    override suspend fun updateLocalUser(accessToken: String?, refreshToken: String?, displayName: String?, logInType: LogInType?) {
+    override suspend fun updateUserProfile(profile: UserProfile) {
+        userRemoteService.updateProfile(UserProfileUpdateDto(
+            displayName = profile.displayName,
+            profileImageId = profile.profileImage?.id?.toString()
+        ))
+        updateLocalUser(
+            displayName = profile.displayName,
+            profileImage = profile.profileImage
+        )
+        Log.d(TAG, "UserRepositoryImpl - updateUserProfile - profile: ${profile}")
+    }
+
+    override suspend fun updateLocalUser(accessToken: String?, refreshToken: String?, displayName: String?, logInType: LogInType?, profileImage: ImageFile?) {
         val entity = userLocalDataSource.fetchLoggedInUser()
         if(entity != null) {
             userLocalDataSource.deleteLoggedInUser()
@@ -45,7 +67,8 @@ class UserRepositoryImpl(
                     accessToken = accessToken ?: entity.accessToken,
                     refreshToken = refreshToken ?: entity.refreshToken,
                     displayName = displayName ?: entity.displayName,
-                    logInType = (logInType ?: entity.logInType) as String
+                    logInType = (logInType ?: entity.logInType) as String,
+                    profileImage = profileImage?.toEntity() ?: entity.profileImage
             ))
         }
     }

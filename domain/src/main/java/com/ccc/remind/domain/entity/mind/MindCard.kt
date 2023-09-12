@@ -11,6 +11,6 @@ data class MindCard(
     val imageUrl: String?
         get() =
             if(imageFile?.id != null)
-                "http://10.0.2.2:3000/image/${imageFile.id}"
+                imageFile.url
             else null
 }

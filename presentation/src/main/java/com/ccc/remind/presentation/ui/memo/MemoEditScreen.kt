@@ -51,9 +51,9 @@ TODO: delete comment, synchronize using web socket
 @Composable
 fun MemoEditScreen(
     navController: NavController,
-    viewModel: MemoEditViewModel = hiltViewModel()
+    viewModel: MemoEditViewModel = hiltViewModel(),
+    sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
-    val sharedViewModel: SharedViewModel = hiltViewModel()
     val uiState by viewModel.uiStatus.collectAsState()
     val scope = rememberCoroutineScope()
     val density = LocalDensity.current

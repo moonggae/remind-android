@@ -1,14 +1,15 @@
 package com.ccc.remind.presentation.ui.user
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,13 +25,22 @@ import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserDisplayNameTextField
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserPictureEditButton
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun UserProfileEditScreen(
     navController: NavController = rememberNavController(),
+    viewModel: UserProfileViewModel = hiltViewModel(),
     sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
-    val sharedUiState by sharedViewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
+    val scope = rememberCoroutineScope()
+
+    val pickMediaLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickVisualMedia(),
+            onResult = viewModel::updateProfileImage
+        )
 
     BasicScreen(
         appBar = {
@@ -44,9 +54,10 @@ fun UserProfileEditScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         UserPictureEditButton(
+            profileImage = uiState.profileImage,
             modifier = Modifier.align(CenterHorizontally)
         ) {
-
+            pickMediaLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -59,17 +70,22 @@ fun UserProfileEditScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        var displayName by remember { mutableStateOf("") }
-
         UserDisplayNameTextField(
-            value = displayName,
-            onValueChange = { displayName = it }
+            value = uiState.displayName,
+            onValueChange = viewModel::updateDisplayName
         )
 
         Spacer(modifier = Modifier.weight(1f))
 
-        PrimaryButton(text = stringResource(id = R.string.to_save)) {
-            
+        PrimaryButton(
+            text = stringResource(id = R.string.to_save),
+            enabled = uiState.isAnyEdited
+        ) {
+            scope.launch {
+                viewModel.submitUpdateUserProfile()
+                sharedViewModel.refreshUser()
+                navController.popBackStack()
+            }
         }
 
         Spacer(modifier = Modifier.height(49.dp))

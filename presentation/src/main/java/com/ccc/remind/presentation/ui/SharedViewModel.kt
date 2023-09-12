@@ -1,9 +1,9 @@
 package com.ccc.remind.presentation.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ccc.remind.domain.entity.user.User
-import com.ccc.remind.domain.usecase.GetLoggedInUserUserCase
+import com.ccc.remind.domain.usecase.user.GetLoggedInUserUserCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,22 +20,19 @@ class SharedViewModel @Inject constructor(
 
 
     init {
-        initUser()
+        refreshUser()
     }
 
-    private fun initUser() {
+    fun refreshUser() {
         viewModelScope.launch {
-            getLoggedInUser().collect {
-                it?.let {
-                    updateUser(it)
+            getLoggedInUser().collect { newUser ->
+                Log.d("TAG", "SharedViewModel - refreshUser - newUser: ${newUser}")
+                newUser?.let { _->
+                    _uiState.update { uiState ->
+                        uiState.copy(user = newUser)
+                    }
                 }
             }
-        }
-    }
-
-    fun updateUser(user: User) {
-        _uiState.update {
-            it.copy(user = user)
         }
     }
 }

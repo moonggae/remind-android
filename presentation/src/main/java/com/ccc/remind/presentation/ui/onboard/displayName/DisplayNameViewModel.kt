@@ -3,7 +3,7 @@ package com.ccc.remind.presentation.ui.onboard.displayName
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ccc.remind.domain.usecase.UpdateUserDisplayNameUseCase
+import com.ccc.remind.domain.usecase.user.UpdateUserDisplayNameUseCase
 import com.ccc.remind.presentation.util.ValidationUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

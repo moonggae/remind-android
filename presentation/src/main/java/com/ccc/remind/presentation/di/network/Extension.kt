@@ -29,3 +29,8 @@ fun Response.isTokenExpired(): Boolean {
     }
     return false
 }
+
+fun Request.isLoginRequest(): Boolean {
+    val paths = this.url.pathSegments
+    return paths[0] == "auth" && paths[0] == "login"
+}

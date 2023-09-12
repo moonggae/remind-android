@@ -1,5 +1,6 @@
 package com.ccc.remind.domain.entity.user
 
+import com.ccc.remind.domain.entity.mind.ImageFile
 import org.json.JSONObject
 import java.util.Base64
 import java.util.UUID
@@ -8,7 +9,8 @@ data class User(
     val accessToken: String,
     val refreshToken: String,
     val displayName: String?,
-    val logInType: LogInType
+    val logInType: LogInType,
+    val profileImage: ImageFile?
 ) {
     val uuid: UUID
         get() {

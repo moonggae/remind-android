@@ -7,5 +7,5 @@ data class ImageFile(
     val fileName: String
 ) {
     val url: String
-        get() = "http://10.0.2.2:3000/image/$id"
+        get() = "http://10.0.2.2/image/$id"
 }

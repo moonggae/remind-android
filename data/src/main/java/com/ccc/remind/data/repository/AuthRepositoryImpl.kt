@@ -2,6 +2,7 @@ package com.ccc.remind.data.repository
 
 import com.ccc.remind.data.mapper.toJwtToken
 import com.ccc.remind.data.source.local.UserLocalDataSource
+import com.ccc.remind.data.source.local.model.UserEntity
 import com.ccc.remind.data.source.remote.AuthRemoteService
 import com.ccc.remind.data.source.remote.model.user.LoginRequest
 import com.ccc.remind.domain.entity.user.JwtToken
@@ -16,8 +17,19 @@ class AuthRepositoryImpl(
 ) : AuthRepository {
     override fun login(accessToken: String, logInType: LogInType): Flow<JwtToken> = flow {
         when(logInType) {
-            LogInType.KAKAO ->
-                emit(authRemoteService.loginKakao(LoginRequest(accessToken)).body()!!.toJwtToken())
+            LogInType.KAKAO -> {
+                val response = authRemoteService.loginKakao(LoginRequest(accessToken)).body()!!.toJwtToken()
+                userLocalDataSource.updateLoggedInUser(
+                    UserEntity(
+                        accessToken = response.accessToken,
+                        refreshToken = response.refreshToken,
+                        logInType = logInType.name,
+                        displayName = null,
+                        profileImage = null
+                    )
+                )
+                emit(response)
+            }
             else -> {
                 // todo: 다른 로그인 구현시 추가
             }

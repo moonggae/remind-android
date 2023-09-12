@@ -1,4 +1,4 @@
-package com.ccc.remind.domain.usecase
+package com.ccc.remind.domain.usecase.user
 
 import com.ccc.remind.domain.entity.user.LogInType
 import com.ccc.remind.domain.entity.user.User
@@ -16,11 +16,14 @@ class LoginUseCase @Inject constructor(
         lateinit var user : User
 
         authRepository.login(accessToken, logInType).collect { jwtToken ->
-            user = User(accessToken = jwtToken.accessToken, refreshToken = jwtToken.refreshToken, displayName = null, logInType = logInType)
+            user = User(accessToken = jwtToken.accessToken, refreshToken = jwtToken.refreshToken, displayName = null, logInType = logInType, profileImage = null)
         }
 
-        userRepository.getUserDisplayName().collect { displayName ->
-            user = user.copy(displayName = displayName)
+        userRepository.getUserProfile().collect { profile ->
+            user = user.copy(
+                displayName = profile.displayName,
+                profileImage = profile.profileImage
+            )
         }
 
         userRepository.replaceLoggedInUser(user)

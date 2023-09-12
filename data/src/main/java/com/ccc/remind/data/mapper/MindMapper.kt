@@ -1,5 +1,6 @@
 package com.ccc.remind.data.mapper
 
+import com.ccc.remind.data.source.local.model.ImageEntity
 import com.ccc.remind.data.source.remote.model.mind.dto.MindPostResponseDto
 import com.ccc.remind.data.source.remote.model.mind.vo.ImageFileVO
 import com.ccc.remind.data.source.remote.model.mind.vo.MindCardTagVO
@@ -53,6 +54,21 @@ fun MindTagVO.toDomain() = MindTag(
 )
 
 fun ImageFileVO.toDomain() = ImageFile(
+    id,
+    fileName
+)
+
+fun ImageFile.toEntity() = ImageEntity(
+    id,
+    fileName
+)
+
+fun ImageFile.toData() = ImageFileVO(
+    id,
+    fileName
+)
+
+fun ImageEntity.toDomain() = ImageFile(
     id,
     fileName
 )

@@ -7,7 +7,7 @@ import com.ccc.remind.data.source.local.model.UserEntity
 
 @Database(
     entities = [UserEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {

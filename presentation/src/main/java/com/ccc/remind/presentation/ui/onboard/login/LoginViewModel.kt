@@ -4,8 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ccc.remind.domain.entity.user.LogInType
-import com.ccc.remind.domain.usecase.GetUserDisplayNameUseCase
-import com.ccc.remind.domain.usecase.LoginUseCase
+import com.ccc.remind.domain.usecase.user.LoginUseCase
 import com.ccc.remind.presentation.MyApplication
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
@@ -19,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase, private val getUserDisplayNameUseCase: GetUserDisplayNameUseCase) : ViewModel() {
+class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
 
     private val context = MyApplication.applicationContext()
 
