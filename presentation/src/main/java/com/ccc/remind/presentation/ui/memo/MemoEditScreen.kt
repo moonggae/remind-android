@@ -27,9 +27,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -58,11 +56,9 @@ fun MemoEditScreen(
 ) {
     val uiState by viewModel.uiStatus.collectAsState()
     val scope = rememberCoroutineScope()
-    val density = LocalDensity.current
     val context = LocalContext.current
 
     var openDeleteMemoAlertDialog by remember { mutableStateOf(false) }
-    var commentInputBoxHeight by remember { mutableStateOf(0.dp) }
 
     var isInitialized by remember { mutableStateOf(false) }
     LaunchedEffect(isInitialized) {
@@ -199,7 +195,6 @@ fun MemoEditScreen(
                 color = RemindMaterialTheme.colorScheme.bg_subtle,
                 modifier = Modifier.padding(
                     top = 32.dp,
-                    bottom = 8.dp
                 )
             )
         }
@@ -215,28 +210,15 @@ fun MemoEditScreen(
                     viewModel.submitDeleteLike(clickedComment.likes.first().id)
                 }
             },
-            modifier = Modifier.padding(bottom = commentInputBoxHeight),
+            modifier = Modifier.weight(1f)
         )
-    }
 
-    if(uiState.editType == MemoEditType.UPDATE) {
-        Column(
-            verticalArrangement = Arrangement.Bottom,
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            CommentInputBox(
-                text = uiState.commentText,
-                onChangedText = viewModel::updateCommentText,
-                onClickSendButton = viewModel::submitPostComment,
-                modifier = Modifier.onSizeChanged {
-                    scope.launch {
-                        commentInputBoxHeight = with(density) {
-                            it.height.toDp()
-                        }
-                    }
-                }
-            )
-        }
+
+        CommentInputBox(
+            text = uiState.commentText,
+            onChangedText = viewModel::updateCommentText,
+            onClickSendButton = viewModel::submitPostComment
+        )
     }
 
 
