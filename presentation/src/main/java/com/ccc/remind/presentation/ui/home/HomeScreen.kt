@@ -84,9 +84,11 @@ fun HomeScreen(
         initialPage = 0
     )
 
-    addOnPostMindResult(navController = navController) { posted ->
-        if(posted) viewModel.refreshLastPostedMind()
-    }
+    viewModel.refreshLastPostedMind()
+
+//    addOnPostMindResult(navController = navController) { posted ->
+//        if(posted) viewModel.refreshLastPostedMind()
+//    }
 
     val titleText: String =
         if(pagerState.currentPage == 0)
