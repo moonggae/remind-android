@@ -88,5 +88,6 @@
     <string name="send_button">send button</string>
     <string name="user_icon">user icon</string>
     <string name="user_profile_edit_label_display_name">닉네임</string>
+    <string name="user_profile_image">user profile image</string>
 
 </resources>

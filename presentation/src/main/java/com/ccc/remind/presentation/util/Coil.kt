@@ -7,6 +7,7 @@ import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import coil.request.CachePolicy
 import coil.request.ImageRequest
+import coil.transform.Transformation
 import okhttp3.OkHttpClient
 
 fun initCoil(context: Context, okHttpClient: OkHttpClient) {
@@ -32,11 +33,12 @@ fun initCoil(context: Context, okHttpClient: OkHttpClient) {
     )
 }
 
-fun buildCoilRequest(context: Context, url: String) =
+fun buildCoilRequest(context: Context, url: String, transformations: List<Transformation> = emptyList()) =
     ImageRequest.Builder(context)
         .data(url)
         .crossfade(true)
         .diskCachePolicy(CachePolicy.ENABLED)
         .memoryCachePolicy(CachePolicy.ENABLED)
         .networkCachePolicy(CachePolicy.ENABLED)
+        .transformations(transformations)
         .build()

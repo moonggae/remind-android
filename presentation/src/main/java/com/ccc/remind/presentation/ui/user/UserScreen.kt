@@ -53,6 +53,7 @@ fun UserScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             UserProfileCard(
+                profileImageUrl = sharedUiState.user?.profileImage?.url,
                 displayName = sharedUiState.user?.displayName ?: stringResource(R.string.empty_user_display_name)
             )
 
