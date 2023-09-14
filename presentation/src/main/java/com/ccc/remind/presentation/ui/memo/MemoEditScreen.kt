@@ -1,5 +1,6 @@
 package com.ccc.remind.presentation.ui.memo
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -27,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -57,6 +59,7 @@ fun MemoEditScreen(
     val uiState by viewModel.uiStatus.collectAsState()
     val scope = rememberCoroutineScope()
     val density = LocalDensity.current
+    val context = LocalContext.current
 
     var openDeleteMemoAlertDialog by remember { mutableStateOf(false) }
     var commentInputBoxHeight by remember { mutableStateOf(0.dp) }
@@ -121,7 +124,12 @@ fun MemoEditScreen(
             ) {
                 if (uiState.editType == MemoEditType.UPDATE) {
                     Button(
-                        onClick = viewModel::submitUpdateMemo,
+                        onClick = {
+                                  scope.launch {
+                                      viewModel.submitUpdateMemo()
+                                      Toast.makeText(context, "메모를 수정 했어요.", Toast.LENGTH_SHORT).show()
+                                  }
+                        },
                         shape = RoundedCornerShape(8.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = RemindMaterialTheme.colorScheme.accent_bg
