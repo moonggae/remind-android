@@ -11,5 +11,6 @@ data class UserEntity(
     val refreshToken: String,
     val displayName: String?,
     val logInType: String,
-    @Embedded val profileImage: ImageEntity?
+    @Embedded val profileImage: ImageEntity?,
+    val inviteCode: String
 )

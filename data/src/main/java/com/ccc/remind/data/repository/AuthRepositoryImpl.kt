@@ -2,7 +2,6 @@ package com.ccc.remind.data.repository
 
 import com.ccc.remind.data.mapper.toJwtToken
 import com.ccc.remind.data.source.local.UserLocalDataSource
-import com.ccc.remind.data.source.local.model.UserEntity
 import com.ccc.remind.data.source.remote.AuthRemoteService
 import com.ccc.remind.data.source.remote.model.user.LoginRequest
 import com.ccc.remind.domain.entity.user.JwtToken
@@ -19,15 +18,6 @@ class AuthRepositoryImpl(
         when(logInType) {
             LogInType.KAKAO -> {
                 val response = authRemoteService.loginKakao(LoginRequest(accessToken)).body()!!.toJwtToken()
-                userLocalDataSource.updateLoggedInUser(
-                    UserEntity(
-                        accessToken = response.accessToken,
-                        refreshToken = response.refreshToken,
-                        logInType = logInType.name,
-                        displayName = null,
-                        profileImage = null
-                    )
-                )
                 emit(response)
             }
             else -> {

@@ -12,17 +12,27 @@ class LoginUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository
 ) {
-    suspend operator fun invoke(accessToken: String, logInType: LogInType) : Flow<User> = flow {
-        lateinit var user : User
+    suspend operator fun invoke(accessToken: String, logInType: LogInType): Flow<User> = flow {
+        lateinit var user: User
 
         authRepository.login(accessToken, logInType).collect { jwtToken ->
-            user = User(accessToken = jwtToken.accessToken, refreshToken = jwtToken.refreshToken, displayName = null, logInType = logInType, profileImage = null)
+            user = User(
+                accessToken = jwtToken.accessToken,
+                refreshToken = jwtToken.refreshToken,
+                displayName = null,
+                logInType = logInType,
+                profileImage = null,
+                inviteCode = ""
+            )
         }
+
+        userRepository.replaceLoggedInUser(user)
 
         userRepository.getUserProfile().collect { profile ->
             user = user.copy(
                 displayName = profile.displayName,
-                profileImage = profile.profileImage
+                profileImage = profile.profileImage,
+                inviteCode = profile.inviteCode
             )
         }
 

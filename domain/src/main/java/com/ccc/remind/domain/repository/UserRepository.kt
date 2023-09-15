@@ -16,13 +16,14 @@ interface UserRepository {
 
     suspend fun updateUserDisplayName(displayName: String)
 
-    suspend fun updateUserProfile(profile: UserProfile)
+    suspend fun updateUserProfile(displayName: String?, profileImage: ImageFile?)
 
     suspend fun updateLocalUser(
         accessToken: String? = null,
         refreshToken: String? = null,
         displayName: String? = null,
         logInType: LogInType? = null,
-        profileImage: ImageFile? = null
+        profileImage: ImageFile? = null,
+        inviteCode: String? = null
     )
 }

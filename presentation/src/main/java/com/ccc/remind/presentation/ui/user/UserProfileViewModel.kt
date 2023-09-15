@@ -3,7 +3,6 @@ package com.ccc.remind.presentation.ui.user
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ccc.remind.domain.entity.user.UserProfile
 import com.ccc.remind.domain.usecase.PostImagesUseCase
 import com.ccc.remind.domain.usecase.user.GetUserProfileUseCase
 import com.ccc.remind.domain.usecase.user.UpdateUserProfileUseCase
@@ -68,10 +67,8 @@ class UserProfileViewModel @Inject constructor(
         viewModelScope.launch {
             runBlocking {
                 updateUserProfile(
-                    UserProfile(
-                        displayName = _uiState.value.displayName,
-                        profileImage = _uiState.value.profileImage
-                    )
+                    displayName = _uiState.value.displayName,
+                    profileImage = _uiState.value.profileImage
                 )
             }
         }

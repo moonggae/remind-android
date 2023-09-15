@@ -10,7 +10,8 @@ data class User(
     val refreshToken: String,
     val displayName: String?,
     val logInType: LogInType,
-    val profileImage: ImageFile?
+    val profileImage: ImageFile?,
+    val inviteCode: String
 ) {
     val uuid: UUID
         get() {

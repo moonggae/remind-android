@@ -46,19 +46,25 @@ class UserRepositoryImpl(
         updateLocalUser(displayName = displayName)
     }
 
-    override suspend fun updateUserProfile(profile: UserProfile) {
+    override suspend fun updateUserProfile(displayName: String?, profileImage: ImageFile?) {
         userRemoteService.updateProfile(UserProfileUpdateDto(
-            displayName = profile.displayName,
-            profileImageId = profile.profileImage?.id?.toString()
+            displayName = displayName,
+            profileImageId = profileImage?.id?.toString()
         ))
         updateLocalUser(
-            displayName = profile.displayName,
-            profileImage = profile.profileImage
+            displayName = displayName,
+            profileImage = profileImage
         )
-        Log.d(TAG, "UserRepositoryImpl - updateUserProfile - profile: ${profile}")
     }
 
-    override suspend fun updateLocalUser(accessToken: String?, refreshToken: String?, displayName: String?, logInType: LogInType?, profileImage: ImageFile?) {
+    override suspend fun updateLocalUser(
+        accessToken: String?,
+        refreshToken: String?,
+        displayName: String?,
+        logInType: LogInType?,
+        profileImage: ImageFile?,
+        inviteCode: String?
+    ) {
         val entity = userLocalDataSource.fetchLoggedInUser()
         if(entity != null) {
             userLocalDataSource.deleteLoggedInUser()
@@ -68,7 +74,8 @@ class UserRepositoryImpl(
                     refreshToken = refreshToken ?: entity.refreshToken,
                     displayName = displayName ?: entity.displayName,
                     logInType = (logInType ?: entity.logInType) as String,
-                    profileImage = profileImage?.toEntity() ?: entity.profileImage
+                    profileImage = profileImage?.toEntity() ?: entity.profileImage,
+                    inviteCode = inviteCode ?: entity.inviteCode
             ))
         }
     }

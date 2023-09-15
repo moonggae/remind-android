@@ -12,7 +12,8 @@ fun User.toData() = UserEntity(
     refreshToken,
     displayName,
     logInType.name,
-    profileImage?.toEntity()
+    profileImage?.toEntity(),
+    inviteCode
 )
 
 fun UserEntity.toDomain() = User(
@@ -20,15 +21,18 @@ fun UserEntity.toDomain() = User(
     refreshToken,
     displayName,
     LogInType.valueOf(logInType),
-    profileImage?.toDomain()
+    profileImage?.toDomain(),
+    inviteCode
 )
 
 fun UserProfileResponseDto.toDomain() = UserProfile(
     displayName = displayName,
-    profileImage = profileImage?.toDomain()
+    profileImage = profileImage?.toDomain(),
+    inviteCode
 )
 
 fun UserProfile.toData() = UserProfileResponseDto(
     displayName = displayName,
-    profileImage = profileImage?.toData()
+    profileImage = profileImage?.toData(),
+    inviteCode
 )

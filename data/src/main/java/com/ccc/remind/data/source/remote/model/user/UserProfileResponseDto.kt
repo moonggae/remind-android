@@ -4,5 +4,6 @@ import com.ccc.remind.data.source.remote.model.mind.vo.ImageFileVO
 
 data class UserProfileResponseDto(
     val displayName: String?,
-    val profileImage: ImageFileVO?
+    val profileImage: ImageFileVO?,
+    val inviteCode: String
 )
