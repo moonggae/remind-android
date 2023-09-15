@@ -22,7 +22,7 @@ import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.button.PrimaryButton
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
-import com.ccc.remind.presentation.ui.component.pageComponent.user.UserDisplayNameTextField
+import com.ccc.remind.presentation.ui.component.layout.BackgroundedTextField
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserPictureEditButton
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import kotlinx.coroutines.launch
@@ -70,7 +70,7 @@ fun UserProfileEditScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        UserDisplayNameTextField(
+        BackgroundedTextField(
             value = uiState.displayName,
             onValueChange = viewModel::updateDisplayName
         )
