@@ -11,17 +11,22 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ccc.remind.R
+import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.button.TextButton
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
@@ -39,28 +44,30 @@ fun InviteScreenPreview() {
 
 @Composable
 fun InviteScreen(
-    navController: NavController = rememberNavController()
+    navController: NavController = rememberNavController(),
+    sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
+    val uiState by sharedViewModel.uiState.collectAsState()
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
     BasicScreen(
         appBar = {
             AppBar(
-                title = "초대하기",
+                title = stringResource(R.string.invite_appbar_title),
                 navController = navController
             )
         },
         verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically)
     ) {
         Text(
-            text = "초대코드",
+            text = stringResource(R.string.invite_label_invite_code),
             style = RemindMaterialTheme.typography.bold_lg,
             color = RemindMaterialTheme.colorScheme.fg_default,
         )
 
         BackgroundedTextField(
-            value = "123456",
+            value = "${uiState.user?.inviteCode}",
             onValueChange = {},
             readOnly = true,
             contentAlignment = Alignment.Center,
@@ -73,13 +80,13 @@ fun InviteScreen(
                 IconButton(
                     onClick = {
                         scope.launch {
-                            ClipboardUtil(context).copyText("invite code", "123456")
+                            ClipboardUtil(context).copyText("invite code", "${uiState.user?.inviteCode}")
                         }
                 }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_copy),
                         tint = RemindMaterialTheme.colorScheme.fg_muted,
-                        contentDescription = ""
+                        contentDescription = stringResource(R.string.copy_icon)
                     )
                 }
             }
@@ -89,16 +96,16 @@ fun InviteScreen(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             TextButton(
-                text = "초대 링크 복사",
+                text = stringResource(R.string.invite_button_label_copy_invite_url),
                 modifier = Modifier.weight(1f),
                 contentColor = RemindMaterialTheme.colorScheme.fg_default
             ) {
                 scope.launch {
-                    ClipboardUtil(context).copyUri("invite uri", Uri.parse("${Constants.BASE_URL}/app/android/123456"))
+                    ClipboardUtil(context).copyUri("invite uri", Uri.parse("${Constants.BASE_URL}/app/android/${uiState.user?.inviteCode}"))
                 }
             }
             TextButton(
-                text = "초대 링크 공유",
+                text = stringResource(R.string.invite_button_label_share_invite_url),
                 modifier = Modifier.weight(1f),
                 containerColor = RemindMaterialTheme.colorScheme.accent_default,
                 contentColor = RemindMaterialTheme.colorScheme.bg_default
@@ -106,7 +113,7 @@ fun InviteScreen(
                 scope.launch {
                     val sendIntent: Intent = Intent().apply {
                         action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, "${Constants.BASE_URL}/app/android/123456")
+                        putExtra(Intent.EXTRA_TEXT, "${Constants.BASE_URL}/app/android/${uiState.user?.inviteCode}")
                         type = "text/plain"
                     }
 

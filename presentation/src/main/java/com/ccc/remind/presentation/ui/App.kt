@@ -16,6 +16,7 @@ import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
 import com.ccc.remind.presentation.ui.navigation.BottomNavigationBar
 import com.ccc.remind.presentation.ui.navigation.NavigationActions
 import com.ccc.remind.presentation.ui.navigation.Route
+import com.ccc.remind.presentation.ui.navigation.inviteNavGraph
 import com.ccc.remind.presentation.ui.navigation.mainNavGraph
 import com.ccc.remind.presentation.ui.navigation.memoEditNavGraph
 import com.ccc.remind.presentation.ui.navigation.postMindNavGraph
@@ -63,6 +64,7 @@ private fun NavigationWrapper() {
             mainNavGraph(navController, sharedViewModel)
             postMindNavGraph(navController, mindPostViewModel, sharedViewModel)
             memoEditNavGraph(navController, sharedViewModel)
+            inviteNavGraph(navController, sharedViewModel)
         }
 
         if(isNavigationBarVisible) {

@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import com.ccc.remind.presentation.ui.EmptyComingSoon
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.home.HomeScreen
+import com.ccc.remind.presentation.ui.invite.InviteScreen
 import com.ccc.remind.presentation.ui.memo.MemoEditScreen
 import com.ccc.remind.presentation.ui.memo.MemoEditViewModel
 import com.ccc.remind.presentation.ui.mindPost.MindPostCardListScreen
@@ -61,6 +62,8 @@ sealed class Route(val name: String, val parent: Route? = null) {
     }
 
     object MemoEdit: Route("MemoEdit")
+
+    object Invite: Route("Invite")
 
     val root: Route
         get() = parent?.root ?: this
@@ -165,6 +168,20 @@ fun NavGraphBuilder.memoEditNavGraph(
         MemoEditScreen(
             navController = navController,
             memoEditViewModel,
+            sharedViewModel = sharedViewModel
+        )
+    }
+}
+
+fun NavGraphBuilder.inviteNavGraph(
+    navController: NavController,
+    sharedViewModel: SharedViewModel
+) {
+    composable(
+        route = Route.Invite.name
+    ) {
+        InviteScreen(
+            navController = navController,
             sharedViewModel = sharedViewModel
         )
     }

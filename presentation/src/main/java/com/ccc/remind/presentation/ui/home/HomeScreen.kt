@@ -185,7 +185,7 @@ fun OtherHomeContents(
     Column(modifier) {
         if (postMind == null) {
             EmptyOtherPostMindCard(userDisplayName = displayName) {
-
+                navController.navigate(Route.Invite.name)
             }
         } else {
             PostMindCard(
@@ -193,7 +193,6 @@ fun OtherHomeContents(
                 onClickAddButton = { navController.navigate(Route.MindPost.CardList.name) }
             )
         }
-
 
         Spacer(modifier = Modifier.height(26.dp))
 
