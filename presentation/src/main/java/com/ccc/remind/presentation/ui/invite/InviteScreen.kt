@@ -12,6 +12,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -32,6 +33,7 @@ import com.ccc.remind.presentation.ui.component.button.TextButton
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.layout.BackgroundedTextField
+import com.ccc.remind.presentation.ui.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.ClipboardUtil
 import com.ccc.remind.presentation.util.Constants
@@ -54,6 +56,11 @@ fun InviteScreen(
     val sharedUiState by sharedViewModel.uiState.collectAsState()
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+
+    LaunchedEffect(uiState.openedUserProfile) {
+        if(uiState.openedUserProfile != null)
+            navController.navigate(Route.Invite.Profile.name)
+    }
 
     BasicScreen(
         appBar = {
@@ -81,12 +88,12 @@ fun InviteScreen(
             padding = PaddingValues(horizontal = 4.dp),
         )
 
-        TextButton(
-            text = "초대하기",
+        TextButton( // todo: prevent to use my invite code
+            text = stringResource(R.string.invite_button_label_invite),
             modifier = Modifier.fillMaxWidth(),
-            enabled = uiState.validInviteCode
-        ) {
-        }
+            enabled = uiState.validInviteCode,
+            onClick = viewModel::submitGetUserProfile
+        )
         
         
         Spacer(modifier = Modifier.height(12.dp))

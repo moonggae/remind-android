@@ -12,6 +12,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.ccc.remind.presentation.ui.invite.InviteViewModel
 import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
 import com.ccc.remind.presentation.ui.navigation.BottomNavigationBar
 import com.ccc.remind.presentation.ui.navigation.NavigationActions
@@ -56,6 +57,8 @@ private fun NavigationWrapper() {
     ) {
         val mindPostViewModel: MindPostViewModel = hiltViewModel()
         val sharedViewModel: SharedViewModel = hiltViewModel()
+        val inviteViewModel: InviteViewModel = hiltViewModel()
+
         NavHost(
             navController = navController,
             modifier = Modifier.weight(1f),
@@ -64,7 +67,7 @@ private fun NavigationWrapper() {
             mainNavGraph(navController, sharedViewModel)
             postMindNavGraph(navController, mindPostViewModel, sharedViewModel)
             memoEditNavGraph(navController, sharedViewModel)
-            inviteNavGraph(navController, sharedViewModel)
+            inviteNavGraph(navController, inviteViewModel, sharedViewModel)
         }
 
         if(isNavigationBarVisible) {

@@ -10,7 +10,9 @@ import androidx.navigation.navArgument
 import com.ccc.remind.presentation.ui.EmptyComingSoon
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.home.HomeScreen
+import com.ccc.remind.presentation.ui.invite.InviteProfileScreen
 import com.ccc.remind.presentation.ui.invite.InviteScreen
+import com.ccc.remind.presentation.ui.invite.InviteViewModel
 import com.ccc.remind.presentation.ui.memo.MemoEditScreen
 import com.ccc.remind.presentation.ui.memo.MemoEditViewModel
 import com.ccc.remind.presentation.ui.mindPost.MindPostCardListScreen
@@ -63,7 +65,9 @@ sealed class Route(val name: String, val parent: Route? = null) {
 
     object MemoEdit: Route("MemoEdit")
 
-    object Invite: Route("Invite")
+    object Invite: Route("Invite") {
+        object Profile: Route("Invite.Profile", Invite)
+    }
 
     val root: Route
         get() = parent?.root ?: this
@@ -175,6 +179,7 @@ fun NavGraphBuilder.memoEditNavGraph(
 
 fun NavGraphBuilder.inviteNavGraph(
     navController: NavController,
+    viewModel: InviteViewModel,
     sharedViewModel: SharedViewModel
 ) {
     composable(
@@ -182,7 +187,16 @@ fun NavGraphBuilder.inviteNavGraph(
     ) {
         InviteScreen(
             navController = navController,
+            viewModel = viewModel,
             sharedViewModel = sharedViewModel
+        )
+    }
+    composable(
+        route = Route.Invite.Profile.name
+    ) {
+        InviteProfileScreen(
+            navController = navController,
+            viewModel = viewModel
         )
     }
 }

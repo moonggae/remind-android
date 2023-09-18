@@ -3,6 +3,7 @@ package com.ccc.remind.presentation.ui.invite
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ccc.remind.domain.usecase.friend.GetInviteUserProfileUseCase
 import com.ccc.remind.presentation.util.Constants.BASE_URL
 import com.ccc.remind.presentation.util.Constants.INVITE_CODE_LENGTH
 import com.ccc.remind.presentation.util.Constants.INVITE_URL_PATH
@@ -15,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InviteViewModel @Inject constructor(
-
+    private val getProfile: GetInviteUserProfileUseCase
 ): ViewModel() {
     private val _uiState = MutableStateFlow(InviteUiState())
 
@@ -39,6 +40,28 @@ class InviteViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     inputInviteCode = pastedCode?.toString() ?: text
+                )
+            }
+        }
+    }
+
+    fun submitGetUserProfile() {
+        viewModelScope.launch {
+            getProfile(_uiState.value.inputInviteCode).collect { profile ->
+                _uiState.update {
+                    it.copy(
+                        openedUserProfile = profile
+                    )
+                }
+            }
+        }
+    }
+
+    fun removeOpenedProfile() {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    openedUserProfile = null
                 )
             }
         }
