@@ -36,6 +36,10 @@ class UserRepositoryImpl(
         userLocalDataSource.postLoggedInUser(user.toData())
     }
 
+    override suspend fun deleteLoggedInUser() {
+        userLocalDataSource.deleteLoggedInUser()
+    }
+
     override fun getUserProfile(): Flow<UserProfile> = flow {
         val profile: UserProfile = userRemoteService.fetchUserProfile().body()!!.toDomain()
         emit(profile)

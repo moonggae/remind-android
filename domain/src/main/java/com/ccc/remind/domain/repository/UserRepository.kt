@@ -12,6 +12,8 @@ interface UserRepository {
 
     suspend fun replaceLoggedInUser(user: User)
 
+    suspend fun deleteLoggedInUser()
+
     fun getUserProfile(): Flow<UserProfile>
 
     suspend fun updateUserDisplayName(displayName: String)

@@ -89,10 +89,11 @@ fun UserScreen(
         Spacer(modifier = Modifier.weight(1f))
 
         LogoutButton(
-            modifier = Modifier.align(CenterHorizontally)
-        ) {
+            modifier = Modifier.align(CenterHorizontally),
+            onClick = sharedViewModel::logout
+        )
 
-        }
+        Spacer(modifier = Modifier.height(32.dp))
     }
 }
 

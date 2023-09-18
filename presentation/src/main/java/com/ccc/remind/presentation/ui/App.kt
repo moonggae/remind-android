@@ -35,11 +35,13 @@ fun AppPreview() {
 fun App(
     sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
-    NavigationWrapper()
+    NavigationWrapper(sharedViewModel = sharedViewModel)
 }
 
 @Composable
-private fun NavigationWrapper() {
+private fun NavigationWrapper(
+    sharedViewModel: SharedViewModel = hiltViewModel()
+) {
     val navController = rememberNavController()
     val navigationActions = remember(navController) {
         NavigationActions(navController)
@@ -56,7 +58,6 @@ private fun NavigationWrapper() {
             .background(RemindMaterialTheme.colorScheme.bg_default)
     ) {
         val mindPostViewModel: MindPostViewModel = hiltViewModel()
-        val sharedViewModel: SharedViewModel = hiltViewModel()
         val inviteViewModel: InviteViewModel = hiltViewModel()
 
         NavHost(

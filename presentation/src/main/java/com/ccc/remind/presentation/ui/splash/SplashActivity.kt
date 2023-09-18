@@ -59,6 +59,7 @@ class SplashActivity : AppCompatActivity() {
                                 LoginState.LOGGED_IN ->
                                     startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                             }
+                            finish()
                         }
                     }
                 }

@@ -5,5 +5,6 @@ import com.ccc.remind.domain.entity.user.User
 
 data class SharedUiState(
     val user: User? = null,
-    val friend: FriendUser? = null
+    val friend: FriendUser? = null,
+    val isInitialized: Boolean = false
 )
