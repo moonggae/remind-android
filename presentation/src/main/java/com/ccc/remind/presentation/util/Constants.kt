@@ -11,5 +11,9 @@ object Constants {
 //    const val BASE_URL = "https://egchoi.dev"
     const val BASE_URL = "http://10.0.2.2"
 
+    const val INVITE_URL_PATH = "app/android"
+
+    const val INVITE_CODE_LENGTH = 6
+
     const val POST_MIND_RESULT_KEY = "_POST_MIND_RESULT_KEY_"
 }

@@ -24,7 +24,10 @@ fun TextButton(
     modifier: Modifier = Modifier,
     containerColor: Color = RemindMaterialTheme.colorScheme.accent_bg,
     contentColor: Color = RemindMaterialTheme.colorScheme.fg_default,
+    disabledContainerColor: Color = RemindMaterialTheme.colorScheme.accent_onAccent,
+    disabledContentColor: Color = RemindMaterialTheme.colorScheme.fg_subtle,
     shape: Shape = RoundedCornerShape(12.dp),
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     CompositionLocalProvider(
@@ -34,8 +37,10 @@ fun TextButton(
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
                 containerColor = containerColor,
-                contentColor = contentColor
+                contentColor = contentColor,
+                disabledContainerColor, disabledContentColor
             ),
+            enabled = enabled,
             shape = shape,
             modifier = modifier.then(
                 Modifier.height(48.dp)

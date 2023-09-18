@@ -54,7 +54,8 @@
     <string name="user_profile_edit_appbar_title">프로필 관리</string>
 
     <string name="invite_appbar_title">초대하기</string>
-    <string name="invite_label_invite_code">초대코드</string>
+    <string name="invite_label_use_invite_code">상대방 코드로 초대하기</string>
+    <string name="invite_label_my_invite_code">내 코드로 상대방 초대하기</string>
     <string name="invite_button_label_copy_invite_url">초대 링크 복사</string>
     <string name="invite_button_label_share_invite_url">초대 링크 공유</string>
 
