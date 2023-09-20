@@ -21,10 +21,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
+import java.lang.reflect.Type
 import java.time.ZonedDateTime
 import javax.inject.Singleton
 
@@ -85,6 +88,24 @@ object NetworkModule {
                 .create() // include null value
         )
 
+    private val nullOnEmptyConverterFactory = object : Converter.Factory() {
+        fun converterFactory() = this
+        override fun responseBodyConverter(type: Type, annotations: Array<out Annotation>, retrofit: Retrofit) = object :
+            Converter<ResponseBody, Any?> {
+            val nextResponseBodyConverter = retrofit.nextResponseBodyConverter<Any?>(converterFactory(), type, annotations)
+            override fun convert(value: ResponseBody) = if (value.contentLength() != 0L) {
+                try{
+                    nextResponseBodyConverter.convert(value)
+                }catch (e:Exception){
+                    e.printStackTrace()
+                    null
+                }
+            } else{
+                null
+            }
+        }
+    }
+
     @InterceptorRetrofit
     @Provides
     @Singleton
@@ -94,6 +115,7 @@ object NetworkModule {
     ): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(okHttpClient)
+        .addConverterFactory(nullOnEmptyConverterFactory)
         .addConverterFactory(gsonConverterFactory)
         .build()
 
@@ -107,6 +129,7 @@ object NetworkModule {
     ): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(okHttpClient)
+        .addConverterFactory(nullOnEmptyConverterFactory)
         .addConverterFactory(gsonConverterFactory)
         .build()
 

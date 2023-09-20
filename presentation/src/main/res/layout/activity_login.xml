@@ -6,6 +6,12 @@
         <variable
             name="viewModel"
             type="com.ccc.remind.presentation.ui.onboard.login.LoginViewModel" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="buildConfig"
+            type="com.ccc.remind.BuildConfig"/>
     </data>
 
 
@@ -69,6 +75,53 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/slide_viewpager" />
+
+        <LinearLayout
+            android:id="@+id/test1_login_button"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bt_login_google"
+            android:clickable="true"
+            android:gravity="center"
+            android:visibility="@{buildConfig.DEBUG ? View.VISIBLE : View.GONE}"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/slide_indicator"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/test2_login_button">
+
+            <TextView
+                style="@style/regular_xl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/fg_default"
+                android:text="test account1"
+                android:translationY="-2.07sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/test2_login_button"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/bt_login_google"
+            android:clickable="true"
+            android:gravity="center"
+            android:visibility="@{buildConfig.DEBUG ? View.VISIBLE : View.GONE}"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="@id/test1_login_button"
+            app:layout_constraintStart_toEndOf="@id/test1_login_button"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                style="@style/regular_xl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/fg_default"
+                android:text="test account2"
+                android:translationY="-2.07sp" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/kakao_login_button"

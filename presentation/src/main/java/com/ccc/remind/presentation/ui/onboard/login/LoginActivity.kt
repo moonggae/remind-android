@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.ccc.remind.BuildConfig
 import com.ccc.remind.R
 import com.ccc.remind.databinding.ActivityLoginBinding
 import com.ccc.remind.presentation.base.BaseActivity
@@ -30,6 +31,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
     override fun initListener() {
         binding.kakaoLoginButton.setOnClickListener {
             viewModel.kakaoLogin()
+        }
+        if(BuildConfig.DEBUG) {
+            binding.test1LoginButton.setOnClickListener {
+                viewModel.testLogin("1")
+            }
+            binding.test2LoginButton.setOnClickListener {
+                viewModel.testLogin("2")
+            }
         }
     }
 

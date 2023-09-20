@@ -4,6 +4,7 @@ import com.ccc.remind.data.mapper.toJwtToken
 import com.ccc.remind.data.source.local.UserLocalDataSource
 import com.ccc.remind.data.source.remote.AuthRemoteService
 import com.ccc.remind.data.source.remote.model.user.LoginRequest
+import com.ccc.remind.data.source.remote.model.user.TestLoginRequest
 import com.ccc.remind.domain.entity.user.JwtToken
 import com.ccc.remind.domain.entity.user.LogInType
 import com.ccc.remind.domain.repository.AuthRepository
@@ -18,6 +19,10 @@ class AuthRepositoryImpl(
         when(logInType) {
             LogInType.KAKAO -> {
                 val response = authRemoteService.loginKakao(LoginRequest(accessToken)).body()!!.toJwtToken()
+                emit(response)
+            }
+            LogInType.TEST -> {
+                val response = authRemoteService.loginTest(TestLoginRequest(accessToken, "KAKAO")).body()!!.toJwtToken()
                 emit(response)
             }
             else -> {

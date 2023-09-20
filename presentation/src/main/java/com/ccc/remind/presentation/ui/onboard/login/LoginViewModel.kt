@@ -3,6 +3,7 @@ package com.ccc.remind.presentation.ui.onboard.login
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ccc.remind.BuildConfig
 import com.ccc.remind.domain.entity.user.LogInType
 import com.ccc.remind.domain.usecase.user.LoginUseCase
 import com.ccc.remind.presentation.MyApplication
@@ -54,6 +55,17 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
         } else if (token != null) {
             Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
             logIn(token.accessToken, LogInType.KAKAO)
+        }
+    }
+
+    fun testLogin(uid: String) {
+        if(BuildConfig.DEBUG) {
+            viewModelScope.launch {
+                loginUseCase(uid, LogInType.TEST).collect {
+                    _displayName.value = it.displayName
+                    _isLoggedIn.value = true
+                }
+            }
         }
     }
 
