@@ -125,6 +125,7 @@ val all_kakao = Color(0xFFE812)
 
 val all_button_disabled = Color(0xFFD1DDFF)
 val all_text_button_blue = Color(0xFF1456FF)
+val all_warn = red_400
 
 
 
@@ -142,6 +143,7 @@ object RemindLightColorTokens {
     val kakao = all_kakao
     val button_disabled = all_button_disabled
     val text_button_blue = all_text_button_blue
+    val warn = all_warn
 }
 
 object RemindDarkColorTokens {
@@ -158,6 +160,7 @@ object RemindDarkColorTokens {
     val kakao = all_kakao
     val button_disabled = all_button_disabled
     val text_button_blue = all_text_button_blue
+    val warn = all_warn
 }
 
 class RemindColorScheme(
@@ -173,7 +176,8 @@ class RemindColorScheme(
     val shadows_default: Color,
     val kakao: Color,
     val button_disabled: Color,
-    val text_button_blue: Color
+    val text_button_blue: Color,
+    val warn: Color,
 )
 
 fun remindLightColorScheme(
@@ -190,6 +194,7 @@ fun remindLightColorScheme(
     kakao: Color = RemindLightColorTokens.kakao,
     button_disabled: Color = RemindLightColorTokens.button_disabled,
     text_button_blue: Color = RemindLightColorTokens.text_button_blue,
+    warn: Color = RemindLightColorTokens.warn,
 ) : RemindColorScheme = RemindColorScheme(
     fg_default = fg_default,
     fg_muted = fg_muted,
@@ -204,6 +209,7 @@ fun remindLightColorScheme(
     kakao = kakao,
     button_disabled = button_disabled,
     text_button_blue = text_button_blue,
+    warn = warn,
 )
 
 fun remindDarkColorScheme(
@@ -219,7 +225,8 @@ fun remindDarkColorScheme(
     shadows_default: Color = RemindDarkColorTokens.shadows_default,
     kakao: Color = RemindDarkColorTokens.kakao,
     button_disabled: Color = RemindDarkColorTokens.button_disabled,
-    text_button_blue: Color = RemindLightColorTokens.text_button_blue,
+    text_button_blue: Color = RemindDarkColorTokens.text_button_blue,
+    warn: Color = RemindDarkColorTokens.warn
 ) : RemindColorScheme = RemindColorScheme(
     fg_default = fg_default,
     fg_muted = fg_muted,
@@ -234,4 +241,5 @@ fun remindDarkColorScheme(
     kakao = kakao,
     button_disabled = button_disabled,
     text_button_blue = text_button_blue,
+    warn = warn,
 )

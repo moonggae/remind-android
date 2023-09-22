@@ -1,5 +1,6 @@
 package com.ccc.remind.presentation.ui.component.button
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -27,6 +28,7 @@ fun TextButton(
     disabledContainerColor: Color = RemindMaterialTheme.colorScheme.accent_onAccent,
     disabledContentColor: Color = RemindMaterialTheme.colorScheme.fg_subtle,
     shape: Shape = RoundedCornerShape(12.dp),
+    contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {
@@ -42,6 +44,7 @@ fun TextButton(
             ),
             enabled = enabled,
             shape = shape,
+            contentPadding = contentPadding,
             modifier = modifier.then(
                 Modifier.height(48.dp)
             )

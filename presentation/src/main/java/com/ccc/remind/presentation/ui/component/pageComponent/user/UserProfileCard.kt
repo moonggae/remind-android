@@ -26,7 +26,8 @@ import com.ccc.remind.presentation.util.buildCoilRequest
 @Composable
 fun UserProfileCard(
     profileImageUrl: String? = null,
-    displayName: String
+    displayName: String,
+    showTextSuffix: Boolean = true
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -55,7 +56,7 @@ fun UserProfileCard(
 
 
         Text(
-            text = stringResource(R.string.user_display_name_suffix, displayName),
+            text = if(showTextSuffix) stringResource(R.string.user_display_name_suffix, displayName) else displayName,
             style = RemindMaterialTheme.typography.label_medium,
             color = RemindMaterialTheme.colorScheme.fg_default
         )

@@ -1,7 +1,7 @@
 package com.ccc.remind.data.mapper
 
 import com.ccc.remind.data.source.local.model.UserEntity
-import com.ccc.remind.data.source.remote.model.user.UserProfileResponseDto
+import com.ccc.remind.data.source.remote.model.user.UserProfileVO
 import com.ccc.remind.domain.entity.user.LogInType
 import com.ccc.remind.domain.entity.user.User
 import com.ccc.remind.domain.entity.user.UserProfile
@@ -25,13 +25,13 @@ fun UserEntity.toDomain() = User(
     inviteCode
 )
 
-fun UserProfileResponseDto.toDomain() = UserProfile(
+fun UserProfileVO.toDomain() = UserProfile(
     displayName = displayName,
     profileImage = profileImage?.toDomain(),
     inviteCode
 )
 
-fun UserProfile.toData() = UserProfileResponseDto(
+fun UserProfile.toData() = UserProfileVO(
     displayName = displayName,
     profileImage = profileImage?.toData(),
     inviteCode

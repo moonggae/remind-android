@@ -46,6 +46,12 @@ fun InviteScreenPreview() {
     InviteScreen()
 }
 
+/* TODO
+- prevent to use my invite code
+- prevent to make many friends
+- delete friend
+*/
+
 @Composable
 fun InviteScreen(
     navController: NavController = rememberNavController(),
@@ -60,6 +66,12 @@ fun InviteScreen(
     LaunchedEffect(uiState.openedUserProfile) {
         if(uiState.openedUserProfile != null)
             navController.navigate(Route.Invite.Profile.name)
+    }
+
+    LaunchedEffect(navController.currentDestination) {
+        if(navController.currentDestination?.route == Route.Invite.name) {
+            viewModel.initRequestList()
+        }
     }
 
     BasicScreen(
@@ -88,7 +100,7 @@ fun InviteScreen(
             padding = PaddingValues(horizontal = 4.dp),
         )
 
-        TextButton( // todo: prevent to use my invite code
+        TextButton(
             text = stringResource(R.string.invite_button_label_invite),
             modifier = Modifier.fillMaxWidth(),
             enabled = uiState.validInviteCode,
@@ -163,6 +175,11 @@ fun InviteScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(120.dp))
+        Spacer(modifier = Modifier.height(12.dp))
+
+        InviteRequestListView(
+            navController = navController,
+            viewModel = viewModel
+        )
     }
 }

@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,6 +33,7 @@ import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.buildCoilRequest
+import kotlinx.coroutines.launch
 
 @Composable
 @Preview(showBackground = true)
@@ -45,6 +47,7 @@ fun InviteProfileScreen(
     viewModel: InviteViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(navController.currentDestination) {
         if(navController.currentDestination?.route != Route.Invite.Profile.name) {
@@ -94,7 +97,11 @@ fun InviteProfileScreen(
         Spacer(modifier = Modifier.weight(1f))
 
         PrimaryButton(text = stringResource(id = R.string.invite_profile_invite_button)) {
-            
+            scope.launch {
+                viewModel.submitRequestFriend()
+                viewModel.removeInviteCode()
+                navController.popBackStack()
+            }
         }
 
         Spacer(modifier = Modifier.height(32.dp))

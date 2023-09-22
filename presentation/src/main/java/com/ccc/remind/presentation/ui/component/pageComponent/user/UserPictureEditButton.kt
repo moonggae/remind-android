@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +33,9 @@ fun UserPictureEditButton(
         FilledIconButton(
             onClick = onClick,
             shape = CircleShape,
+            colors = IconButtonDefaults.iconButtonColors(
+                containerColor = RemindMaterialTheme.colorScheme.bg_default
+            ),
             modifier = Modifier.size(100.dp)
         ) {
             if(profileImage == null) {
@@ -53,10 +57,10 @@ fun UserPictureEditButton(
                         profileImage.url
                     ),
                     contentDescription = "user profile image",
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.background(RemindMaterialTheme.colorScheme.bg_default)
                 )
             }
-
         }
 
         Icon(
