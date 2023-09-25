@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
 
-    fun getLoggedInUser() : Flow<User?>
+    suspend fun getLoggedInUser() : Flow<User?>
 
     suspend fun replaceLoggedInUser(user: User)
 

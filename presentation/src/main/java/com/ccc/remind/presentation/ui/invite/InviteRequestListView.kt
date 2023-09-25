@@ -25,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ccc.remind.R
+import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.button.TextButton
 import com.ccc.remind.presentation.ui.component.dialog.AlertDialog
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserProfileCard
@@ -40,7 +41,8 @@ fun InviteRequestScreenPreview() {
 @Composable
 fun InviteRequestListView(
     navController: NavController = rememberNavController(),
-    viewModel: InviteViewModel = hiltViewModel()
+    viewModel: InviteViewModel = hiltViewModel(),
+    sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val scope = rememberCoroutineScope()
@@ -89,6 +91,7 @@ fun InviteRequestListView(
                         onClickAccept = {
                             scope.launch {
                                 viewModel.submitAcceptFriendRequest(uiState.receivedFriendRequest[index].id)
+                                sharedViewModel.refreshFriend()
                                 navController.popBackStack()
                             }
                         },

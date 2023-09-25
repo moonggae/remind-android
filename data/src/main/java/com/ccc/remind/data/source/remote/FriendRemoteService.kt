@@ -10,6 +10,9 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface FriendRemoteService {
+    @GET("/friend")
+    suspend fun fetchFriend(): Response<UserProfileVO?>
+
     @GET("/friend/user/{inviteCode}")
     suspend fun fetchUserProfile(@Path("inviteCode") inviteCode: String): Response<UserProfileVO>
 

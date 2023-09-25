@@ -19,6 +19,11 @@ class TokenInterceptor @Inject constructor(private val authRepository: AuthRepos
     private lateinit var refreshToken: String
     private val isGettingToken = MutableStateFlow(false)
 
+    fun removeToken() {
+        accessToken = ""
+        refreshToken = ""
+    }
+
     private fun updateToken(token: JwtToken) {
         accessToken = token.accessToken
         refreshToken = token.refreshToken
@@ -59,7 +64,7 @@ class TokenInterceptor @Inject constructor(private val authRepository: AuthRepos
         if(isGettingToken.value) {
             waitForTokenRefresh()
         }
-        if (!this::accessToken.isInitialized) {
+        if (!this::accessToken.isInitialized || accessToken.isEmpty()) {
             initToken()
         }
 

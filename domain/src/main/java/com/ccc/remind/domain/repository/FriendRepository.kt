@@ -6,6 +6,8 @@ import com.ccc.remind.domain.entity.user.UserProfile
 import kotlinx.coroutines.flow.Flow
 
 interface FriendRepository {
+    fun getFriend(): Flow<UserProfile?>
+
     fun getProfile(inviteCode: String): Flow<UserProfile>
 
     suspend fun postFriendRequest(inviteCode: String)

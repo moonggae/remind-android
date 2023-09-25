@@ -12,6 +12,10 @@ import kotlinx.coroutines.flow.flow
 class FriendRepositoryImpl(
     private val friendRemoteService: FriendRemoteService
 ): FriendRepository {
+    override fun getFriend(): Flow<UserProfile?> = flow {
+        emit(friendRemoteService.fetchFriend().body()?.toDomain())
+    }
+
     override fun getProfile(inviteCode: String): Flow<UserProfile> = flow {
         emit(friendRemoteService.fetchUserProfile(inviteCode).body()!!.toDomain())
     }

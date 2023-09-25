@@ -50,6 +50,7 @@ fun InviteScreenPreview() {
 - prevent to use my invite code
 - prevent to make many friends
 - delete friend
+- prevent npe when fetch user profile by invite code
 */
 
 @Composable
@@ -179,7 +180,8 @@ fun InviteScreen(
 
         InviteRequestListView(
             navController = navController,
-            viewModel = viewModel
+            viewModel = viewModel,
+            sharedViewModel = sharedViewModel
         )
     }
 }

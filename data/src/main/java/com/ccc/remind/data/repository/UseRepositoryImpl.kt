@@ -25,7 +25,7 @@ class UserRepositoryImpl(
         private const val TAG = "UseRepositoryImpl"
     }
     
-    override fun getLoggedInUser(): Flow<User?> = flow {
+    override suspend fun getLoggedInUser(): Flow<User?> = flow {
         val user = userLocalDataSource.fetchLoggedInUser()?.toDomain()
         Log.d(TAG, "UserRepositoryImpl - getLoggedInUser - user: ${user}")
         emit(user)
