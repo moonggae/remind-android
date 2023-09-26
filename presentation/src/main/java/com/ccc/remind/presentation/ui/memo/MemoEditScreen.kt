@@ -18,7 +18,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,8 +44,8 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 
 /*
-TODO: delete comment, synchronize using web socket, data synchronization and smooth screen transition
- */
+TODO: delete comment, synchronize using web socket
+*/
 
 @Composable
 fun MemoEditScreen(
@@ -59,14 +58,6 @@ fun MemoEditScreen(
     val context = LocalContext.current
 
     var openDeleteMemoAlertDialog by remember { mutableStateOf(false) }
-
-    var isInitialized by remember { mutableStateOf(false) }
-    LaunchedEffect(isInitialized) {
-        if(!isInitialized) {
-            isInitialized = true
-            viewModel.fetchMemoData()
-        }
-    }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -81,7 +72,6 @@ fun MemoEditScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
         ) {
-
             if (uiState.editType != MemoEditType.POST) {
                 Text(
                     text = "${uiState.openedMemo?.createdAt?.toFormatString("yyyy년 M월 d일")}",
@@ -121,10 +111,10 @@ fun MemoEditScreen(
                 if (uiState.editType == MemoEditType.UPDATE) {
                     Button(
                         onClick = {
-                                  scope.launch {
-                                      viewModel.submitUpdateMemo()
-                                      Toast.makeText(context, "메모를 수정 했어요.", Toast.LENGTH_SHORT).show()
-                                  }
+                              scope.launch {
+                                  viewModel.submitUpdateMemo()
+                                  Toast.makeText(context, context.resources.getString(R.string.mind_memo_edit_appbar_title) , Toast.LENGTH_SHORT).show()
+                              }
                         },
                         shape = RoundedCornerShape(8.dp),
                         colors = ButtonDefaults.buttonColors(

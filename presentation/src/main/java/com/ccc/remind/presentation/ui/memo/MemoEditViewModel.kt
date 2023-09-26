@@ -31,10 +31,12 @@ class MemoEditViewModel @Inject constructor(
         get() = _uiState
 
     fun setInitData(postId: Int, memoId: Int?, isFriend: Boolean? = null) {
-        _uiState.update {
-            it.copy(
-                initData = MemoEditInitialData(postId, memoId, isFriend)
-            )
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    initData = MemoEditInitialData(postId, memoId, isFriend)
+                )
+            }
         }
     }
 
@@ -47,6 +49,7 @@ class MemoEditViewModel @Inject constructor(
                     _uiState.update {
                         MemoEditUiStatus(
                             postId = postId,
+                            initData = it.initData
                         )
                     }
                 }
@@ -57,6 +60,7 @@ class MemoEditViewModel @Inject constructor(
                                 postId = postId,
                                 openedMemo = memo,
                                 memoText = memo?.text ?: "",
+                                initData = it.initData
                             )
                         }
                     }

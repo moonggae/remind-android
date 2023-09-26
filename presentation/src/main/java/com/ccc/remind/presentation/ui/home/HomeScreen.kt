@@ -66,12 +66,7 @@ import com.ccc.remind.presentation.util.Constants.POST_MIND_RESULT_KEY
 import com.ccc.remind.presentation.util.buildCoilRequest
 import kotlinx.coroutines.launch
 
-/*
-todo
-background color
-refresh token
- */
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -84,12 +79,6 @@ fun HomeScreen(
     val pagerState = rememberPagerState(
         initialPage = 0
     )
-
-    viewModel.refreshLastPostedMind()
-
-//    addOnPostMindResult(navController = navController) { posted ->
-//        if(posted) viewModel.refreshLastPostedMind()
-//    }
 
     val titleText: String =
         if(pagerState.currentPage == 0)

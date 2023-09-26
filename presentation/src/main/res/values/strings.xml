@@ -42,6 +42,7 @@
 
     <string name="mind_memo_edit_appbar_title">감정메모</string>
     <string name="mind_memo_edit_alert_delete">메모를 삭제 할까요?</string>
+    <string name="mind_memo_edit_memo_update_message">메모를 수정 했어요.</string>
 
     <string name="user_appbar_title">MY</string>
     <string name="user_display_name_suffix">%1$s 님</string>

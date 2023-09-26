@@ -1,6 +1,7 @@
 package com.ccc.remind.presentation.ui.navigation
 
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -10,6 +11,7 @@ import androidx.navigation.navArgument
 import com.ccc.remind.presentation.ui.EmptyComingSoon
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.home.HomeScreen
+import com.ccc.remind.presentation.ui.home.HomeViewModel
 import com.ccc.remind.presentation.ui.invite.InviteProfileScreen
 import com.ccc.remind.presentation.ui.invite.InviteScreen
 import com.ccc.remind.presentation.ui.invite.InviteViewModel
@@ -88,8 +90,15 @@ fun NavGraphBuilder.mainNavGraph(
             EmptyComingSoon(name = Route.Main.Cards.name)
         }
         composable(Route.Main.Home.name) {
+            val homeViewModel: HomeViewModel = hiltViewModel()
+            if(it.lifecycle.currentState == Lifecycle.State.STARTED) {
+                homeViewModel.refreshLastPostedMind()
+                homeViewModel.refreshFriendLastPostedMind()
+            }
+
             HomeScreen(
                 navController = navController,
+                viewModel = homeViewModel,
                 sharedViewModel = sharedViewModel
             )
         }
@@ -155,6 +164,7 @@ fun NavGraphBuilder.postMindNavGraph(
 
 fun NavGraphBuilder.memoEditNavGraph(
     navController: NavController,
+    viewModel: MemoEditViewModel,
     sharedViewModel: SharedViewModel
 ) {
     composable(
@@ -165,15 +175,18 @@ fun NavGraphBuilder.memoEditNavGraph(
             navArgument("isFriend") { type = NavType.BoolType }
         )
     ) {
-        val memoEditViewModel: MemoEditViewModel = hiltViewModel()
-        memoEditViewModel.setInitData(
-            postId = it.arguments!!.getInt("postId"),
-            memoId = it.arguments?.getInt("memoId"),
-            isFriend = it.arguments?.getBoolean("isFriend")
-        )
+        if(it.lifecycle.currentState == Lifecycle.State.STARTED) {
+            viewModel.setInitData(
+                postId = it.arguments!!.getInt("postId"),
+                memoId = it.arguments?.getInt("memoId"),
+                isFriend = it.arguments?.getBoolean("isFriend")
+            )
+            viewModel.fetchMemoData()
+        }
+
         MemoEditScreen(
             navController = navController,
-            memoEditViewModel,
+            viewModel =  viewModel,
             sharedViewModel = sharedViewModel
         )
     }
