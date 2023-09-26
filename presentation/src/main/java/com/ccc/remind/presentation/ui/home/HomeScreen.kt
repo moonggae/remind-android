@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -157,19 +158,18 @@ fun HomeScreen(
         ) { pageIndex ->
             when(pageIndex) {
                 0 -> MyHomeContents(
-                    postMind = uiState.lastPostedMind,
+                    postMind = uiState.post,
                     displayName = sharedUiState.user?.displayName,
                     navController = navController,
                     modifier = Modifier.padding(horizontal = 20.dp)
                 )
                 1 -> OtherHomeContents(
-                    postMind = null,
+                    postMind = uiState.friendPost,
                     displayName = null,
                     navController = navController,
                     modifier = Modifier.padding(horizontal = 20.dp)
                 )
             }
-
         }
     }
 }
@@ -190,7 +190,18 @@ fun OtherHomeContents(
         } else {
             PostMindCard(
                 mindCardUrl = postMind.cards.first().card.imageUrl ?: "",
-                onClickAddButton = { navController.navigate(Route.MindPost.CardList.name) }
+                modifier = Modifier.align(CenterHorizontally)
+            )
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            PrimaryButton(
+                text = "감정 묻기",
+                textStyle = RemindMaterialTheme.typography.bold_lg,
+                modifier = Modifier
+                    .padding(horizontal = 50.dp)
+                    .height(46.dp),
+                onClick = { navController.navigate(Route.MindPost.CardList.name) }
             )
         }
 
@@ -242,8 +253,8 @@ fun OtherHomeContents(
                     LocalMinimumInteractiveComponentEnforcement provides false
                 ) {
                     IconButton(
-                        onClick = { /*TODO*/
-                            navController.navigate(route = "${Route.MemoEdit.name}/${postMind?.id}/${postMind?.memo?.id ?: -1}")
+                        onClick = {
+                            navController.navigate(route = "${Route.MemoEdit.name}/${postMind.id}/${postMind.memo?.id ?: -1}/true")
                         }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_arrow_light),
@@ -261,7 +272,8 @@ fun OtherHomeContents(
             null -> EmptyMemoCard()
             else -> MindMemoCard(
                 text = postMind.memo?.text ?: "",
-                modifier = Modifier.fillMaxHeight()
+                modifier = Modifier.fillMaxHeight(),
+                commentSize = postMind.memo?.comments?.size ?: 0
             )
         }
     }
@@ -285,7 +297,18 @@ fun MyHomeContents(
         } else {
             PostMindCard(
                 mindCardUrl = postMind.cards.first().card.imageUrl ?: "",
-                onClickAddButton = { navController.navigate(Route.MindPost.CardList.name) }
+                modifier = Modifier.align(CenterHorizontally)
+            )
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            PrimaryButton(
+                text = "감정 기록하기",
+                textStyle = RemindMaterialTheme.typography.bold_lg,
+                modifier = Modifier
+                    .padding(horizontal = 50.dp)
+                    .height(46.dp),
+                onClick = { navController.navigate(Route.MindPost.CardList.name) }
             )
         }
 
@@ -338,8 +361,8 @@ fun MyHomeContents(
                     LocalMinimumInteractiveComponentEnforcement provides false
                 ) {
                     IconButton(
-                        onClick = { /*TODO*/
-                            navController.navigate(route = "${Route.MemoEdit.name}/${postMind?.id}/${postMind?.memo?.id ?: -1}")
+                        onClick = {
+                            navController.navigate(route = "${Route.MemoEdit.name}/${postMind?.id}/${postMind?.memo?.id ?: -1}/false")
                         }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_arrow_light),
@@ -361,7 +384,8 @@ fun MyHomeContents(
 
             else -> MindMemoCard(
                 text = postMind.memo?.text ?: "",
-                modifier = Modifier.fillMaxHeight()
+                modifier = Modifier.fillMaxHeight(),
+                commentSize = postMind.memo?.comments?.size ?: 0
             )
         }
     }
@@ -464,34 +488,18 @@ fun PostMindLabelBar(
 
 @Composable
 fun PostMindCard(
+    modifier: Modifier = Modifier,
     mindCardUrl: String,
-    onClickAddButton: () -> Unit
 ) {
-    Column {
-        AsyncImage(
-            model = buildCoilRequest(
-                context = LocalContext.current,
-                url = mindCardUrl
-            ),
-            contentDescription = "",
-            modifier = Modifier
-                .width(153.dp)
-                .align(Alignment.CenterHorizontally),
-            contentScale = ContentScale.FillWidth,
-        )
-
-        Spacer(modifier = Modifier.height(18.dp))
-
-        PrimaryButton(
-            text = "감정 기록하기",
-            textStyle = RemindMaterialTheme.typography.bold_lg
-                .copy(color = RemindMaterialTheme.colorScheme.bg_default),
-            modifier = Modifier
-                .padding(horizontal = 50.dp)
-                .height(46.dp),
-            onClick = onClickAddButton
-        )
-    }
+    AsyncImage(
+        model = buildCoilRequest(
+            context = LocalContext.current,
+            url = mindCardUrl
+        ),
+        contentDescription = "",
+        modifier = modifier.then(Modifier.width(153.dp)),
+        contentScale = ContentScale.FillWidth,
+    )
 }
 
 

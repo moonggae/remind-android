@@ -158,16 +158,18 @@ fun NavGraphBuilder.memoEditNavGraph(
     sharedViewModel: SharedViewModel
 ) {
     composable(
-        route = "${Route.MemoEdit.name}/{postId}/{memoId}",
+        route = "${Route.MemoEdit.name}/{postId}/{memoId}/{isFriend}",
         arguments = listOf(
             navArgument("postId") { type = NavType.IntType },
-            navArgument("memoId") { type = NavType.IntType }
+            navArgument("memoId") { type = NavType.IntType },
+            navArgument("isFriend") { type = NavType.BoolType }
         )
     ) {
         val memoEditViewModel: MemoEditViewModel = hiltViewModel()
         memoEditViewModel.setInitData(
             postId = it.arguments!!.getInt("postId"),
-            memoId = it.arguments?.getInt("memoId")
+            memoId = it.arguments?.getInt("memoId"),
+            isFriend = it.arguments?.getBoolean("isFriend")
         )
         MemoEditScreen(
             navController = navController,

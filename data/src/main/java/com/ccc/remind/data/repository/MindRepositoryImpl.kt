@@ -58,4 +58,8 @@ class MindRepositoryImpl(private val mindRemoteService: MindRemoteService) : Min
     override fun getLastPostedMind(): Flow<MindPost?> = flow {
         emit(mindRemoteService.fetchLastPostMind().body()?.toDomain())
     }
+
+    override fun getFriendLastPostedMind(): Flow<MindPost?> = flow {
+        emit(mindRemoteService.fetchFriendLastPostMind().body()?.toDomain())
+    }
 }

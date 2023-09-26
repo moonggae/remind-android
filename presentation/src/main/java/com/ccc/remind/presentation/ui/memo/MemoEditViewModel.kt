@@ -30,10 +30,10 @@ class MemoEditViewModel @Inject constructor(
     val uiStatus: StateFlow<MemoEditUiStatus>
         get() = _uiState
 
-    fun setInitData(postId: Int, memoId: Int?) {
+    fun setInitData(postId: Int, memoId: Int?, isFriend: Boolean? = null) {
         _uiState.update {
             it.copy(
-                initData = MemoEditInitialData(postId, memoId)
+                initData = MemoEditInitialData(postId, memoId, isFriend)
             )
         }
     }

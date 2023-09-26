@@ -10,15 +10,21 @@ data class MemoEditUiStatus(
     val initData: MemoEditInitialData? = null,
 ) {
     val editType: MemoEditType
-        get() = if(openedMemo == null) MemoEditType.POST else MemoEditType.UPDATE
+        get() = when {
+            this.initData?.isFriend == true -> MemoEditType.FRIEND
+            this.openedMemo == null -> MemoEditType.POST
+            else -> MemoEditType.UPDATE
+        }
 }
 
 data class MemoEditInitialData(
     val postId: Int,
-    val memoId: Int?
+    val memoId: Int?,
+    val isFriend: Boolean? = null
 )
 
 enum class MemoEditType {
     POST,
-    UPDATE
+    UPDATE,
+    FRIEND
 }

@@ -45,7 +45,7 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 
 /*
-TODO: delete comment, synchronize using web socket
+TODO: delete comment, synchronize using web socket, data synchronization and smooth screen transition
  */
 
 @Composable
@@ -82,7 +82,7 @@ fun MemoEditScreen(
                 .padding(horizontal = 20.dp)
         ) {
 
-            if (uiState.editType == MemoEditType.UPDATE) {
+            if (uiState.editType != MemoEditType.POST) {
                 Text(
                     text = "${uiState.openedMemo?.createdAt?.toFormatString("yyyy년 M월 d일")}",
                     style = RemindMaterialTheme.typography.bold_lg,
@@ -102,7 +102,7 @@ fun MemoEditScreen(
 
             MindMemoTextField(
                 value = uiState.memoText,
-                enabled = true,
+                enabled = uiState.editType != MemoEditType.FRIEND,
                 onValueChange = viewModel::updateMemoText,
                 modifier = Modifier.defaultMinSize(
                     minHeight = 128.dp
@@ -163,7 +163,7 @@ fun MemoEditScreen(
                             color = RemindMaterialTheme.colorScheme.fg_muted
                         )
                     }
-                } else {
+                } else if(uiState.editType == MemoEditType.POST) {
                     Button(
                         onClick = {
                             scope.launch {
@@ -190,7 +190,7 @@ fun MemoEditScreen(
             }
         }
 
-        if (uiState.editType == MemoEditType.UPDATE) {
+        if (uiState.editType != MemoEditType.POST) {
             Divider(
                 color = RemindMaterialTheme.colorScheme.bg_subtle,
                 modifier = Modifier.padding(

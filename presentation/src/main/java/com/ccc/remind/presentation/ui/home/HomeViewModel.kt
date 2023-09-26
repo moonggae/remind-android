@@ -2,6 +2,7 @@ package com.ccc.remind.presentation.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ccc.remind.domain.usecase.post.GetFriendLastPostedMindUseCase
 import com.ccc.remind.domain.usecase.post.GetLastMindUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getLastMind: GetLastMindUseCase
+    private val getLastMind: GetLastMindUseCase,
+    private val getFriendLastPostedMind: GetFriendLastPostedMindUseCase
 ): ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiStatus())
 
@@ -21,6 +23,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         refreshLastPostedMind()
+        refreshFriendLastPostedMind()
     }
 
     fun refreshLastPostedMind() {
@@ -28,7 +31,19 @@ class HomeViewModel @Inject constructor(
             getLastMind().collect { lastMind ->
                 _uiState.update {
                     it.copy(
-                        lastPostedMind = lastMind
+                        post = lastMind
+                    )
+                }
+            }
+        }
+    }
+
+    fun refreshFriendLastPostedMind() {
+        viewModelScope.launch {
+            getFriendLastPostedMind().collect { lastMind ->
+                _uiState.update {
+                    it.copy(
+                        friendPost = lastMind
                     )
                 }
             }

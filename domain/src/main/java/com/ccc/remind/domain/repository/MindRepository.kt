@@ -27,4 +27,6 @@ interface MindRepository {
     ): Flow<Unit>
 
     fun getLastPostedMind(): Flow<MindPost?>
+
+    fun getFriendLastPostedMind(): Flow<MindPost?>
 }
