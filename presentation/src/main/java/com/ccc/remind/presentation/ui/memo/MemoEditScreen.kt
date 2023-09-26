@@ -44,7 +44,7 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 
 /*
-TODO: delete comment, synchronize using web socket
+TODO: delete comment
 */
 
 @Composable

@@ -25,6 +25,11 @@ import com.ccc.remind.presentation.ui.navigation.postMindNavGraph
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.Constants
 
+/* TODO
+- notification
+- synchronize data using web socket
+- process for using invite code
+*/
 
 @Preview
 @Composable
