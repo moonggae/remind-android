@@ -10,6 +10,11 @@ import androidx.core.content.ContextCompat
 import com.google.firebase.messaging.FirebaseMessaging
 import timber.log.Timber
 
+/* TODO
+- ask notification permission one time when user is logged in
+- add new setting to turn on/off notification
+    -> when user turn on the notification and permission is not allowed, ask to user notification permission
+*/
 class NotificationUtil(
     private val activity: ComponentActivity
 ) {
