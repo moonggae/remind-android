@@ -5,8 +5,12 @@ import com.ccc.remind.domain.entity.user.User
 data class SplashUiState(
     val loginState: LoginState = LoginState.EMPTY,
     val user: User? = null,
-    val isInitialized: Boolean = false
-)
+    val doneUserInit: Boolean = false,
+    val doneFCMTokenInit: Boolean = false
+) {
+    val isInitialized: Boolean
+        get() = doneUserInit && doneFCMTokenInit
+}
 
 enum class LoginState {
     EMPTY,

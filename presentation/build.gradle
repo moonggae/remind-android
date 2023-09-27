@@ -118,12 +118,14 @@ dependencies {
     // splash
     implementation "androidx.core:core-splashscreen:1.0.1"
 
-    implementation platform('com.google.firebase:firebase-bom:31.5.0')
+    // firebase
+    implementation platform('com.google.firebase:firebase-bom:32.3.1')
     implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+
+    // kakao
     implementation "com.kakao.sdk:v2-all:2.13.0"
     implementation "com.kakao.sdk:v2-user:2.13.0"
-    implementation "com.google.firebase:firebase-functions-ktx:20.3.1"
 
     // hilt
     implementation "com.google.dagger:hilt-android:${hilt_version}"

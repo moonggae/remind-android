@@ -1,6 +1,7 @@
 package com.ccc.remind.data.source.remote
 
 import com.ccc.remind.data.source.remote.model.user.DisplayNameDto
+import com.ccc.remind.data.source.remote.model.user.UpdateFCMTokenRequestDto
 import com.ccc.remind.data.source.remote.model.user.UserProfileUpdateDto
 import com.ccc.remind.data.source.remote.model.user.UserProfileVO
 import retrofit2.Response
@@ -20,4 +21,7 @@ interface UserRemoteService {
 
     @PATCH("users/profile")
     suspend fun updateProfile(@Body profileUpdateDto: UserProfileUpdateDto)
+
+    @PATCH("users/fcm")
+    suspend fun updateFCMToken(@Body token: UpdateFCMTokenRequestDto)
 }

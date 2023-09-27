@@ -3,6 +3,7 @@ package com.ccc.remind.presentation.ui.splash
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ccc.remind.domain.usecase.user.GetLoggedInUserUserCase
+import com.ccc.remind.domain.usecase.user.UpdateFCMTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val getLoggedInUserUserCase: GetLoggedInUserUserCase
+    private val getLoggedInUser: GetLoggedInUserUserCase,
+    private val updateFCMToken: UpdateFCMTokenUseCase // todo fcm token update
 ) : ViewModel() {
     companion object {
         private const val TAG = "SplashViewModel"
@@ -25,9 +27,20 @@ class SplashViewModel @Inject constructor(
         initLoginUser()
     }
 
+    suspend fun refreshUserFCMToken(token: String) {
+        viewModelScope.launch {
+            updateFCMToken(token)
+            _uiState.update {
+                it.copy(
+                    doneFCMTokenInit = true
+                )
+            }
+        }
+    }
+
     private fun initLoginUser() {
         viewModelScope.launch {
-            getLoggedInUserUserCase().collect { user ->
+            getLoggedInUser().collect { user ->
                 _uiState.update {
                     it.copy(
                         user = user,
@@ -36,7 +49,7 @@ class SplashViewModel @Inject constructor(
                             user.displayName == null -> LoginState.LOGGED_IN_NO_DISPLAY_NAME
                             else -> LoginState.LOGGED_IN
                         },
-                        isInitialized = true
+                        doneUserInit = true
                     )
                 }
             }

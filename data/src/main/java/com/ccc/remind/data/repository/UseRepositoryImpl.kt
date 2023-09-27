@@ -8,6 +8,7 @@ import com.ccc.remind.data.source.local.UserLocalDataSource
 import com.ccc.remind.data.source.local.model.UserEntity
 import com.ccc.remind.data.source.remote.UserRemoteService
 import com.ccc.remind.data.source.remote.model.user.DisplayNameDto
+import com.ccc.remind.data.source.remote.model.user.UpdateFCMTokenRequestDto
 import com.ccc.remind.data.source.remote.model.user.UserProfileUpdateDto
 import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.domain.entity.user.LogInType
@@ -59,6 +60,10 @@ class UserRepositoryImpl(
             displayName = displayName,
             profileImage = profileImage
         )
+    }
+
+    override suspend fun updateFCMToken(token: String) {
+        userRemoteService.updateFCMToken(UpdateFCMTokenRequestDto(token))
     }
 
     override suspend fun updateLocalUser(

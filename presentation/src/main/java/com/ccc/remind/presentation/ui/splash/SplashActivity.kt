@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.ccc.remind.presentation.ui.main.MainActivity
 import com.ccc.remind.presentation.ui.onboard.displayName.DisplayNameActivity
 import com.ccc.remind.presentation.ui.onboard.login.LoginActivity
+import com.ccc.remind.presentation.util.NotificationUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -45,11 +46,19 @@ class SplashActivity : AppCompatActivity() {
         content.viewTreeObserver.addOnPreDrawListener {
             return@addOnPreDrawListener viewModel.uiState.value.isInitialized
         }
+        
+        observeDataInit()
+    }
 
+    private fun observeDataInit() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.uiState.collect {
+                        if(it.doneUserInit && !it.doneFCMTokenInit) {
+                            updateFCMToken()
+                        }
+
                         if(it.isInitialized) {
                             when(it.loginState) {
                                 LoginState.EMPTY ->
@@ -66,4 +75,14 @@ class SplashActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun updateFCMToken() {
+        NotificationUtil.getFCMToken { token ->
+            lifecycleScope.launch {
+                viewModel.refreshUserFCMToken(token)    
+            }
+        }
+    }
+
+
 }

@@ -20,6 +20,8 @@ interface UserRepository {
 
     suspend fun updateUserProfile(displayName: String?, profileImage: ImageFile?)
 
+    suspend fun updateFCMToken(token: String)
+
     suspend fun updateLocalUser(
         accessToken: String? = null,
         refreshToken: String? = null,
