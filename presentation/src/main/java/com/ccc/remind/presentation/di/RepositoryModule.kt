@@ -5,7 +5,9 @@ import com.ccc.remind.data.repository.FriendRepositoryImpl
 import com.ccc.remind.data.repository.ImageRepositoryImpl
 import com.ccc.remind.data.repository.MindMemoRepositoryImpl
 import com.ccc.remind.data.repository.MindRepositoryImpl
+import com.ccc.remind.data.repository.SettingRepositoryImpl
 import com.ccc.remind.data.repository.UserRepositoryImpl
+import com.ccc.remind.data.source.local.SettingLocalDataSource
 import com.ccc.remind.data.source.local.UserLocalDataSource
 import com.ccc.remind.data.source.remote.AuthRemoteService
 import com.ccc.remind.data.source.remote.FriendRemoteService
@@ -18,6 +20,7 @@ import com.ccc.remind.domain.repository.FriendRepository
 import com.ccc.remind.domain.repository.ImageRepository
 import com.ccc.remind.domain.repository.MindMemoRepository
 import com.ccc.remind.domain.repository.MindRepository
+import com.ccc.remind.domain.repository.SettingRepository
 import com.ccc.remind.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -63,5 +66,11 @@ object RepositoryModule {
     @Singleton
     fun provideFriendRepository(friendRemoteService: FriendRemoteService): FriendRepository {
         return FriendRepositoryImpl(friendRemoteService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSettingRepository(settingLocalDataSource: SettingLocalDataSource): SettingRepository {
+        return SettingRepositoryImpl(settingLocalDataSource)
     }
 }

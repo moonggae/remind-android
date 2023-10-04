@@ -52,6 +52,14 @@ class SplashViewModel @Inject constructor(
                         doneUserInit = true
                     )
                 }
+
+                if(user == null) {
+                    _uiState.update {
+                        it.copy(
+                            doneFCMTokenInit = true
+                        )
+                    }
+                }
             }
         }
     }

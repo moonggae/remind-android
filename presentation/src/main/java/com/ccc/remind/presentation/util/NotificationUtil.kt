@@ -8,22 +8,27 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 
 /* TODO
 - ask notification permission one time when user is logged in
 - add new setting to turn on/off notification
     -> when user turn on the notification and permission is not allowed, ask to user notification permission
+    -> add foreground notification setting
 */
 class NotificationUtil(
     private val activity: ComponentActivity
 ) {
     constructor(activity: AppCompatActivity) : this(activity as ComponentActivity)
 
+    private val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
+
     companion object {
         fun getFCMToken(onSuccess: (token: String) -> Unit) {
             FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-                if(!task.isSuccessful) {
+                if (!task.isSuccessful) {
                     Timber.w(task.exception)
                 }
 
@@ -44,28 +49,20 @@ class NotificationUtil(
     }
 
     fun call(text: String) {
-        askNotificationPermission {
-            // TODO
-        }
+
     }
 
-    private fun askNotificationPermission(onPermitted: () -> Unit) {
-        // This is only necessary for API level >= 33 (TIRAMISU)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS) ==
-                PackageManager.PERMISSION_GRANTED
-            ) {
-                // FCM SDK (and your app) can post notifications.
-                onPermitted()
-            } else if (activity.shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-                // TODO: display an educational UI explaining to the user the features that will be enabled
-                //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
-                //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
-                //       If the user selects "No thanks," allow the user to continue without notifications.
-                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+    // TODO : Android 13 이상에서는 런타임에서 알람 권한을 요청하고 이하에서는 알람 설정 창으로 이동시킴
+    fun askNotificationPermission(): Flow<Boolean> = flow {
+        if (ContextCompat.checkSelfPermission(activity, notificationPermission) ==
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            emit(true)
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                requestPermissionLauncher.launch(notificationPermission)
             } else {
-                // Directly ask for the permission
-                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                // TODO: 설정 창에서 권한 요청
             }
         }
     }

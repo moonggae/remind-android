@@ -55,7 +55,7 @@ class SplashActivity : AppCompatActivity() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.uiState.collect {
-                        if(it.doneUserInit && !it.doneFCMTokenInit) {
+                        if(it.doneUserInit && it.loginState != LoginState.EMPTY &&!it.doneFCMTokenInit) {
                             updateFCMToken()
                         }
 

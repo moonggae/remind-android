@@ -123,6 +123,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-messaging-ktx'
 
+
     // kakao
     implementation "com.kakao.sdk:v2-all:2.13.0"
     implementation "com.kakao.sdk:v2-user:2.13.0"

@@ -16,4 +16,6 @@ object Constants {
     const val INVITE_CODE_LENGTH = 6
 
     const val POST_MIND_RESULT_KEY = "_POST_MIND_RESULT_KEY_"
+
+    const val REQUEST_CODE_NOTIFICATION = 1000
 }

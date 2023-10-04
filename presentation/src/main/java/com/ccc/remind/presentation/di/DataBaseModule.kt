@@ -3,6 +3,7 @@ package com.ccc.remind.presentation.di
 import android.content.Context
 import androidx.room.Room
 import com.ccc.remind.data.source.AppDatabase
+import com.ccc.remind.data.source.local.dao.SettingDao
 import com.ccc.remind.data.source.local.dao.UserDao
 import dagger.Module
 import dagger.Provides
@@ -19,9 +20,16 @@ object DataBaseModule {
     @Singleton
     fun provideAppDatabase(
         @ApplicationContext context: Context
-    ): AppDatabase = Room.databaseBuilder(context, AppDatabase::class.java, "app.db").fallbackToDestructiveMigration().build()
+    ): AppDatabase = Room
+        .databaseBuilder(context, AppDatabase::class.java, "app.db")
+        .fallbackToDestructiveMigration()
+        .build()
 
     @Provides
     @Singleton
-    fun provideUserDao(appDatabase: AppDatabase) : UserDao = appDatabase.userDao()
+    fun provideUserDao(appDatabase: AppDatabase): UserDao = appDatabase.userDao()
+
+    @Provides
+    @Singleton
+    fun provideSettingDao(appDatabase: AppDatabase): SettingDao = appDatabase.settingDao()
 }
