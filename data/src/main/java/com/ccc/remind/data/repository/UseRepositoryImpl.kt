@@ -1,6 +1,5 @@
 package com.ccc.remind.data.repository
 
-import android.util.Log
 import com.ccc.remind.data.mapper.toData
 import com.ccc.remind.data.mapper.toDomain
 import com.ccc.remind.data.mapper.toEntity
@@ -28,7 +27,6 @@ class UserRepositoryImpl(
     
     override suspend fun getLoggedInUser(): Flow<User?> = flow {
         val user = userLocalDataSource.fetchLoggedInUser()?.toDomain()
-        Log.d(TAG, "UserRepositoryImpl - getLoggedInUser - user: ${user}")
         emit(user)
     }
 

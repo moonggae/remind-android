@@ -1,6 +1,5 @@
 package com.ccc.remind.presentation.ui.home
 
-import android.util.Log
 import com.ccc.remind.domain.entity.mind.MindPost
 import com.ccc.remind.domain.entity.notification.Notification
 
@@ -12,7 +11,6 @@ data class HomeUiStatus(
     val isNotificationAlarmOn: Boolean
         get() {
             val result = notifications.any { !it.isRead }
-            Log.d("TAG", "HomeUiStatus -  - result: ${result}")
             return result
         }
 }

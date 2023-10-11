@@ -1,6 +1,5 @@
 package com.ccc.remind.presentation.ui.onboard.displayName
 
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -43,7 +42,6 @@ class DisplayNameActivity :
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
-                    Log.d(TAG, "DisplayNameActivity - initView - it.isRegisteredDisplayName: ${it.isRegisteredDisplayName}")
                     if (it.isRegisteredDisplayName) {
                         navController.navigate(R.id.action_displayNameRegisterFragment_to_displayNameShowFragment)
                     }

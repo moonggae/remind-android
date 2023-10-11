@@ -1,6 +1,5 @@
 package com.ccc.remind.presentation.di.network
 
-import android.util.Log
 import com.ccc.remind.domain.entity.user.JwtToken
 import com.ccc.remind.domain.repository.AuthRepository
 import kotlinx.coroutines.cancel
@@ -67,9 +66,6 @@ class TokenInterceptor @Inject constructor(private val authRepository: AuthRepos
         if (!this::accessToken.isInitialized || accessToken.isEmpty()) {
             initToken()
         }
-
-
-        Log.d(TAG, "TokenInterceptor - intercept - request: ${chain.request().url}")
 
         val request = chain.request().putTokenHeader(accessToken)
         var response: Response = chain.proceed(request)

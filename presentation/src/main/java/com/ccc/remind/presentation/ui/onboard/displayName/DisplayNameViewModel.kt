@@ -1,6 +1,5 @@
 package com.ccc.remind.presentation.ui.onboard.displayName
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ccc.remind.domain.usecase.user.UpdateUserDisplayNameUseCase
@@ -30,7 +29,6 @@ class DisplayNameViewModel @Inject constructor(private val updateUserDisplayName
 
 
     init {
-        Log.d(TAG, "DisplayNameViewModel - init")
         initDisplayNameObserver()
     }
 
@@ -46,7 +44,6 @@ class DisplayNameViewModel @Inject constructor(private val updateUserDisplayName
     private fun initDisplayNameObserver() {
         viewModelScope.launch {
             _userDisplayName.collect { text ->
-                Log.d(TAG, "DisplayNameViewModel - initDisplayNameObserver - _userDisplayName: ${text}")
                 _uiState.update {
                     it.copy(
                         isValidDisplayName = ValidationUtil.displayNameValidate(text ?: ""),
