@@ -13,7 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.ccc.remind.presentation.ui.main.MainActivity
 import com.ccc.remind.presentation.ui.onboard.displayName.DisplayNameActivity
 import com.ccc.remind.presentation.ui.onboard.login.LoginActivity
-import com.ccc.remind.presentation.util.NotificationUtil
+import com.ccc.remind.presentation.util.notification.NotificationUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

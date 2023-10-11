@@ -1,4 +1,4 @@
-package com.ccc.remind.presentation.util
+package com.ccc.remind.presentation.util.notification
 
 import android.Manifest
 import android.app.Notification
@@ -15,7 +15,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.ccc.remind.R
 import com.ccc.remind.domain.usecase.notification.PostNotificationUseCase
 import com.ccc.remind.presentation.ui.main.MainActivity
-import com.ccc.remind.presentation.util.Constants.NOTIFICATION_INTENT_EXTRA_ID
+import com.ccc.remind.presentation.util.Constants.NOTIFICATION_INTENT_EXTRA_TARGET_ID
 import com.ccc.remind.presentation.util.Constants.NOTIFICATION_INTENT_EXTRA_TYPE
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -24,13 +24,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.random.Random
 
 /* TODO: Notification
-- 감정 기록 post
-- 메모 post or update
-- 메모 comment
-- 친구 신청
-- 친구 수락
+- 감정 묻기
 */
 
 @AndroidEntryPoint
@@ -98,13 +95,12 @@ class RemindFirebaseMessageService : FirebaseMessagingService() {
         type: String?,
         targetId: String?
     ): Notification {
-        val requestCode = 0
+        val requestCode = Random.nextInt()
 
         val intent = Intent(this, MainActivity::class.java).apply {
             putExtra(NOTIFICATION_INTENT_EXTRA_TYPE, type)
-            putExtra(NOTIFICATION_INTENT_EXTRA_ID, targetId)
+            putExtra(NOTIFICATION_INTENT_EXTRA_TARGET_ID, targetId)
             addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            // 기존에 해당 액티비티가 이미 있다면, 새로 생성하지 않고 그 액티비티를 재사용하여 나타냄
         }
 
         val pendingIntent = PendingIntent.getActivity(
@@ -127,9 +123,9 @@ class RemindFirebaseMessageService : FirebaseMessagingService() {
     }
 
     companion object {
-        private const val CHANNEL_NAME = " Emoji Party"
-        private const val CHANNEL_DESCRIPTION = "Emoji Party를 위한 채널"
-        private const val CHANNEL_ID = "Channel Id"
+        private const val CHANNEL_NAME = "친구 알림"
+        private const val CHANNEL_DESCRIPTION = "친구 이벤트 알림"
+        private const val CHANNEL_ID = "Friend Event Notification"
     }
 
 }

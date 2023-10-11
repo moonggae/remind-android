@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val getLoggedInUser: GetLoggedInUserUserCase,
-    private val updateFCMToken: UpdateFCMTokenUseCase // todo fcm token update
+    private val updateFCMToken: UpdateFCMTokenUseCase
 ) : ViewModel() {
     companion object {
         private const val TAG = "SplashViewModel"

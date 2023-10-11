@@ -81,7 +81,7 @@
         </activity>
 
         <service
-            android:name="com.ccc.remind.presentation.util.RemindFirebaseMessageService"
+            android:name="com.ccc.remind.presentation.util.notification.RemindFirebaseMessageService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

@@ -9,6 +9,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -26,9 +28,7 @@ import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.Constants
 
 /* TODO
-- notification
 - synchronize data using web socket
-- process for using invite code
 */
 
 @Preview
@@ -39,18 +39,22 @@ fun AppPreview() {
 
 @Composable
 fun App(
+    navController: NavController = rememberNavController(),
     sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
-    NavigationWrapper(sharedViewModel = sharedViewModel)
+    NavigationWrapper(
+        navController = navController,
+        sharedViewModel = sharedViewModel
+    )
 }
 
 @Composable
 private fun NavigationWrapper(
+    navController: NavController = rememberNavController(),
     sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
-    val navController = rememberNavController()
     val navigationActions = remember(navController) {
-        NavigationActions(navController)
+        NavigationActions(navController as NavHostController)
     }
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -68,7 +72,7 @@ private fun NavigationWrapper(
         val memoEditViewModel: MemoEditViewModel = hiltViewModel()
 
         NavHost(
-            navController = navController,
+            navController = navController as NavHostController,
             modifier = Modifier.weight(1f),
             startDestination = Constants.START_TOP_SCREEN.root.name
         ) {

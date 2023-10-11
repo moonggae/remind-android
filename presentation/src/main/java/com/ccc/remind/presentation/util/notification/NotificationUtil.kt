@@ -1,4 +1,4 @@
-package com.ccc.remind.presentation.util
+package com.ccc.remind.presentation.util.notification
 
 import android.Manifest
 import android.content.pm.PackageManager
