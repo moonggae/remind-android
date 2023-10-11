@@ -22,6 +22,8 @@
     <string name="home_empty_mind_history">아직 선택된 감정이 없어요</string>
     <string name="home_label_mind_memo">감정 메모</string>
     <string name="home_empty_mind_memo">아직 작성된 메모가 없어요</string>
+    <string name="home_ask_mind_button">감정 묻기</string>
+    <string name="home_ask_mind_dailog_content_text">%1$s님에게 감정을 물어볼까요?</string>
 
     <string name="mind_post_card_list_title">감정 기록을 시작할게요!</string>
     <string name="mind_post_card_list_label">가장 가까운 감정은 무엇인가요?</string>

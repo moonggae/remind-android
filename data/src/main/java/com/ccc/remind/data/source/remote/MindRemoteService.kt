@@ -29,4 +29,7 @@ interface MindRemoteService {
 
     @DELETE("mind/post/{id}")
     suspend fun deleteMindPost(@Path("id") id: Int)
+
+    @POST("mind/post/request/friend")
+    suspend fun postRequestFriendMind()
 }

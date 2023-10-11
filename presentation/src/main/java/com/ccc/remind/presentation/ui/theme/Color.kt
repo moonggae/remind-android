@@ -125,7 +125,8 @@ val all_kakao = Color(0xFFE812)
 
 val all_button_disabled = Color(0xFFD1DDFF)
 val all_text_button_blue = Color(0xFF1456FF)
-val all_warn = red_400
+val all_warn_default = red_400
+val all_warn_onAccent = red_500
 val all_alarm = Color(0xFFFF4848)
 
 
@@ -144,7 +145,8 @@ object RemindLightColorTokens {
     val kakao = all_kakao
     val button_disabled = all_button_disabled
     val text_button_blue = all_text_button_blue
-    val warn = all_warn
+    val warn_default = all_warn_default
+    val warn_onAccent = all_warn_onAccent
     val alarm = all_alarm
 }
 
@@ -162,7 +164,8 @@ object RemindDarkColorTokens {
     val kakao = all_kakao
     val button_disabled = all_button_disabled
     val text_button_blue = all_text_button_blue
-    val warn = all_warn
+    val warn_default = all_warn_default
+    val warn_onAccent = all_warn_onAccent
     val alarm = all_alarm
 }
 
@@ -180,7 +183,8 @@ class RemindColorScheme(
     val kakao: Color,
     val button_disabled: Color,
     val text_button_blue: Color,
-    val warn: Color,
+    val warn_default: Color,
+    val warn_onAccent: Color,
     val alarm: Color
 )
 
@@ -198,7 +202,8 @@ fun remindLightColorScheme(
     kakao: Color = RemindLightColorTokens.kakao,
     button_disabled: Color = RemindLightColorTokens.button_disabled,
     text_button_blue: Color = RemindLightColorTokens.text_button_blue,
-    warn: Color = RemindLightColorTokens.warn,
+    warn_default: Color = RemindLightColorTokens.warn_default,
+    warn_onAccent: Color = RemindLightColorTokens.warn_onAccent,
     alarm: Color = RemindLightColorTokens.alarm
 ) : RemindColorScheme = RemindColorScheme(
     fg_default = fg_default,
@@ -214,7 +219,8 @@ fun remindLightColorScheme(
     kakao = kakao,
     button_disabled = button_disabled,
     text_button_blue = text_button_blue,
-    warn = warn,
+    warn_default = warn_default,
+    warn_onAccent = warn_onAccent,
     alarm = alarm
 )
 
@@ -232,7 +238,8 @@ fun remindDarkColorScheme(
     kakao: Color = RemindDarkColorTokens.kakao,
     button_disabled: Color = RemindDarkColorTokens.button_disabled,
     text_button_blue: Color = RemindDarkColorTokens.text_button_blue,
-    warn: Color = RemindDarkColorTokens.warn,
+    warn_default: Color = RemindDarkColorTokens.warn_default,
+    warn_onAccent: Color = RemindLightColorTokens.warn_onAccent,
     alarm: Color = RemindDarkColorTokens.alarm
 ) : RemindColorScheme = RemindColorScheme(
     fg_default = fg_default,
@@ -248,6 +255,7 @@ fun remindDarkColorScheme(
     kakao = kakao,
     button_disabled = button_disabled,
     text_button_blue = text_button_blue,
-    warn = warn,
+    warn_default = warn_default,
+    warn_onAccent = warn_onAccent,
     alarm = alarm
 )

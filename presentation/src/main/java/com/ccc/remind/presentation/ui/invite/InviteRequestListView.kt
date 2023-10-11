@@ -159,7 +159,7 @@ fun ReceivedFriendRequest(
             text = stringResource(R.string.to_deny),
             contentPadding = PaddingValues(0.dp),
             style = RemindMaterialTheme.typography.regular_md,
-            containerColor = RemindMaterialTheme.colorScheme.warn,
+            containerColor = RemindMaterialTheme.colorScheme.warn_default,
             onClick = openDenyAlertDialog
         )
     }

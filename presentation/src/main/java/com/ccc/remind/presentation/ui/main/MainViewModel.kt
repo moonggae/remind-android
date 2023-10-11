@@ -37,6 +37,7 @@ class MainViewModel @Inject constructor(
 
         when(NotificationType(notificationType)) {
             NotificationType.FRIEND_ACCEPT,
+            NotificationType.MIND_REQUEST,
             NotificationType.MIND_POST -> navController.navigate(Route.Main.Home.name)
 
             NotificationType.MEMO_UPDATE,

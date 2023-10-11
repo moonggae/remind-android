@@ -59,6 +59,7 @@ import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.button.OutlinedTextButton
 import com.ccc.remind.presentation.ui.component.button.PrimaryButton
 import com.ccc.remind.presentation.ui.component.container.BackgroundContainer
+import com.ccc.remind.presentation.ui.component.dialog.AlertDialog
 import com.ccc.remind.presentation.ui.component.icon.CircleIndicator
 import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ViewDetailTextButton
@@ -67,6 +68,10 @@ import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.Constants.POST_MIND_RESULT_KEY
 import com.ccc.remind.presentation.util.buildCoilRequest
 import kotlinx.coroutines.launch
+
+/* TODO
+- notification list page
+*/
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -170,9 +175,10 @@ fun HomeScreen(
                 )
                 1 -> OtherHomeContents(
                     postMind = uiState.friendPost,
-                    displayName = null,
+                    displayName = sharedUiState.friend?.displayName,
                     navController = navController,
-                    modifier = Modifier.padding(horizontal = 20.dp)
+                    modifier = Modifier.padding(horizontal = 20.dp),
+                    onRequestFriendMind = viewModel::submitRequestFriendMind
                 )
             }
         }
@@ -186,7 +192,22 @@ fun OtherHomeContents(
     postMind: MindPost?,
     displayName: String?,
     navController: NavController,
+    onRequestFriendMind: () -> Unit
 ) {
+    val scope = rememberCoroutineScope()
+    var openAskMindAlertDialog by remember { mutableStateOf(false) }
+    val openDialog: () -> Unit = {
+        scope.launch {
+            openAskMindAlertDialog = true
+        }
+    }
+    val closeDialog: () -> Unit = {
+        scope.launch {
+            openAskMindAlertDialog = false
+        }
+    }
+
+
     Column(modifier) {
         if (postMind == null) {
             EmptyOtherPostMindCard(userDisplayName = displayName) {
@@ -201,12 +222,12 @@ fun OtherHomeContents(
             Spacer(modifier = Modifier.height(18.dp))
 
             PrimaryButton(
-                text = "감정 묻기",
+                text = stringResource(R.string.home_ask_mind_button),
                 textStyle = RemindMaterialTheme.typography.bold_lg,
                 modifier = Modifier
                     .padding(horizontal = 50.dp)
                     .height(46.dp),
-                onClick = { navController.navigate(Route.MindPost.CardList.name) }
+                onClick = openDialog
             )
         }
 
@@ -281,6 +302,20 @@ fun OtherHomeContents(
                 commentSize = postMind.memo?.comments?.size ?: 0
             )
         }
+    }
+
+    if(openAskMindAlertDialog) {
+        AlertDialog(
+            contentText = stringResource(R.string.home_ask_mind_dailog_content_text, displayName ?: ""),
+            onClickConfirmButton = {
+                onRequestFriendMind()
+                closeDialog()
+            },
+            onClickCancelButton = closeDialog,
+            onDismissRequest = closeDialog,
+            buttonReverse = true,
+            confirmLabelColor = RemindMaterialTheme.colorScheme.accent_default
+        )
     }
 }
 

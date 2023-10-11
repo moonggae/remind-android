@@ -28,10 +28,13 @@ fun AlertDialog(
     modifier: Modifier = Modifier,
     cancelLabelText: String = "취소",
     confirmLabelText: String = "확인",
+    cancelLabelColor: Color = RemindMaterialTheme.colorScheme.fg_subtle,
+    confirmLabelColor: Color = RemindMaterialTheme.colorScheme.warn_onAccent,
     contentText: String,
     onClickConfirmButton: () -> Unit,
     onClickCancelButton: () -> Unit,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    buttonReverse: Boolean = false
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
         Column(
@@ -59,17 +62,37 @@ fun AlertDialog(
                 color = RemindMaterialTheme.colorScheme.fg_subtle
             )
 
-            Row {
+            val cancelButton: @Composable () -> Unit = {
                 TextFillButton(
                     text = cancelLabelText,
                     style = RemindMaterialTheme.typography.regular_lg,
-                    contentColor = RemindMaterialTheme.colorScheme.fg_subtle,
+                    contentColor = cancelLabelColor,
                     containerColor = RemindMaterialTheme.colorScheme.bg_muted,
                     modifier = Modifier
                         .height(48.dp)
                         .weight(1f, true),
                     onClick = onClickCancelButton
                 )
+            }
+
+            val confirmButton: @Composable () -> Unit = {
+                TextFillButton(
+                    text = confirmLabelText,
+                    style = RemindMaterialTheme.typography.regular_lg,
+                    contentColor = confirmLabelColor,
+                    containerColor = RemindMaterialTheme.colorScheme.bg_muted,
+                    modifier = Modifier
+                        .height(48.dp)
+                        .weight(1f, true),
+                    onClick = onClickConfirmButton
+                )
+            }
+
+            Row {
+                if(buttonReverse)
+                    confirmButton()
+                else
+                    cancelButton()
 
                 Divider(
                     color = RemindMaterialTheme.colorScheme.fg_subtle,
@@ -78,16 +101,10 @@ fun AlertDialog(
                         .width(0.5.dp)
                 )
 
-                TextFillButton(
-                    text = confirmLabelText,
-                    style = RemindMaterialTheme.typography.regular_lg,
-                    contentColor = Color(0xFFF56565),
-                    containerColor = RemindMaterialTheme.colorScheme.bg_muted,
-                    modifier = Modifier
-                        .height(48.dp)
-                        .weight(1f, true),
-                    onClick = onClickConfirmButton
-                )
+                if(buttonReverse)
+                    cancelButton()
+                else
+                    confirmButton()
             }
         }
     }

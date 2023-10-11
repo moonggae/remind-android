@@ -29,4 +29,6 @@ interface MindRepository {
     fun getLastPostedMind(): Flow<MindPost?>
 
     fun getFriendLastPostedMind(): Flow<MindPost?>
+
+    suspend fun requestFriendMind()
 }

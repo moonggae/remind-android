@@ -6,6 +6,7 @@ import com.ccc.remind.data.util.Constants.NOTIFICATION_LOAD_SIZE
 import com.ccc.remind.domain.usecase.notification.GetNotificationsUseCase
 import com.ccc.remind.domain.usecase.post.GetFriendLastPostedMindUseCase
 import com.ccc.remind.domain.usecase.post.GetLastMindUseCase
+import com.ccc.remind.domain.usecase.post.RequestFriendMindUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +18,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getLastMind: GetLastMindUseCase,
     private val getFriendLastPostedMind: GetFriendLastPostedMindUseCase,
-    private val getNotificationsUseCase: GetNotificationsUseCase
+    private val getNotificationsUseCase: GetNotificationsUseCase,
+    private val requestFriendMind: RequestFriendMindUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiStatus())
 
@@ -70,6 +72,13 @@ class HomeViewModel @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    fun submitRequestFriendMind() {
+        // TODO: exception 처리
+        viewModelScope.launch {
+            requestFriendMind()
         }
     }
 }
