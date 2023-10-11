@@ -68,10 +68,6 @@ import com.ccc.remind.presentation.util.Constants.POST_MIND_RESULT_KEY
 import com.ccc.remind.presentation.util.buildCoilRequest
 import kotlinx.coroutines.launch
 
-/* TODO
-- 메모 작성, 업데이트 후 홈 화면 업데이트 안됨
- */
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(

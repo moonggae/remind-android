@@ -82,6 +82,7 @@ fun NavGraphBuilder.mainNavGraph(
     val startDestination =
         if(Constants.START_TOP_SCREEN.root == Route.Main) Constants.START_TOP_SCREEN
         else Route.Main.Home
+
     navigation(
         startDestination = startDestination.name,
         route = Route.Main.name,
@@ -91,10 +92,10 @@ fun NavGraphBuilder.mainNavGraph(
         }
         composable(Route.Main.Home.name) {
             val homeViewModel: HomeViewModel = hiltViewModel()
-            if(it.lifecycle.currentState == Lifecycle.State.STARTED) {
-                homeViewModel.refreshLastPostedMind()
-                homeViewModel.refreshFriendLastPostedMind()
-                homeViewModel.refreshNotifications()
+            navController.addOnDestinationChangedListener { _, destination, _ ->
+                if(destination.route == Route.Main.Home.name) {
+                    homeViewModel.initUiState()
+                }
             }
 
             HomeScreen(

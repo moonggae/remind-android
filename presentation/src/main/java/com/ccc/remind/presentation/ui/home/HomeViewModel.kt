@@ -30,7 +30,13 @@ class HomeViewModel @Inject constructor(
 //        refreshNotifications()
 //    }
 
-    fun refreshLastPostedMind() {
+    fun initUiState() {
+        refreshLastPostedMind()
+        refreshFriendLastPostedMind()
+        refreshNotifications()
+    }
+
+    private fun refreshLastPostedMind() {
         viewModelScope.launch {
             getLastMind().collect { lastMind ->
                 _uiState.update {
@@ -42,7 +48,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun refreshFriendLastPostedMind() {
+    private fun refreshFriendLastPostedMind() {
         viewModelScope.launch {
             getFriendLastPostedMind().collect { lastMind ->
                 _uiState.update {
@@ -54,7 +60,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun refreshNotifications() {
+    private fun refreshNotifications() {
         viewModelScope.launch {
             val page = _uiState.value.notifications.size / NOTIFICATION_LOAD_SIZE
             getNotificationsUseCase(page).collect { notifications ->
