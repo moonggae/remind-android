@@ -1,7 +1,9 @@
 package com.ccc.remind.presentation.di
 
+import com.ccc.remind.data.source.local.NotificationLocalDataSource
 import com.ccc.remind.data.source.local.SettingLocalDataSource
 import com.ccc.remind.data.source.local.UserLocalDataSource
+import com.ccc.remind.data.source.local.dao.NotificationDao
 import com.ccc.remind.data.source.local.dao.SettingDao
 import com.ccc.remind.data.source.local.dao.UserDao
 import dagger.Module
@@ -25,5 +27,11 @@ object DataSourceModule {
     @Singleton
     fun provideSettingLocalDataSource(settingDao: SettingDao): SettingLocalDataSource {
         return SettingLocalDataSource(settingDao, Dispatchers.IO)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationLocalDataSource(notificationDao: NotificationDao): NotificationLocalDataSource {
+        return NotificationLocalDataSource(notificationDao, Dispatchers.IO)
     }
 }

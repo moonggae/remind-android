@@ -5,8 +5,10 @@ import com.ccc.remind.data.repository.FriendRepositoryImpl
 import com.ccc.remind.data.repository.ImageRepositoryImpl
 import com.ccc.remind.data.repository.MindMemoRepositoryImpl
 import com.ccc.remind.data.repository.MindRepositoryImpl
+import com.ccc.remind.data.repository.NotificationRepositoryImpl
 import com.ccc.remind.data.repository.SettingRepositoryImpl
 import com.ccc.remind.data.repository.UserRepositoryImpl
+import com.ccc.remind.data.source.local.NotificationLocalDataSource
 import com.ccc.remind.data.source.local.SettingLocalDataSource
 import com.ccc.remind.data.source.local.UserLocalDataSource
 import com.ccc.remind.data.source.remote.AuthRemoteService
@@ -20,6 +22,7 @@ import com.ccc.remind.domain.repository.FriendRepository
 import com.ccc.remind.domain.repository.ImageRepository
 import com.ccc.remind.domain.repository.MindMemoRepository
 import com.ccc.remind.domain.repository.MindRepository
+import com.ccc.remind.domain.repository.NotificationRepository
 import com.ccc.remind.domain.repository.SettingRepository
 import com.ccc.remind.domain.repository.UserRepository
 import dagger.Module
@@ -72,5 +75,11 @@ object RepositoryModule {
     @Singleton
     fun provideSettingRepository(settingLocalDataSource: SettingLocalDataSource): SettingRepository {
         return SettingRepositoryImpl(settingLocalDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationRepository(notificationLocalDataSource: NotificationLocalDataSource): NotificationRepository {
+        return NotificationRepositoryImpl(notificationLocalDataSource)
     }
 }

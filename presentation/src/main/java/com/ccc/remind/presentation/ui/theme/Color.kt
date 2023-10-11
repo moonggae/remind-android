@@ -126,6 +126,7 @@ val all_kakao = Color(0xFFE812)
 val all_button_disabled = Color(0xFFD1DDFF)
 val all_text_button_blue = Color(0xFF1456FF)
 val all_warn = red_400
+val all_alarm = Color(0xFFFF4848)
 
 
 
@@ -144,6 +145,7 @@ object RemindLightColorTokens {
     val button_disabled = all_button_disabled
     val text_button_blue = all_text_button_blue
     val warn = all_warn
+    val alarm = all_alarm
 }
 
 object RemindDarkColorTokens {
@@ -161,6 +163,7 @@ object RemindDarkColorTokens {
     val button_disabled = all_button_disabled
     val text_button_blue = all_text_button_blue
     val warn = all_warn
+    val alarm = all_alarm
 }
 
 class RemindColorScheme(
@@ -178,6 +181,7 @@ class RemindColorScheme(
     val button_disabled: Color,
     val text_button_blue: Color,
     val warn: Color,
+    val alarm: Color
 )
 
 fun remindLightColorScheme(
@@ -195,6 +199,7 @@ fun remindLightColorScheme(
     button_disabled: Color = RemindLightColorTokens.button_disabled,
     text_button_blue: Color = RemindLightColorTokens.text_button_blue,
     warn: Color = RemindLightColorTokens.warn,
+    alarm: Color = RemindLightColorTokens.alarm
 ) : RemindColorScheme = RemindColorScheme(
     fg_default = fg_default,
     fg_muted = fg_muted,
@@ -210,6 +215,7 @@ fun remindLightColorScheme(
     button_disabled = button_disabled,
     text_button_blue = text_button_blue,
     warn = warn,
+    alarm = alarm
 )
 
 fun remindDarkColorScheme(
@@ -226,7 +232,8 @@ fun remindDarkColorScheme(
     kakao: Color = RemindDarkColorTokens.kakao,
     button_disabled: Color = RemindDarkColorTokens.button_disabled,
     text_button_blue: Color = RemindDarkColorTokens.text_button_blue,
-    warn: Color = RemindDarkColorTokens.warn
+    warn: Color = RemindDarkColorTokens.warn,
+    alarm: Color = RemindDarkColorTokens.alarm
 ) : RemindColorScheme = RemindColorScheme(
     fg_default = fg_default,
     fg_muted = fg_muted,
@@ -242,4 +249,5 @@ fun remindDarkColorScheme(
     button_disabled = button_disabled,
     text_button_blue = text_button_blue,
     warn = warn,
+    alarm = alarm
 )

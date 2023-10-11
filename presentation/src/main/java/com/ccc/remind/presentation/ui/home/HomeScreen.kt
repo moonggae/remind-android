@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,6 +35,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -109,14 +111,28 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
                 verticalAlignment = Alignment.Top,
             ) {
-                IconButton(onClick = {
-                    // todo
-                }, modifier = Modifier.size(40.dp)) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_notification_off),
-                        contentDescription = null
-                    )
+                Box(modifier = Modifier.size(40.dp)) {
+                    IconButton(onClick = {
+                        // todo
+                    }, modifier = Modifier.size(40.dp)) {
+                        Image(
+                            painter = painterResource(R.drawable.ic_notification),
+                            contentDescription = null,
+                            modifier = Modifier.background(Color.Transparent)
+                        )
+                    }
+
+                    if (uiState.isNotificationAlarmOn) {
+                        Box(
+                            Modifier
+                                .size(12.dp)
+                                .clip(CircleShape)
+                                .background(RemindMaterialTheme.colorScheme.alarm)
+                                .align(TopEnd)
+                        )
+                    }
                 }
+
 
                 IconButton(
                     onClick = {
@@ -368,7 +384,7 @@ fun MyHomeContents(
         when {
             postMind == null -> EmptyMemoCard()
             postMind.memo == null -> EmptyMemoCard {
-                navController.navigate(route = "${Route.MemoEdit.name}/${postMind.id}/${-1}")
+                navController.navigate(route = "${Route.MemoEdit.name}/${postMind.id}/${-1}/false")
             }
 
             else -> MindMemoCard(

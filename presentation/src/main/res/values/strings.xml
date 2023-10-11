@@ -107,4 +107,6 @@
     <string name="user_profile_edit_label_display_name">닉네임</string>
     <string name="user_profile_image">user profile image</string>
     <string name="copy_icon">copy icon</string>
+
+    <string name="default_notification_channel_id">Channel Id</string>
 </resources>

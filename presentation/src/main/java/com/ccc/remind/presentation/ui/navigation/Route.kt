@@ -94,6 +94,7 @@ fun NavGraphBuilder.mainNavGraph(
             if(it.lifecycle.currentState == Lifecycle.State.STARTED) {
                 homeViewModel.refreshLastPostedMind()
                 homeViewModel.refreshFriendLastPostedMind()
+                homeViewModel.refreshNotifications()
             }
 
             HomeScreen(

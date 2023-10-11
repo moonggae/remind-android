@@ -3,6 +3,7 @@ package com.ccc.remind.presentation.di
 import android.content.Context
 import androidx.room.Room
 import com.ccc.remind.data.source.AppDatabase
+import com.ccc.remind.data.source.local.dao.NotificationDao
 import com.ccc.remind.data.source.local.dao.SettingDao
 import com.ccc.remind.data.source.local.dao.UserDao
 import dagger.Module
@@ -32,4 +33,8 @@ object DataBaseModule {
     @Provides
     @Singleton
     fun provideSettingDao(appDatabase: AppDatabase): SettingDao = appDatabase.settingDao()
+
+    @Provides
+    @Singleton
+    fun provideNotificationDao(appDatabase: AppDatabase): NotificationDao = appDatabase.notificationDao()
 }

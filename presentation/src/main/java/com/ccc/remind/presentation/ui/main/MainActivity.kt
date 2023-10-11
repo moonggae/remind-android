@@ -2,6 +2,7 @@ package com.ccc.remind.presentation.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -39,8 +40,6 @@ class MainActivity : ComponentActivity() {
             okHttpClient = okHttpClient
         )
 
-
-
         setContent {
             App(sharedViewModel)
         }
@@ -59,20 +58,16 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
-
-
-    private fun initNotificationPermission() {
-        lifecycleScope.launch {
-            mainViewModel.uiState.collect { uiState ->
-                if(uiState.isDenyNotification == false) {
-                    NotificationUtil(this@MainActivity).askNotificationPermission()
-                }
-            }
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        intent?.getStringExtra("MSG")?.let {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         }
     }
+
+
+
 }
 
 

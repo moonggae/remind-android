@@ -22,6 +22,6 @@ interface UserRemoteService {
     @PATCH("users/profile")
     suspend fun updateProfile(@Body profileUpdateDto: UserProfileUpdateDto)
 
-    @PATCH("users/fcm")
+    @PATCH("notification/token")
     suspend fun updateFCMToken(@Body token: UpdateFCMTokenRequestDto)
 }
