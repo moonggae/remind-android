@@ -70,6 +70,17 @@
     <string name="invite_profile_appbar_title">초대하기</string>
     <string name="invite_profile_invite_button">초대하기</string>
 
+    <string name="notification_list_title">알림</string>
+    <string name="notification_list_load_before_items_button">이전 알림 보기</string>
+
+    <string name="timestamp_just_before">방금 전</string>
+    <string name="timestamp_minutes_ago">분 전</string>
+    <string name="timestamp_hours_ago">시간 전</string>
+    <string name="timestamp_days_ago">일 전</string>
+    <string name="timestamp_weeks_ago">주 전</string>
+    <string name="timestamp_months_ago">달 전</string>
+    <string name="timestamp_years_ago">년 전</string>
+
     <string name="empty_user_display_name">유저</string>
 
     <string name="tab_cards">감정카드</string>

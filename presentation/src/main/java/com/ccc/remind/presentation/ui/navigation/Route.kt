@@ -21,6 +21,8 @@ import com.ccc.remind.presentation.ui.mindPost.MindPostCardListScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostCompleteScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostEditScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
+import com.ccc.remind.presentation.ui.notification.NotificationListScreen
+import com.ccc.remind.presentation.ui.notification.NotificationViewModel
 import com.ccc.remind.presentation.ui.user.UserProfileEditScreen
 import com.ccc.remind.presentation.ui.user.UserProfileViewModel
 import com.ccc.remind.presentation.ui.user.UserScreen
@@ -71,13 +73,17 @@ sealed class Route(val name: String, val parent: Route? = null) {
         object Profile: Route("Invite.Profile", Invite)
     }
 
+    object NotificationList: Route("NotificationList")
+
     val root: Route
         get() = parent?.root ?: this
 }
 
 fun NavGraphBuilder.mainNavGraph(
     navController: NavController,
-    sharedViewModel: SharedViewModel
+    sharedViewModel: SharedViewModel,
+    homeViewModel: HomeViewModel,
+    notificationViewModel: NotificationViewModel
 ) {
     val startDestination =
         if(Constants.START_TOP_SCREEN.root == Route.Main) Constants.START_TOP_SCREEN
@@ -91,16 +97,17 @@ fun NavGraphBuilder.mainNavGraph(
             EmptyComingSoon(name = Route.Main.Cards.name)
         }
         composable(Route.Main.Home.name) {
-            val homeViewModel: HomeViewModel = hiltViewModel()
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 if(destination.route == Route.Main.Home.name) {
                     homeViewModel.initUiState()
+                    notificationViewModel.initNotifications()
                 }
             }
 
             HomeScreen(
                 navController = navController,
                 viewModel = homeViewModel,
+                notificationViewModel = notificationViewModel,
                 sharedViewModel = sharedViewModel
             )
         }
@@ -212,6 +219,26 @@ fun NavGraphBuilder.inviteNavGraph(
         route = Route.Invite.Profile.name
     ) {
         InviteProfileScreen(
+            navController = navController,
+            viewModel = viewModel
+        )
+    }
+}
+
+fun NavGraphBuilder.notificationGraph(
+    navController: NavController,
+    viewModel: NotificationViewModel
+) {
+    navController.addOnDestinationChangedListener { _, destination, _ ->
+        if(destination.route == Route.NotificationList.name) {
+            viewModel.updateNotificationsReadAll()
+        }
+    }
+
+    composable(
+        route = Route.NotificationList.name
+    ) {
+        NotificationListScreen(
             navController = navController,
             viewModel = viewModel
         )

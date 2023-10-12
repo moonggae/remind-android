@@ -10,13 +10,13 @@ class LocalDataTypeConverter {
         @TypeConverter
         @JvmStatic
         fun fromZonedDateTime(value: ZonedDateTime): Long {
-            return value.toEpochSecond()
+            return value.toInstant().toEpochMilli()
         }
 
         @TypeConverter
         @JvmStatic
         fun toZonedDateTime(value: Long): ZonedDateTime {
-            val instant = Instant.ofEpochSecond(value)
+            val instant = Instant.ofEpochMilli(value)
             return ZonedDateTime.ofInstant(instant, ZoneId.of("Asia/Seoul"))
         }
     }

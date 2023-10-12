@@ -10,7 +10,7 @@ class NotificationLocalDataSource(
     private val notificationDao: NotificationDao, private val ioDispatcher: CoroutineDispatcher
 ) {
     suspend fun fetchNotifications(page: Int): List<NotificationEntity> = withContext(ioDispatcher) {
-        notificationDao.get(page * NOTIFICATION_LOAD_SIZE, NOTIFICATION_LOAD_SIZE)
+        notificationDao.get(page, NOTIFICATION_LOAD_SIZE)
     }
 
     suspend fun pushNotification(entity: NotificationEntity) = withContext(ioDispatcher) {

@@ -9,8 +9,8 @@ import com.ccc.remind.data.source.local.model.NotificationEntity
 
 @Dao
 interface NotificationDao {
-    @Query("SELECT * FROM notification ORDER BY id DESC LIMIT :loadSize OFFSET :index * :loadSize")
-    fun get(index: Int, loadSize: Int): List<NotificationEntity>
+    @Query("SELECT * FROM notification ORDER BY id DESC LIMIT :loadSize OFFSET :page * :loadSize")
+    fun get(page: Int, loadSize: Int): List<NotificationEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(entity: NotificationEntity)

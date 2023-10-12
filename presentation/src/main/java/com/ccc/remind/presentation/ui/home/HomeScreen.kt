@@ -64,6 +64,7 @@ import com.ccc.remind.presentation.ui.component.icon.CircleIndicator
 import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ViewDetailTextButton
 import com.ccc.remind.presentation.ui.navigation.Route
+import com.ccc.remind.presentation.ui.notification.NotificationViewModel
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.Constants.POST_MIND_RESULT_KEY
 import com.ccc.remind.presentation.util.buildCoilRequest
@@ -71,6 +72,7 @@ import kotlinx.coroutines.launch
 
 /* TODO
 - notification list page
+- request notification permission
 */
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -78,10 +80,13 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
+    notificationViewModel: NotificationViewModel,
     sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val notificationUiState by notificationViewModel.uiState.collectAsState()
     val sharedUiState by sharedViewModel.uiState.collectAsState()
+    val scope = rememberCoroutineScope()
 
     val pagerState = rememberPagerState(
         initialPage = 0
@@ -118,7 +123,9 @@ fun HomeScreen(
             ) {
                 Box(modifier = Modifier.size(40.dp)) {
                     IconButton(onClick = {
-                        // todo
+                        scope.launch {
+                            navController.navigate(Route.NotificationList.name)
+                        }
                     }, modifier = Modifier.size(40.dp)) {
                         Image(
                             painter = painterResource(R.drawable.ic_notification),
@@ -127,7 +134,7 @@ fun HomeScreen(
                         )
                     }
 
-                    if (uiState.isNotificationAlarmOn) {
+                    if (notificationUiState.isNotificationAlarmOn) {
                         Box(
                             Modifier
                                 .size(12.dp)

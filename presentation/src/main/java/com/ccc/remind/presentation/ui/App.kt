@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.ccc.remind.presentation.ui.home.HomeViewModel
 import com.ccc.remind.presentation.ui.invite.InviteViewModel
 import com.ccc.remind.presentation.ui.memo.MemoEditViewModel
 import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
@@ -23,7 +24,9 @@ import com.ccc.remind.presentation.ui.navigation.Route
 import com.ccc.remind.presentation.ui.navigation.inviteNavGraph
 import com.ccc.remind.presentation.ui.navigation.mainNavGraph
 import com.ccc.remind.presentation.ui.navigation.memoEditNavGraph
+import com.ccc.remind.presentation.ui.navigation.notificationGraph
 import com.ccc.remind.presentation.ui.navigation.postMindNavGraph
+import com.ccc.remind.presentation.ui.notification.NotificationViewModel
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.Constants
 
@@ -70,16 +73,19 @@ private fun NavigationWrapper(
         val mindPostViewModel: MindPostViewModel = hiltViewModel()
         val inviteViewModel: InviteViewModel = hiltViewModel()
         val memoEditViewModel: MemoEditViewModel = hiltViewModel()
+        val homeViewModel: HomeViewModel = hiltViewModel()
+        val notificationViewModel: NotificationViewModel = hiltViewModel()
 
         NavHost(
             navController = navController as NavHostController,
             modifier = Modifier.weight(1f),
             startDestination = Constants.START_TOP_SCREEN.root.name
         ) {
-            mainNavGraph(navController, sharedViewModel)
+            mainNavGraph(navController, sharedViewModel, homeViewModel, notificationViewModel)
             postMindNavGraph(navController, mindPostViewModel, sharedViewModel)
             memoEditNavGraph(navController, memoEditViewModel, sharedViewModel)
             inviteNavGraph(navController, inviteViewModel, sharedViewModel)
+            notificationGraph(navController, notificationViewModel)
         }
 
         if(isNavigationBarVisible) {

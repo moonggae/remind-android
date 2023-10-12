@@ -43,8 +43,10 @@ import com.ccc.remind.presentation.util.toFormatString
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-/*
-TODO: delete comment
+/* TODO
+- delete comment
+- user profile image
+- timestamp location time
 */
 
 @Composable
