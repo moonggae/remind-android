@@ -115,7 +115,7 @@ fun MemoEditScreen(
                         onClick = {
                               scope.launch {
                                   viewModel.submitUpdateMemo()
-                                  Toast.makeText(context, context.resources.getString(R.string.mind_memo_edit_appbar_title) , Toast.LENGTH_SHORT).show()
+                                  Toast.makeText(context, context.resources.getString(R.string.mind_memo_edit_memo_update_message) , Toast.LENGTH_SHORT).show()
                               }
                         },
                         shape = RoundedCornerShape(8.dp),

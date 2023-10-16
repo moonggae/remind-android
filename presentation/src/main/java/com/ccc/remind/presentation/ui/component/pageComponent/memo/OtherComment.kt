@@ -3,14 +3,12 @@ package com.ccc.remind.presentation.ui.component.pageComponent.memo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -22,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ccc.remind.R
+import com.ccc.remind.presentation.ui.component.icon.UserProfileIcon
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.toFormatString
 import java.time.ZonedDateTime
@@ -32,6 +31,7 @@ fun OtherComment(
     text: String,
     isLiked: Boolean,
     createdAt: ZonedDateTime,
+    profileImageUrl: String? = null,
     onClickLike: () -> Unit
 ) {
     Row(
@@ -46,11 +46,9 @@ fun OtherComment(
             verticalAlignment = Alignment.Bottom,
             modifier = Modifier.weight(1f)
         ) {
-            Box( // TODO: profile image
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(32.dp)
-                    .background(RemindMaterialTheme.colorScheme.fg_subtle)
+            UserProfileIcon(
+                imageUrl = profileImageUrl,
+                size = 32.dp
             )
 
             Spacer(modifier = Modifier.width(16.dp))

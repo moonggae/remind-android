@@ -97,7 +97,8 @@ fun MindCommentVO.toDomain() = MindComment(
 
 fun UserVO.toDomain() = PostUser(
     id = this.id,
-    displayName = this.displayName
+    displayName = this.displayName,
+    profileImage = this.profileImage?.toDomain()
 )
 
 fun MindLikeVO.toDomain() = MindLike(

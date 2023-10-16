@@ -68,7 +68,8 @@ fun CommentList(
                     text = item.text,
                     isLiked = item.likes.isNotEmpty(),
                     createdAt = item.createdAt,
-                    modifier = Modifier.padding(bottom = 4.dp)
+                    profileImageUrl = item.user.profileImage?.url,
+                    modifier = Modifier.padding(bottom = 4.dp),
                 ) {
                     onClickLike(item)
                 }
