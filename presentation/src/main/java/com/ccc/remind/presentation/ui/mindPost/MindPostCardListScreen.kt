@@ -35,7 +35,7 @@ import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindCardG
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindCardListFilterBar
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.StepBar
 import com.ccc.remind.presentation.ui.component.model.MindFilter
-import com.ccc.remind.presentation.ui.navigation.Route
+import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 
 private const val TAG = "MindPostCardListScreen"

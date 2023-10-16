@@ -41,7 +41,7 @@ import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageDial
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageUploadBar
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindMemoTextField
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.StepBar
-import com.ccc.remind.presentation.ui.navigation.Route
+import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.Constants.POST_MIND_RESULT_KEY
 

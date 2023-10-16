@@ -1,7 +1,7 @@
 package com.ccc.remind.presentation.util
 
 import com.ccc.remind.BuildConfig
-import com.ccc.remind.presentation.ui.navigation.Route
+import com.ccc.remind.presentation.navigation.Route
 
 object Constants {
     val START_TOP_SCREEN =

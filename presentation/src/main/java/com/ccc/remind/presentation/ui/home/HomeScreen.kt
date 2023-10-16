@@ -63,7 +63,7 @@ import com.ccc.remind.presentation.ui.component.dialog.AlertDialog
 import com.ccc.remind.presentation.ui.component.icon.CircleIndicator
 import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ViewDetailTextButton
-import com.ccc.remind.presentation.ui.navigation.Route
+import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.notification.NotificationViewModel
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.Constants.POST_MIND_RESULT_KEY

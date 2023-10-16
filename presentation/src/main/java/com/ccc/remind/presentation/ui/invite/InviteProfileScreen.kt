@@ -30,7 +30,7 @@ import com.ccc.remind.R
 import com.ccc.remind.presentation.ui.component.button.PrimaryButton
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
-import com.ccc.remind.presentation.ui.navigation.Route
+import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.buildCoilRequest
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package com.ccc.remind.presentation.ui.navigation
+package com.ccc.remind.presentation.navigation
 
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController

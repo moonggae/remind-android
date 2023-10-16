@@ -1,4 +1,4 @@
-package com.ccc.remind.presentation.ui.navigation
+package com.ccc.remind.presentation.navigation
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth

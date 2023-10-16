@@ -33,7 +33,7 @@ import com.ccc.remind.presentation.ui.component.button.TextButton
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.layout.BackgroundedTextField
-import com.ccc.remind.presentation.ui.navigation.Route
+import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.ClipboardUtil
 import com.ccc.remind.presentation.util.Constants

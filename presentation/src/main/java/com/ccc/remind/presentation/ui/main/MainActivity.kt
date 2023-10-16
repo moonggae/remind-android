@@ -13,7 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.ccc.remind.presentation.di.network.InterceptorOkHttpClient
 import com.ccc.remind.presentation.ui.App
 import com.ccc.remind.presentation.ui.SharedViewModel
-import com.ccc.remind.presentation.ui.navigation.moveToNotificationRoute
+import com.ccc.remind.presentation.navigation.moveToNotificationRoute
 import com.ccc.remind.presentation.ui.onboard.login.LoginActivity
 import com.ccc.remind.presentation.util.Constants.NOTIFICATION_INTENT_EXTRA_TARGET_ID
 import com.ccc.remind.presentation.util.Constants.NOTIFICATION_INTENT_EXTRA_TYPE
