@@ -8,8 +8,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
-import com.ccc.remind.presentation.ui.EmptyComingSoon
 import com.ccc.remind.presentation.ui.SharedViewModel
+import com.ccc.remind.presentation.ui.card.CardListScreen
+import com.ccc.remind.presentation.ui.card.CardViewModel
 import com.ccc.remind.presentation.ui.home.HomeScreen
 import com.ccc.remind.presentation.ui.home.HomeViewModel
 import com.ccc.remind.presentation.ui.invite.InviteProfileScreen
@@ -83,7 +84,8 @@ fun NavGraphBuilder.mainNavGraph(
     navController: NavController,
     sharedViewModel: SharedViewModel,
     homeViewModel: HomeViewModel,
-    notificationViewModel: NotificationViewModel
+    notificationViewModel: NotificationViewModel,
+    cardViewModel: CardViewModel,
 ) {
     val startDestination =
         if(Constants.START_TOP_SCREEN.root == Route.Main) Constants.START_TOP_SCREEN
@@ -94,7 +96,10 @@ fun NavGraphBuilder.mainNavGraph(
         route = Route.Main.name,
     ) {
         composable(Route.Main.Cards.name) {
-            EmptyComingSoon(name = Route.Main.Cards.name)
+            CardListScreen(
+                navController = navController,
+                viewModel = cardViewModel
+            )
         }
         composable(Route.Main.Home.name) {
             navController.addOnDestinationChangedListener { _, destination, _ ->

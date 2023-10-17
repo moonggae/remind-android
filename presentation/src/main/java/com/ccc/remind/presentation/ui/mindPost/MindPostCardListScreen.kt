@@ -31,7 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ccc.remind.R
-import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindCardGrid
+import com.ccc.remind.presentation.ui.component.layout.MindCardPostGrid
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindCardListFilterBar
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.StepBar
 import com.ccc.remind.presentation.ui.component.model.MindFilter
@@ -140,7 +140,7 @@ fun MindPostCardListScreen(
 
         Spacer(modifier = Modifier.height(28.dp))
 
-        MindCardGrid(
+        MindCardPostGrid(
             mindCards = uiState.filteredMindCards,
             selectedMindCards = uiState.selectedMindCards,
             onClickMindCard = viewModel::updateMindCard

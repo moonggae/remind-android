@@ -1,7 +1,7 @@
 package com.ccc.remind.data.source.remote.model.mind.vo
 
 data class MindCardVO(
-    val id: Long,
+    val id: Int,
     val name: String,
     val displayName: String,
     val description: String?,

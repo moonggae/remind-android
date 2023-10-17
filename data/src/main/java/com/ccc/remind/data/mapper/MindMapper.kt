@@ -3,6 +3,7 @@ package com.ccc.remind.data.mapper
 import com.ccc.remind.data.source.local.model.ImageEntity
 import com.ccc.remind.data.source.remote.model.mind.dto.MindPostResponseDto
 import com.ccc.remind.data.source.remote.model.mind.vo.ImageFileVO
+import com.ccc.remind.data.source.remote.model.mind.vo.MindCardBookmarkVO
 import com.ccc.remind.data.source.remote.model.mind.vo.MindCardTagVO
 import com.ccc.remind.data.source.remote.model.mind.vo.MindCardVO
 import com.ccc.remind.data.source.remote.model.mind.vo.MindCommentVO
@@ -13,6 +14,7 @@ import com.ccc.remind.data.source.remote.model.mind.vo.MindTagVO
 import com.ccc.remind.data.source.remote.model.user.UserVO
 import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.domain.entity.mind.MindCard
+import com.ccc.remind.domain.entity.mind.MindCardBookmark
 import com.ccc.remind.domain.entity.mind.MindCardSelectType
 import com.ccc.remind.domain.entity.mind.MindCardTag
 import com.ccc.remind.domain.entity.mind.MindComment
@@ -105,4 +107,9 @@ fun MindLikeVO.toDomain() = MindLike(
     id = this.id,
     createdAt = this.createdAt,
     user = this.user.toDomain()
+)
+
+fun MindCardBookmarkVO.toDomain() = MindCardBookmark(
+    id = this.id,
+    mindCard = this.mindCard.toDomain()
 )

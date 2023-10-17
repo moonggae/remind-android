@@ -3,6 +3,7 @@ package com.ccc.remind.presentation.di
 import com.ccc.remind.data.source.remote.AuthRemoteService
 import com.ccc.remind.data.source.remote.FriendRemoteService
 import com.ccc.remind.data.source.remote.ImageRemoteService
+import com.ccc.remind.data.source.remote.MindCardBookmarkRemoteService
 import com.ccc.remind.data.source.remote.MindMemoRemoteService
 import com.ccc.remind.data.source.remote.MindRemoteService
 import com.ccc.remind.data.source.remote.UserRemoteService
@@ -169,4 +170,10 @@ object NetworkModule {
     fun provideFriendService(
         @InterceptorRetrofit retrofit: Retrofit
     ): FriendRemoteService = retrofit.create(FriendRemoteService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMindCardBookmarkService(
+        @InterceptorRetrofit retrofit: Retrofit
+    ): MindCardBookmarkRemoteService = retrofit.create(MindCardBookmarkRemoteService::class.java)
 }

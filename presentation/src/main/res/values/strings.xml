@@ -25,6 +25,8 @@
     <string name="home_ask_mind_button">감정 묻기</string>
     <string name="home_ask_mind_dailog_content_text">%1$s님에게 감정을 물어볼까요?</string>
 
+    <string name="card_list_appbar_title">감정카드</string>
+
     <string name="mind_post_card_list_title">감정 기록을 시작할게요!</string>
     <string name="mind_post_card_list_label">가장 가까운 감정은 무엇인가요?</string>
     <string name="mind_post_card_list_label_sub">여러 개 선택이 가능해요!</string>
@@ -83,6 +85,11 @@
 
     <string name="empty_user_display_name">유저</string>
 
+    <string name="mind_filter_all">전체</string>
+    <string name="mind_filter_positive">긍정</string>
+    <string name="mind_filter_negative">부정</string>
+    <string name="mind_filter_normal">보통</string>
+
     <string name="tab_cards">감정카드</string>
     <string name="tab_home">홈</string>
     <string name="tab_user">유저</string>
@@ -120,6 +127,8 @@
     <string name="user_profile_edit_label_display_name">닉네임</string>
     <string name="user_profile_image">user profile image</string>
     <string name="copy_icon">copy icon</string>
+    <string name="bookmark_on">bookmark on</string>
+    <string name="bookmark_off">bookmark off</string>
 
     <string name="default_notification_channel_id">Channel Id</string>
 </resources>

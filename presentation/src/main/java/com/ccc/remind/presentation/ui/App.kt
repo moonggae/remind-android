@@ -14,10 +14,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.ccc.remind.presentation.ui.home.HomeViewModel
-import com.ccc.remind.presentation.ui.invite.InviteViewModel
-import com.ccc.remind.presentation.ui.memo.MemoEditViewModel
-import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
 import com.ccc.remind.presentation.navigation.BottomNavigationBar
 import com.ccc.remind.presentation.navigation.NavigationActions
 import com.ccc.remind.presentation.navigation.Route
@@ -26,6 +22,11 @@ import com.ccc.remind.presentation.navigation.mainNavGraph
 import com.ccc.remind.presentation.navigation.memoEditNavGraph
 import com.ccc.remind.presentation.navigation.notificationGraph
 import com.ccc.remind.presentation.navigation.postMindNavGraph
+import com.ccc.remind.presentation.ui.card.CardViewModel
+import com.ccc.remind.presentation.ui.home.HomeViewModel
+import com.ccc.remind.presentation.ui.invite.InviteViewModel
+import com.ccc.remind.presentation.ui.memo.MemoEditViewModel
+import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
 import com.ccc.remind.presentation.ui.notification.NotificationViewModel
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.Constants
@@ -75,13 +76,14 @@ private fun NavigationWrapper(
         val memoEditViewModel: MemoEditViewModel = hiltViewModel()
         val homeViewModel: HomeViewModel = hiltViewModel()
         val notificationViewModel: NotificationViewModel = hiltViewModel()
+        val cardViewModel: CardViewModel = hiltViewModel()
 
         NavHost(
             navController = navController as NavHostController,
             modifier = Modifier.weight(1f),
             startDestination = Constants.START_TOP_SCREEN.root.name
         ) {
-            mainNavGraph(navController, sharedViewModel, homeViewModel, notificationViewModel)
+            mainNavGraph(navController, sharedViewModel, homeViewModel, notificationViewModel, cardViewModel)
             postMindNavGraph(navController, mindPostViewModel, sharedViewModel)
             memoEditNavGraph(navController, memoEditViewModel, sharedViewModel)
             inviteNavGraph(navController, inviteViewModel, sharedViewModel)

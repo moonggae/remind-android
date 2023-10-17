@@ -3,6 +3,7 @@ package com.ccc.remind.presentation.di
 import com.ccc.remind.data.repository.AuthRepositoryImpl
 import com.ccc.remind.data.repository.FriendRepositoryImpl
 import com.ccc.remind.data.repository.ImageRepositoryImpl
+import com.ccc.remind.data.repository.MindCardBookmarkRepositoryImpl
 import com.ccc.remind.data.repository.MindMemoRepositoryImpl
 import com.ccc.remind.data.repository.MindRepositoryImpl
 import com.ccc.remind.data.repository.NotificationRepositoryImpl
@@ -14,12 +15,14 @@ import com.ccc.remind.data.source.local.UserLocalDataSource
 import com.ccc.remind.data.source.remote.AuthRemoteService
 import com.ccc.remind.data.source.remote.FriendRemoteService
 import com.ccc.remind.data.source.remote.ImageRemoteService
+import com.ccc.remind.data.source.remote.MindCardBookmarkRemoteService
 import com.ccc.remind.data.source.remote.MindMemoRemoteService
 import com.ccc.remind.data.source.remote.MindRemoteService
 import com.ccc.remind.data.source.remote.UserRemoteService
 import com.ccc.remind.domain.repository.AuthRepository
 import com.ccc.remind.domain.repository.FriendRepository
 import com.ccc.remind.domain.repository.ImageRepository
+import com.ccc.remind.domain.repository.MindCardBookmarkRepository
 import com.ccc.remind.domain.repository.MindMemoRepository
 import com.ccc.remind.domain.repository.MindRepository
 import com.ccc.remind.domain.repository.NotificationRepository
@@ -81,5 +84,11 @@ object RepositoryModule {
     @Singleton
     fun provideNotificationRepository(notificationLocalDataSource: NotificationLocalDataSource): NotificationRepository {
         return NotificationRepositoryImpl(notificationLocalDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMindCardBookmarkRepository(mindCardBookmarkRemoteService: MindCardBookmarkRemoteService): MindCardBookmarkRepository {
+        return MindCardBookmarkRepositoryImpl(mindCardBookmarkRemoteService)
     }
 }

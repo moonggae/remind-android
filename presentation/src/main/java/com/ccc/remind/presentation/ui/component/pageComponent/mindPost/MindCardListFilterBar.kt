@@ -21,15 +21,16 @@ import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 
 @Composable
 fun <T: IToggleValue> MindCardListFilterBar(
+    modifier: Modifier = Modifier,
     filterValues: List<T>,
     selectedFilters: List<T>,
     onClickFilter: (T) -> Unit,
-    onClickRefresh: () -> Unit = {}
+    onClickRefresh: (() -> Unit)? = null
 ) {
     Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        horizontalArrangement = if(onClickRefresh != null) Arrangement.SpaceBetween else Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier.then(Modifier.fillMaxWidth())
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
@@ -46,15 +47,17 @@ fun <T: IToggleValue> MindCardListFilterBar(
             }
         }
 
-        IconButton(
-            modifier = Modifier.size(24.dp),
-            onClick = onClickRefresh
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_refresh),
-                contentDescription = stringResource(R.string.refresh_button),
-                tint = RemindMaterialTheme.colorScheme.accent_default
-            )
+        if(onClickRefresh != null) {
+            IconButton(
+                modifier = Modifier.size(24.dp),
+                onClick = onClickRefresh
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_refresh),
+                    contentDescription = stringResource(R.string.refresh_button),
+                    tint = RemindMaterialTheme.colorScheme.accent_default
+                )
+            }
         }
     }
 }
