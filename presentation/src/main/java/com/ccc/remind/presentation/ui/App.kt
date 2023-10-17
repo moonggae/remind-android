@@ -20,6 +20,7 @@ import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.navigation.inviteNavGraph
 import com.ccc.remind.presentation.navigation.mainNavGraph
 import com.ccc.remind.presentation.navigation.memoEditNavGraph
+import com.ccc.remind.presentation.navigation.mindCardGraph
 import com.ccc.remind.presentation.navigation.notificationGraph
 import com.ccc.remind.presentation.navigation.postMindNavGraph
 import com.ccc.remind.presentation.ui.card.CardViewModel
@@ -88,6 +89,7 @@ private fun NavigationWrapper(
             memoEditNavGraph(navController, memoEditViewModel, sharedViewModel)
             inviteNavGraph(navController, inviteViewModel, sharedViewModel)
             notificationGraph(navController, notificationViewModel)
+            mindCardGraph(navController, cardViewModel)
         }
 
         if(isNavigationBarVisible) {

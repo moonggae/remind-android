@@ -8,7 +8,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
+import com.ccc.remind.presentation.ui.EmptyComingSoon
 import com.ccc.remind.presentation.ui.SharedViewModel
+import com.ccc.remind.presentation.ui.card.CardBookmarkListScreen
 import com.ccc.remind.presentation.ui.card.CardListScreen
 import com.ccc.remind.presentation.ui.card.CardViewModel
 import com.ccc.remind.presentation.ui.home.HomeScreen
@@ -66,6 +68,11 @@ sealed class Route(val name: String, val parent: Route? = null) {
         object CardList: Route("MindPost.CardList", MindPost)
         object Edit: Route("MindPost.Edit", MindPost)
         object Complete: Route("MindPost.Complete", MindPost)
+    }
+
+    object MindCard: Route("MindCard") {
+        object BookmarkList: Route("MindCard.BookmarkList", MindCard)
+        object Detail: Route("MindCard.Detail", MindCard)
     }
 
     object MemoEdit: Route("MemoEdit")
@@ -247,5 +254,20 @@ fun NavGraphBuilder.notificationGraph(
             navController = navController,
             viewModel = viewModel
         )
+    }
+}
+
+fun NavGraphBuilder.mindCardGraph(
+    navController: NavController,
+    viewModel: CardViewModel
+) {
+    composable(route = Route.MindCard.BookmarkList.name) {
+        CardBookmarkListScreen(
+            navController = navController,
+            viewModel = viewModel
+        )
+    }
+    composable(route = Route.MindCard.Detail.name) {
+        EmptyComingSoon(name = Route.MindCard.Detail.name)
     }
 }

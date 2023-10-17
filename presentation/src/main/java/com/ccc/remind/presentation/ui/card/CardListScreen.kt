@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ccc.remind.R
+import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.layout.MindCardListGrid
@@ -43,9 +44,7 @@ fun CardListScreen(
     val uiState by viewModel.uiState.collectAsState()
     val bookMarkIconButton: @Composable (() -> Unit) = {
         IconButton(
-            onClick = {
-                // todo
-            },
+            onClick = { scope.launch { navController.navigate(Route.MindCard.BookmarkList.name) } },
             modifier = Modifier.size(40.dp)
         )
         {

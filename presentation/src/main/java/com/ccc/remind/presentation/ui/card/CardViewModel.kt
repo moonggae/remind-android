@@ -36,7 +36,7 @@ class CardViewModel @Inject constructor(
             getMindCards().combine(getMindCardBookmarks()) { mindCards, bookmarks ->
                 Pair(mindCards, bookmarks)
             }.collect { (mindCards, bookmarkedCards) ->
-                val bookmarkedCardIds = bookmarkedCards.map { it.id }
+                val bookmarkedCardIds = bookmarkedCards.map { it.mindCard.id }
                 val bookmarkedMindCards = mindCards.filter { card ->
                     card.id in bookmarkedCardIds
                 }
