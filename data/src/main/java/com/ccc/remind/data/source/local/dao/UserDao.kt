@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import com.ccc.remind.data.source.local.model.UserEntity
 
 @Dao
@@ -14,9 +13,6 @@ interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(entity: UserEntity)
-
-    @Update
-    fun update(entity: UserEntity)
 
     @Query("DELETE FROM user")
     fun delete()

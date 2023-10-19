@@ -79,8 +79,8 @@ class TokenInterceptor @Inject constructor(private val authRepository: AuthRepos
                     val newRequest = chain.request().putTokenHeader(accessToken)
                     response.close()
                     response = chain.proceed(newRequest)
-                    isGettingToken.value = false
                 }
+                isGettingToken.value = false
             }
         }
         return response

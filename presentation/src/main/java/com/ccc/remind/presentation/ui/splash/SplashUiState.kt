@@ -6,14 +6,15 @@ data class SplashUiState(
     val loginState: LoginState = LoginState.EMPTY,
     val user: User? = null,
     val doneUserInit: Boolean = false,
-    val doneFCMTokenInit: Boolean = false
+    val successFCMTokenInit: Boolean? = null
 ) {
     val isInitialized: Boolean
-        get() = doneUserInit && doneFCMTokenInit
+        get() = doneUserInit && successFCMTokenInit != null
 }
 
 enum class LoginState {
     EMPTY,
     LOGGED_IN_NO_DISPLAY_NAME,
-    LOGGED_IN
+    LOGGED_IN,
+    REFRESH_TOKEN_EXPIRED
 }

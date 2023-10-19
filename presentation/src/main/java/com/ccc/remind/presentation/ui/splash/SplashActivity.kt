@@ -55,13 +55,13 @@ class SplashActivity : AppCompatActivity() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.uiState.collect {
-                        if(it.doneUserInit && it.loginState != LoginState.EMPTY &&!it.doneFCMTokenInit) {
+                        if(it.doneUserInit && it.successFCMTokenInit == null) {
                             updateFCMToken()
                         }
 
                         if(it.isInitialized) {
                             when(it.loginState) {
-                                LoginState.EMPTY ->
+                                LoginState.EMPTY, LoginState.REFRESH_TOKEN_EXPIRED ->
                                     startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                                 LoginState.LOGGED_IN_NO_DISPLAY_NAME ->
                                     startActivity(Intent(this@SplashActivity, DisplayNameActivity::class.java))

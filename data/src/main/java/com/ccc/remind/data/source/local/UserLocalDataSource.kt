@@ -16,7 +16,10 @@ class UserLocalDataSource(
         withContext(ioDispatcher) { userDao.insert(userEntity) }
 
     suspend fun updateLoggedInUser(userEntity: UserEntity) =
-        withContext(ioDispatcher) { userDao.update(userEntity) }
+        withContext(ioDispatcher) {
+            userDao.delete()
+            userDao.insert(userEntity)
+        }
 
     suspend fun deleteLoggedInUser() =
         withContext(ioDispatcher) { userDao.delete() }

@@ -4,7 +4,6 @@ import com.ccc.remind.data.mapper.toData
 import com.ccc.remind.data.mapper.toDomain
 import com.ccc.remind.data.mapper.toEntity
 import com.ccc.remind.data.source.local.UserLocalDataSource
-import com.ccc.remind.data.source.local.model.UserEntity
 import com.ccc.remind.data.source.remote.UserRemoteService
 import com.ccc.remind.data.source.remote.model.user.DisplayNameDto
 import com.ccc.remind.data.source.remote.model.user.UpdateFCMTokenRequestDto
@@ -72,17 +71,14 @@ class UserRepositoryImpl(
         profileImage: ImageFile?,
         inviteCode: String?
     ) {
-        val entity = userLocalDataSource.fetchLoggedInUser()
-        if(entity != null) {
-            userLocalDataSource.deleteLoggedInUser()
-            userLocalDataSource.postLoggedInUser(
-                UserEntity(
-                    accessToken = accessToken ?: entity.accessToken,
-                    refreshToken = refreshToken ?: entity.refreshToken,
-                    displayName = displayName ?: entity.displayName,
-                    logInType = (logInType ?: entity.logInType) as String,
-                    profileImage = profileImage?.toEntity() ?: entity.profileImage,
-                    inviteCode = inviteCode ?: entity.inviteCode
+        userLocalDataSource.fetchLoggedInUser()?.let { entity ->
+            userLocalDataSource.updateLoggedInUser(entity.copy(
+                accessToken = accessToken ?: entity.accessToken,
+                refreshToken = refreshToken ?: entity.refreshToken,
+                displayName = displayName ?: entity.displayName,
+                logInType = (logInType ?: entity.logInType) as String,
+                profileImage = profileImage?.toEntity() ?: entity.profileImage,
+                inviteCode = inviteCode ?: entity.inviteCode
             ))
         }
     }
