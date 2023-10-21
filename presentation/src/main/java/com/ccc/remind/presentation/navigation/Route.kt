@@ -1,6 +1,10 @@
 package com.ccc.remind.presentation.navigation
 
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
@@ -12,6 +16,7 @@ import androidx.navigation.navArgument
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.card.CardBookmarkListScreen
 import com.ccc.remind.presentation.ui.card.CardDetailScreen
+import com.ccc.remind.presentation.ui.card.CardListDetailScreen
 import com.ccc.remind.presentation.ui.card.CardListScreen
 import com.ccc.remind.presentation.ui.card.CardViewModel
 import com.ccc.remind.presentation.ui.home.HomeScreen
@@ -74,6 +79,7 @@ sealed class Route(val name: String, val parent: Route? = null) {
     object MindCard: Route("MindCard") {
         object BookmarkList: Route("MindCard.BookmarkList", MindCard)
         object Detail: Route("MindCard.Detail", MindCard)
+        object DetailCardList: Route("MindCard.DetailCardList", MindCard)
     }
 
     object MemoEdit: Route("MemoEdit")
@@ -288,5 +294,40 @@ fun NavGraphBuilder.mindCardGraph(
             navController = navController,
             viewModel = viewModel
         )
+    }
+    composable(
+        route = "${Route.MindCard.DetailCardList.name}?cardId={cardId}",
+        arguments = listOf(navArgument("cardId") {
+            nullable = true
+            type = NavType.StringArrayType
+            defaultValue = null
+        })
+    ) {
+        var cardIds by remember {
+            mutableStateOf(emptyList<Int>())
+        }
+
+        LaunchedEffect(navController.currentBackStackEntry) {
+            if(navController.currentDestination?.route?.startsWith(Route.MindCard.DetailCardList.name) == true) {
+                cardIds = (it.arguments?.getStringArray("cardId")?.toList() ?: emptyList()).map { id -> id.toInt() }
+                if(cardIds.size > 1) {
+                    viewModel.setDetailCardListIds(cardIds)
+                } else if (cardIds.isNotEmpty()){
+                    viewModel.setOpenedCard(cardIds.first())
+                }
+            }
+        }
+
+        if(cardIds.size > 1) {
+            CardListDetailScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
+        } else {
+            CardDetailScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
+        }
     }
 }

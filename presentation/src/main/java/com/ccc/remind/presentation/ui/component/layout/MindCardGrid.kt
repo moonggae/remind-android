@@ -67,10 +67,13 @@ fun MindCardListGrid(
     horizontalArrangement: Arrangement.Horizontal = MindCardGridDefault.horizontalArrangement,
     mindCards: List<MindCard>,
     bookmarkedMindCards: List<MindCard>,
+    isBookmarkHighlight: Boolean = true,
     onClickMindCard: (MindCard) -> Unit,
     onClickBookmark: (MindCard) -> Unit
 ) {
-    val sortedCards = bookmarkedMindCards + (mindCards - bookmarkedMindCards.toSet())
+    val sortedCards =
+        if(isBookmarkHighlight) bookmarkedMindCards + (mindCards - bookmarkedMindCards.toSet())
+        else mindCards
 
     LazyVerticalGrid(
         columns = columns,

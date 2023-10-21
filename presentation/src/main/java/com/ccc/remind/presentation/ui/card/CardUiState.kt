@@ -8,7 +8,8 @@ data class CardUiState(
     val selectedMindFilters: List<MindFilter> = emptyList(),
     val bookmarkedMindCards: List<MindCard> = emptyList(),
     val mindCards: List<MindCard> = emptyList(),
-    val openedMindCard: MindCard? = null
+    val openedMindCard: MindCard? = null,
+    val detailCardIds: List<Int> = emptyList()
 ) {
     val filteredBookmarkedMindCards: List<MindCard>
         get() {

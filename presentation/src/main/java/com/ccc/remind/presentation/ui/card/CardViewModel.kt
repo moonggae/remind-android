@@ -52,6 +52,16 @@ class CardViewModel @Inject constructor(
         }
     }
 
+    fun setDetailCardListIds(ids: List<Int>) {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    detailCardIds = ids
+                )
+            }
+        }
+    }
+
     fun submitPostBookmark(cardId: Int) {
         viewModelScope.launch {
             postMindCardBookmark(cardId)

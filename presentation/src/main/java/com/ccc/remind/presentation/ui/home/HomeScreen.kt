@@ -55,6 +55,7 @@ import coil.compose.AsyncImage
 import com.ccc.remind.R
 import com.ccc.remind.domain.entity.mind.MindPost
 import com.ccc.remind.domain.entity.mind.MindPostCard
+import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.button.OutlinedTextButton
 import com.ccc.remind.presentation.ui.component.button.PrimaryButton
@@ -62,8 +63,7 @@ import com.ccc.remind.presentation.ui.component.container.BackgroundContainer
 import com.ccc.remind.presentation.ui.component.dialog.AlertDialog
 import com.ccc.remind.presentation.ui.component.icon.CircleIndicator
 import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
-import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ViewDetailTextButton
-import com.ccc.remind.presentation.navigation.Route
+import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ViewCardsDetailTextButton
 import com.ccc.remind.presentation.ui.notification.NotificationViewModel
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.Constants.POST_MIND_RESULT_KEY
@@ -252,9 +252,10 @@ fun OtherHomeContents(
             )
 
             if(postMind?.cards?.isNotEmpty() == true) {
-                ViewDetailTextButton {
-                    // todo
-                }
+                ViewCardsDetailTextButton(
+                    navController = navController,
+                    cardIds = postMind.cards.map { postCard -> postCard.card.id }
+                )
             }
         }
 
@@ -374,9 +375,10 @@ fun MyHomeContents(
             )
 
             if(postMind?.cards?.isNotEmpty() == true) {
-                ViewDetailTextButton {
-                    // todo
-                }
+                ViewCardsDetailTextButton(
+                    navController = navController,
+                    cardIds = postMind.cards.map { postCard -> postCard.card.id }
+                )
             }
         }
 

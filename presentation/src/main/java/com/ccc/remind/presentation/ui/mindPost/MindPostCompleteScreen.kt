@@ -56,7 +56,7 @@ import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageDialog
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageListBar
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindMemoTextField
-import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ViewDetailTextButton
+import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ViewCardsDetailTextButton
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.buildCoilRequest
 import kotlinx.coroutines.launch
@@ -162,9 +162,10 @@ fun MindPostCompleteScreen(
                 color = RemindMaterialTheme.colorScheme.fg_muted
             )
 
-            ViewDetailTextButton {
-                // todo
-            }
+            ViewCardsDetailTextButton(
+                navController = navController,
+                cardIds = uiState.postedMind?.cards?.map { postCard -> postCard.card.id } ?: emptyList()
+            )
         }
 
 
