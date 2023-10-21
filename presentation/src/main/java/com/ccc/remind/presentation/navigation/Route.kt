@@ -1,5 +1,6 @@
 package com.ccc.remind.presentation.navigation
 
+import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
@@ -8,9 +9,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
-import com.ccc.remind.presentation.ui.EmptyComingSoon
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.card.CardBookmarkListScreen
+import com.ccc.remind.presentation.ui.card.CardDetailScreen
 import com.ccc.remind.presentation.ui.card.CardListScreen
 import com.ccc.remind.presentation.ui.card.CardViewModel
 import com.ccc.remind.presentation.ui.home.HomeScreen
@@ -147,12 +148,6 @@ fun NavGraphBuilder.postMindNavGraph(
     viewModel: MindPostViewModel,
     sharedViewModel: SharedViewModel
 ) {
-    navController.addOnDestinationChangedListener { _, destination, _ ->
-        if(destination.route == Route.Main.Home.name) {
-            viewModel.initUiState()
-        }
-    }
-
     val startDestination =
         if(Constants.START_TOP_SCREEN.root == Route.MindPost) Constants.START_TOP_SCREEN
         else Route.MindPost.CardList
@@ -160,7 +155,22 @@ fun NavGraphBuilder.postMindNavGraph(
         startDestination = startDestination.name,
         route = Route.MindPost.name
     ) {
-        composable(Route.MindPost.CardList.name) {
+        composable(
+            route = "${Route.MindPost.CardList.name}?cardId={cardId}",
+            arguments = listOf(navArgument("cardId") {
+                nullable = true
+                type = NavType.StringType
+                defaultValue = null
+            })
+        ) {
+            LaunchedEffect(navController.currentBackStackEntry) {
+                if(navController.currentDestination?.route?.startsWith(Route.MindPost.CardList.name) == true) {
+                    it.arguments?.getString("cardId")?.let { cardId ->
+                        viewModel.setInitialCard(listOf(cardId.toInt()))
+                    }
+                    viewModel.updateBackStackEntryId(navController.currentBackStackEntry?.id)
+                }
+            }
             MindPostCardListScreen(
                 navController = navController,
                 viewModel = viewModel
@@ -267,7 +277,16 @@ fun NavGraphBuilder.mindCardGraph(
             viewModel = viewModel
         )
     }
-    composable(route = Route.MindCard.Detail.name) {
-        EmptyComingSoon(name = Route.MindCard.Detail.name)
+    composable(
+        route = "${Route.MindCard.Detail.name}/{mindCardId}",
+        arguments = listOf(
+            navArgument("mindCardId") { type = NavType.IntType },
+        )
+    ) {
+        viewModel.setOpenedCard(it.arguments?.getInt("mindCardId") ?: -1)
+        CardDetailScreen(
+            navController = navController,
+            viewModel = viewModel
+        )
     }
 }

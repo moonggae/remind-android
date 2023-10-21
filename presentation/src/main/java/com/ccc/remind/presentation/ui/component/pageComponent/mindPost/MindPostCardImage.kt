@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,14 +27,17 @@ import com.ccc.remind.presentation.util.buildCoilRequest
 
 @Composable
 fun MindCardImage(
-    modifier : Modifier = Modifier,
+    modifier: Modifier = Modifier,
     url: String,
-    selectType: MindCardSelectType? = null
+    selectType: MindCardSelectType? = null,
+    radius: Dp = 8.dp,
+    size: Dp? = null
 ) {
 
     val appliedModifier = setupMindCardImageModifier(
         modifier = modifier,
-        selectType = selectType
+        selectType = selectType,
+        radius = radius
     )
 
     Box(modifier = appliedModifier) {
@@ -42,8 +46,12 @@ fun MindCardImage(
 
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxSize()
+            modifier =
+            if (size == null) Modifier
+                .fillMaxWidth()
+                .padding(14.dp)
+            else Modifier
+                .size(size)
                 .padding(14.dp)
         ) {
             AsyncImage(
@@ -72,7 +80,8 @@ fun MindCardImage(
 @Composable
 private fun setupMindCardImageModifier(
     modifier: Modifier = Modifier,
-    selectType: MindCardSelectType? = null
+    selectType: MindCardSelectType? = null,
+    radius: Dp = 8.dp
 ): Modifier {
     val backgroundColor: Color
     val borderColor: Color
@@ -94,11 +103,11 @@ private fun setupMindCardImageModifier(
         .border(
             width = borderWidth,
             color = borderColor,
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(radius)
         )
         .background(
             color = backgroundColor,
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(radius)
         )
         .then(modifier)
 }

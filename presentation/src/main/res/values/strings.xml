@@ -30,6 +30,11 @@
     <string name="card_bookmark_list_appbar_title">카드 보관함</string>
     <string name="card_bookmark_list_empty_text">북마크한 카드가 없어요.</string>
 
+    <string name="card_detail_appbar_title">감정카드</string>
+    <string name="card_detail_label_description">설명</string>
+    <string name="card_detail_label_similar_cards">유사감정</string>
+    <string name="card_detail_button_post_this_mind_card">이 감정 기록하기</string>
+
     <string name="mind_post_card_list_title">감정 기록을 시작할게요!</string>
     <string name="mind_post_card_list_label">가장 가까운 감정은 무엇인가요?</string>
     <string name="mind_post_card_list_label_sub">여러 개 선택이 가능해요!</string>

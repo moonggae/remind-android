@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ccc.remind.R
 import com.ccc.remind.domain.entity.mind.MindCard
@@ -30,11 +31,14 @@ fun MindCard(
     selectType: MindCardSelectType? = null,
     isBookmarked: Boolean? = null,
     onClickBookmark: ((MindCard) -> Unit)? = null,
+    showDisplayName: Boolean = true,
+    bookmarkSize: Dp = 30.dp,
+    cardSize: Dp? = null,
     onClick: (MindCard) -> Unit = {}
 ) {
     val scope = rememberCoroutineScope()
 
-    Box {
+    Box(modifier) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -46,19 +50,23 @@ fun MindCard(
         ) {
             MindCardImage(
                 url = mindCard.imageUrl ?: "",
-                selectType = selectType
+                selectType = selectType,
+                radius = 12.dp,
+                size = cardSize
             )
-            if (selectType != null)
-                Text(
-                    text = mindCard.displayName,
-                    style = RemindMaterialTheme.typography.bold_lg,
-                    color = RemindMaterialTheme.colorScheme.accent_default
-                )
-            else
-                Text(
-                    text = mindCard.displayName,
-                    style = RemindMaterialTheme.typography.regular_lg
-                )
+            if(showDisplayName) {
+                if (selectType != null)
+                    Text(
+                        text = mindCard.displayName,
+                        style = RemindMaterialTheme.typography.bold_lg,
+                        color = RemindMaterialTheme.colorScheme.accent_default
+                    )
+                else
+                    Text(
+                        text = mindCard.displayName,
+                        style = RemindMaterialTheme.typography.regular_lg
+                    )
+            }
         }
 
         if(isBookmarked == true) {
@@ -67,7 +75,7 @@ fun MindCard(
                 contentDescription = stringResource(R.string.bookmark_on),
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .size(30.dp)
+                    .size(bookmarkSize)
                     .padding(top = 8.dp, end = 8.dp)
                     .clickable { scope.launch { onClickBookmark?.invoke(mindCard) } }
             )
@@ -77,7 +85,7 @@ fun MindCard(
                 contentDescription = stringResource(R.string.bookmark_off),
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .size(30.dp)
+                    .size(bookmarkSize)
                     .padding(top = 8.dp, end = 8.dp)
                     .clickable { scope.launch { onClickBookmark?.invoke(mindCard) } }
             )

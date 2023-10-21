@@ -44,7 +44,8 @@ class CardViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         mindCards = mindCards,
-                        bookmarkedMindCards = bookmarkedMindCards
+                        bookmarkedMindCards = bookmarkedMindCards,
+                        selectedMindFilters = listOf(MindFilter.ALL)
                     )
                 }
             }
@@ -83,6 +84,13 @@ class CardViewModel @Inject constructor(
         }
     }
 
+    fun setOpenedCard(mindCardId: Int) {
+        viewModelScope.launch {
+            _uiState.update { state ->
+                state.copy(openedMindCard = state.mindCards.find { it.id == mindCardId })
+            }
+        }
+    }
 
     fun updateMindCardFilter(filter: MindFilter) {
         when (filter) {

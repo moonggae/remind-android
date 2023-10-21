@@ -23,7 +23,8 @@ fun AppBar(
     navController: NavController? = null,
     enableBack: Boolean = true,
     title: String,
-    suffix: @Composable (() -> Unit)? = null,
+    isExit: Boolean = false,
+    suffix: @Composable (() -> Unit)? = null
 ) {
     Row(
         modifier = Modifier
@@ -40,8 +41,8 @@ fun AppBar(
             if (navController != null && enableBack) {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_arrow_left),
-                        contentDescription = stringResource(id = R.string.arrow_left),
+                        painter = painterResource(id = if(isExit) R.drawable.ic_x else R.drawable.ic_arrow_left),
+                        contentDescription = stringResource(id = if(isExit) R.string.exit else R.string.arrow_left),
                         tint = RemindMaterialTheme.colorScheme.fg_muted,
                         modifier = Modifier.size(24.dp)
                     )

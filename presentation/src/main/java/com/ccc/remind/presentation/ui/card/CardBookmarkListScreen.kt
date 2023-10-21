@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ccc.remind.R
+import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.layout.MindCardListGrid
@@ -34,11 +35,15 @@ fun CardBookmarkListScreen(
             )
         }
     ) {
-        if(uiState.filteredBookmarkedMindCards.isNotEmpty()) {
+        if (uiState.filteredBookmarkedMindCards.isNotEmpty()) {
             MindCardListGrid(
                 mindCards = uiState.filteredBookmarkedMindCards,
                 bookmarkedMindCards = uiState.filteredBookmarkedMindCards,
-                onClickMindCard = { /* TODO */ },
+                onClickMindCard = { clickedCard ->
+                    scope.launch {
+                        navController.navigate("${Route.MindCard.Detail.name}/${clickedCard.id}")
+                    }
+                },
                 onClickBookmark = { card ->
                     scope.launch {
                         viewModel.submitDeleteBookmark(card.id)

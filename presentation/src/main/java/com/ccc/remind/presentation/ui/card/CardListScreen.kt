@@ -76,10 +76,14 @@ fun CardListScreen(
         MindCardListGrid(
             mindCards = uiState.filteredMindCards,
             bookmarkedMindCards = uiState.filteredBookmarkedMindCards,
-            onClickMindCard = { /* TODO */ },
+            onClickMindCard = { clickedCard ->
+                scope.launch {
+                    navController.navigate("${Route.MindCard.Detail.name}/${clickedCard.id}")
+                }
+            },
             onClickBookmark = { card ->
                 scope.launch {
-                    if(uiState.bookmarkedMindCards.contains(card)) {
+                    if (uiState.bookmarkedMindCards.contains(card)) {
                         viewModel.submitDeleteBookmark(card.id)
                     } else {
                         viewModel.submitPostBookmark(card.id)

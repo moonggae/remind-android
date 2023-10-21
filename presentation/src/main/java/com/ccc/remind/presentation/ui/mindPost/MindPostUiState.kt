@@ -12,7 +12,8 @@ data class MindPostUiState(
     val selectedMindCards: List<MindCard> = emptyList(),
     val uploadedPhotos: List<ImageFile> = emptyList(),
     val memo: String? = null,
-    val postedMind: MindPost? = null
+    val postedMind: MindPost? = null,
+    val cardListScreenBackStackEntryId: String? = null
 ) {
     val filteredMindCards: List<MindCard>
         get() = mindCards // todo : 긍정, 부정, 보통 분류 후 작업

@@ -7,11 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.domain.entity.mind.MindCard
 import com.ccc.remind.domain.entity.mind.MindPost
-import com.ccc.remind.domain.usecase.mind.GetMindCardsUseCase
 import com.ccc.remind.domain.usecase.PostImagesUseCase
-import com.ccc.remind.domain.usecase.post.UpdateMindUseCase
+import com.ccc.remind.domain.usecase.mind.GetMindCardsUseCase
 import com.ccc.remind.domain.usecase.post.DeleteMindUseCase
 import com.ccc.remind.domain.usecase.post.PostMindUseCase
+import com.ccc.remind.domain.usecase.post.UpdateMindUseCase
 import com.ccc.remind.presentation.MyApplication
 import com.ccc.remind.presentation.ui.component.model.MindFilter
 import com.ccc.remind.presentation.util.toggle
@@ -47,19 +47,44 @@ class MindPostViewModel @Inject constructor(
     val uiState: StateFlow<MindPostUiState>
         get() = _uiState
 
+    private val _initialCardIds = MutableStateFlow(emptyList<Int>())
 
     init {
         initMindCards()
         initUiState()
     }
 
-    fun initUiState() {
+    private fun initUiState() {
         viewModelScope.launch {
             _uiState.update {
                 MindPostUiState(
                     selectedMindFilters = listOf(MindFilter.ALL),
-                    mindCards = it.mindCards
+                    mindCards = it.mindCards,
+                    selectedMindCards = it.mindCards.filter { card -> _initialCardIds.value.contains(card.id) },
+                    cardListScreenBackStackEntryId = it.cardListScreenBackStackEntryId
                 )
+            }
+
+            _initialCardIds.update { emptyList() }
+        }
+    }
+
+    fun updateBackStackEntryId(id: String?) {
+        if(id == _uiState.value.cardListScreenBackStackEntryId) return
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    cardListScreenBackStackEntryId = id
+                )
+            }
+            initUiState()
+        }
+    }
+
+    fun setInitialCard(cardIds: List<Int>) {
+        viewModelScope.launch {
+            _initialCardIds.update {
+                cardIds
             }
         }
     }

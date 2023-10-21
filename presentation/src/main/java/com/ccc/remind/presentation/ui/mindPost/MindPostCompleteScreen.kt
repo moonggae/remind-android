@@ -30,7 +30,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
@@ -45,22 +44,23 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.ccc.remind.R
 import com.ccc.remind.domain.entity.mind.ImageFile
+import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.button.PrimaryButton
 import com.ccc.remind.presentation.ui.component.button.TextFillButton
+import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.dialog.AlertDialog
 import com.ccc.remind.presentation.ui.component.dialog.ModalBottomSheet
 import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
+import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageDialog
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageListBar
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindMemoTextField
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ViewDetailTextButton
-import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.buildCoilRequest
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MindPostCompleteScreen(
     navController: NavController,
@@ -69,9 +69,8 @@ fun MindPostCompleteScreen(
 ) {
     val sharedUiState by sharedViewModel.uiState.collectAsState()
     val uiState by viewModel.uiState.collectAsState()
-    val scrollState = rememberScrollState()
     var maxSize by remember { mutableStateOf(IntSize.Zero) }
-    val photoItemWidth = with(LocalDensity.current) { (maxSize.width.toDp() - 20.dp).div(other = 3) }
+    val photoItemWidth = with(LocalDensity.current) { (maxSize.width.toDp() - 60.dp).div(other = 3) }
     var selectedImage by remember {
         mutableStateOf<ImageFile?>(null)
     }
@@ -79,7 +78,6 @@ fun MindPostCompleteScreen(
     val scope = rememberCoroutineScope()
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
     var openAlertDialog by rememberSaveable { mutableStateOf(false) }
-
 
     if (selectedImage != null) {
         ImageDialog(
@@ -89,57 +87,49 @@ fun MindPostCompleteScreen(
         )
     }
 
-    Column(
-        modifier = Modifier
-            .padding(start = 20.dp, end = 20.dp, top = 32.dp, bottom = (56 + 38 + 12).dp)
-            .onSizeChanged { maxSize = it }
-            .verticalScroll(scrollState)
-    ) {
+    val suffix: @Composable (() -> Unit) = {
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             IconButton(
                 modifier = Modifier.size(24.dp),
-                onClick = { navController.popBackStack() }) {
+                onClick = {
+                    // todo
+                }) {
                 Icon(
-                    painterResource(id = R.drawable.ic_arrow_left),
-                    contentDescription = stringResource(R.string.back)
+                    painterResource(id = R.drawable.ic_share),
+                    contentDescription = stringResource(R.string.share)
                 )
             }
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                IconButton(
-                    modifier = Modifier.size(24.dp),
-                    onClick = {
-                        // todo
-                    }) {
-                    Icon(
-                        painterResource(id = R.drawable.ic_share),
-                        contentDescription = stringResource(R.string.share)
-                    )
-                }
-
-                IconButton(
-                    modifier = Modifier.size(24.dp),
-                    onClick = {
-                        scope.launch {
-                            openBottomSheet = true
-                        }
-                    }) {
-                    Icon(
-                        painterResource(id = R.drawable.ic_meatball),
-                        contentDescription = stringResource(R.string.menu)
-                    )
-                }
+            IconButton(
+                modifier = Modifier.size(24.dp),
+                onClick = {
+                    scope.launch {
+                        openBottomSheet = true
+                    }
+                }) {
+                Icon(
+                    painterResource(id = R.drawable.ic_meatball),
+                    contentDescription = stringResource(R.string.menu)
+                )
             }
         }
+    }
 
-        Spacer(modifier = Modifier.height(41.dp))
-
+    BasicScreen(
+        appBar = {
+            AppBar(
+                title = "",
+                navController = navController,
+                suffix = suffix
+            )
+        },
+        modifier = Modifier
+            .onSizeChanged { maxSize = it }
+            .verticalScroll(rememberScrollState()),
+        padding = PaddingValues(start = 20.dp, end = 20.dp, bottom = (56 + 38 + 12).dp)
+    ) {
         Text(
             text = stringResource(R.string.mind_post_complete_title, sharedUiState.user?.displayName ?: "유저"),
             style = RemindMaterialTheme.typography.bold_xl
@@ -155,7 +145,7 @@ fun MindPostCompleteScreen(
             contentDescription = "",
             modifier = Modifier
                 .width(153.dp)
-                .align(CenterHorizontally),
+                .align(Alignment.CenterHorizontally),
             contentScale = ContentScale.FillWidth,
         )
 
@@ -225,7 +215,6 @@ fun MindPostCompleteScreen(
         }
     }
 
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -247,9 +236,68 @@ fun MindPostCompleteScreen(
     }
 
 
+    MenuModalBottomSheet(
+        openBottomSheet,
+        onDismiss = { openBottomSheet = false },
+        onUpdateClick = {
+            openBottomSheet = false
+            navController.popBackStack(Route.MindPost.CardList.name, saveState = true, inclusive = false)
+        },
+        onDeleteClick = { openAlertDialog = true },
+        onCancelClick = { openBottomSheet = false }
+    )
+
+    DeleteMindAlertDialog(
+        openAlertDialog = openAlertDialog,
+        onDismiss = { openAlertDialog = false },
+        onConfirm = {
+            openAlertDialog = false
+            openBottomSheet = false
+            viewModel.deleteMind {
+                navController.popBackStack(
+                    route = Route.Main.Home.name,
+                    saveState = false,
+                    inclusive = false
+                )
+            }
+        }
+    )
+}
+
+@Composable
+private fun DeleteMindAlertDialog(
+    openAlertDialog: Boolean,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit
+) {
+    val scope = rememberCoroutineScope()
+
+    if (openAlertDialog) {
+        AlertDialog(
+            contentText = stringResource(R.string.mind_post_complete_alert_delete),
+            cancelLabelText = stringResource(R.string.to_cancel),
+            confirmLabelText = stringResource(R.string.to_delete),
+            onClickConfirmButton = { scope.launch { onConfirm.invoke() } },
+            onClickCancelButton = { scope.launch { onDismiss.invoke() } },
+            onDismissRequest = { scope.launch { onDismiss.invoke() } }
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun MenuModalBottomSheet(
+    openBottomSheet: Boolean,
+    onDismiss: () -> Unit,
+    onUpdateClick: () -> Unit,
+    onDeleteClick: () -> Unit,
+    onCancelClick: () -> Unit
+) {
+    val scope = rememberCoroutineScope()
+
     if (openBottomSheet) {
         ModalBottomSheet( // todo: divider color check
-            onDismissRequest = { openBottomSheet = false },
+            onDismissRequest = onDismiss,
             sheetState = rememberModalBottomSheetState(
                 skipPartiallyExpanded = true
             ),
@@ -261,12 +309,7 @@ fun MindPostCompleteScreen(
         ) {
             TextFillButton(
                 text = stringResource(R.string.to_update),
-                onClick = {
-                    scope.launch {
-                        openBottomSheet = false
-                        navController.popBackStack(Route.MindPost.CardList.name, saveState = true, inclusive = false)
-                    }
-                }
+                onClick = { scope.launch { onUpdateClick() } }
             )
 
             Divider(
@@ -276,11 +319,7 @@ fun MindPostCompleteScreen(
 
             TextFillButton(
                 text = stringResource(R.string.to_delete),
-                onClick = {
-                    scope.launch {
-                        openAlertDialog = true
-                    }
-                }
+                onClick = { scope.launch { onDeleteClick() } }
             )
 
             Divider(
@@ -291,37 +330,8 @@ fun MindPostCompleteScreen(
             TextFillButton(
                 text = stringResource(R.string.to_cancel),
                 contentColor = RemindMaterialTheme.colorScheme.accent_default,
-                onClick = {
-                    scope.launch {
-                        openBottomSheet = false
-                    }
-                }
+                onClick = { scope.launch { onCancelClick() } }
             )
         }
     }
-
-
-    if (openAlertDialog) {
-        AlertDialog(
-            contentText = stringResource(R.string.mind_post_complete_alert_delete),
-            cancelLabelText = stringResource(R.string.to_cancel),
-            confirmLabelText = stringResource(R.string.to_delete),
-            onClickConfirmButton = {
-                scope.launch {
-                    openAlertDialog = false
-                    openBottomSheet = false
-                    viewModel.deleteMind {
-                        navController.popBackStack(
-                            route = Route.Main.Home.name,
-                            saveState = false,
-                            inclusive = false
-                        )
-                    }
-                }
-            },
-            onClickCancelButton = { scope.launch { openAlertDialog = false } },
-            onDismissRequest = { scope.launch { openAlertDialog = false } }
-        )
-    }
 }
-

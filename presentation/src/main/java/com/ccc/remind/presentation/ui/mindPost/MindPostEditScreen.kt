@@ -3,16 +3,11 @@ package com.ccc.remind.presentation.ui.mindPost
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -27,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -35,13 +29,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ccc.remind.R
 import com.ccc.remind.domain.entity.mind.ImageFile
+import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.SharedViewModel
+import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
+import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageDialog
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageUploadBar
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindMemoTextField
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.StepBar
-import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.Constants.POST_MIND_RESULT_KEY
 
@@ -62,55 +58,41 @@ fun MindPostEditScreen(
 
     val TAG = "로그"
 
-    Column(
-        modifier = Modifier
-            .padding(
-                start = 20.dp, end = 20.dp, top = 32.dp
-            )
-            .onSizeChanged {
-                maxSize = it
-            }
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+    val nextButton: @Composable (() -> Unit) = {
+        CompositionLocalProvider(
+            LocalMinimumInteractiveComponentEnforcement provides false
         ) {
-            IconButton(
-                modifier = Modifier.size(24.dp),
-                onClick = { navController.popBackStack() }) {
-                Icon(
-                    painterResource(id = R.drawable.ic_arrow_left),
-                    contentDescription = stringResource(R.string.exit)
+            TextButton(
+                onClick = {
+                    viewModel.submitMind {
+                        navController.previousBackStackEntry
+                            ?.savedStateHandle
+                            ?.set(POST_MIND_RESULT_KEY, true)
+                        navController.navigate(Route.MindPost.Complete.name)
+                    }
+                },
+                contentPadding = PaddingValues(0.dp),
+                modifier = Modifier.padding(0.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.to_complete),
+                    style = RemindMaterialTheme.typography.regular_xl,
+                    color = RemindMaterialTheme.colorScheme.text_button_blue
                 )
             }
-
-            CompositionLocalProvider( // TextButton padding 제거
-                LocalMinimumInteractiveComponentEnforcement provides false
-            ) {
-                TextButton(
-                    onClick = {
-                        viewModel.submitMind {
-                            navController.previousBackStackEntry
-                                ?.savedStateHandle
-                                ?.set(POST_MIND_RESULT_KEY, true)
-                            navController.navigate(Route.MindPost.Complete.name)
-                        }
-                    },
-                    contentPadding = PaddingValues(0.dp),
-                    modifier = Modifier.padding(0.dp)
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.to_complete),
-                        style = RemindMaterialTheme.typography.regular_xl,
-                        color = RemindMaterialTheme.colorScheme.text_button_blue
-                    )
-                }
-            }
         }
+    }
 
-        Spacer(modifier = Modifier.height(24.dp))
-
+    BasicScreen(
+        appBar = {
+            AppBar(
+                title = "",
+                navController = navController,
+                suffix = nextButton
+            )
+        },
+        modifier = Modifier.onSizeChanged { maxSize = it }
+    ) {
         Text(
             text = "${stringResource(R.string.step)} 2 / 2",
             style = RemindMaterialTheme.typography.bold_md
