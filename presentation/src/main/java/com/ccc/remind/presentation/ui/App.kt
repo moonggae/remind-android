@@ -24,6 +24,7 @@ import com.ccc.remind.presentation.navigation.mindCardGraph
 import com.ccc.remind.presentation.navigation.notificationGraph
 import com.ccc.remind.presentation.navigation.postMindNavGraph
 import com.ccc.remind.presentation.ui.card.CardViewModel
+import com.ccc.remind.presentation.ui.history.MindHistoryViewModel
 import com.ccc.remind.presentation.ui.home.HomeViewModel
 import com.ccc.remind.presentation.ui.invite.InviteViewModel
 import com.ccc.remind.presentation.ui.memo.MemoEditViewModel
@@ -73,6 +74,7 @@ private fun NavigationWrapper(
             .background(RemindMaterialTheme.colorScheme.bg_default)
     ) {
         val mindPostViewModel: MindPostViewModel = hiltViewModel()
+        val mindHistoryViewModel: MindHistoryViewModel = hiltViewModel()
         val inviteViewModel: InviteViewModel = hiltViewModel()
         val memoEditViewModel: MemoEditViewModel = hiltViewModel()
         val homeViewModel: HomeViewModel = hiltViewModel()
@@ -84,7 +86,7 @@ private fun NavigationWrapper(
             modifier = Modifier.weight(1f),
             startDestination = Constants.START_TOP_SCREEN.root.name
         ) {
-            mainNavGraph(navController, sharedViewModel, homeViewModel, notificationViewModel, cardViewModel)
+            mainNavGraph(navController, sharedViewModel, homeViewModel, notificationViewModel, cardViewModel, mindHistoryViewModel)
             postMindNavGraph(navController, mindPostViewModel, sharedViewModel)
             memoEditNavGraph(navController, memoEditViewModel, sharedViewModel)
             inviteNavGraph(navController, inviteViewModel, sharedViewModel)

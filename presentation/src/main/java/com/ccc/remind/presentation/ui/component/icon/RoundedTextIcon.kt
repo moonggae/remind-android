@@ -1,5 +1,6 @@
 package com.ccc.remind.presentation.ui.component.icon
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
@@ -17,12 +18,23 @@ fun RoundedTextIcon(
     text: String,
     style: TextStyle = RemindMaterialTheme.typography.bold_lg,
     color: Color = RemindMaterialTheme.colorScheme.fg_muted,
-    containerColor: Color = RemindMaterialTheme.colorScheme.accent_bg
+    containerColor: Color = RemindMaterialTheme.colorScheme.accent_bg,
+    showBorder: Boolean = false
 ) {
     Surface(
         color = containerColor,
         shape = RoundedCornerShape(size = 24.dp),
-        modifier = modifier
+        modifier = modifier.then(
+            if(showBorder) {
+                Modifier.border(
+                    width = 1.dp,
+                    color = color,
+                    shape = RoundedCornerShape(size = 24.dp)
+                )
+            } else {
+                Modifier
+            }
+        )
     ) {
         Text(
             text = text,

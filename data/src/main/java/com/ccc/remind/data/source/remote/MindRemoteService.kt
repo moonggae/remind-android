@@ -1,5 +1,6 @@
 package com.ccc.remind.data.source.remote
 
+import com.ccc.remind.data.source.remote.model.mind.dto.MindPostPaginationDto
 import com.ccc.remind.data.source.remote.model.mind.dto.MindPostRequestDto
 import com.ccc.remind.data.source.remote.model.mind.dto.MindPostResponseDto
 import com.ccc.remind.data.source.remote.model.mind.vo.MindCardVO
@@ -32,4 +33,7 @@ interface MindRemoteService {
 
     @POST("mind/post/request/friend")
     suspend fun postRequestFriendMind()
+
+    @GET("mind/post/list/{page}")
+    suspend fun fetchMindPostPagination(@Path("page") page: Int): Response<MindPostPaginationDto>
 }

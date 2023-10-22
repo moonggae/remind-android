@@ -25,6 +25,8 @@
     <string name="home_ask_mind_button">감정 묻기</string>
     <string name="home_ask_mind_dailog_content_text">%1$s님에게 감정을 물어볼까요?</string>
 
+    <string name="mind_history_appbar_title">감정 기록</string>
+
     <string name="card_list_appbar_title">감정카드</string>
 
     <string name="card_list_detail_appbar_title">감정카드</string>

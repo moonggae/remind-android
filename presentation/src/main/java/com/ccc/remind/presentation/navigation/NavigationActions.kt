@@ -36,16 +36,22 @@ class NavigationActions(private val navController: NavHostController) {
 
 val TOP_LEVEL_DESTINATIONS = listOf(
     TopLevelDestination(
-        route = Route.Main.Cards,
-        selectedIconId = R.drawable.ic_stack_up_square,
-        unselectedIconId = R.drawable.ic_stack_up_square,
-        iconTextId = R.string.tab_cards
-    ),
-    TopLevelDestination(
         route = Route.Main.Home,
         selectedIconId = R.drawable.ic_home,
         unselectedIconId = R.drawable.ic_home,
         iconTextId = R.string.tab_home
+    ),
+    TopLevelDestination(
+        route = Route.Main.MindHistory,
+        selectedIconId = R.drawable.ic_calendar,
+        unselectedIconId = R.drawable.ic_calendar,
+        iconTextId = R.string.tab_home
+    ),
+    TopLevelDestination(
+        route = Route.Main.Cards,
+        selectedIconId = R.drawable.ic_stack_up_square,
+        unselectedIconId = R.drawable.ic_stack_up_square,
+        iconTextId = R.string.tab_cards
     ),
     TopLevelDestination(
         route = Route.Main.User,

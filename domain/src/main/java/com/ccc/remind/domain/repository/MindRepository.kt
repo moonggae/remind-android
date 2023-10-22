@@ -3,6 +3,7 @@ package com.ccc.remind.domain.repository
 import com.ccc.remind.domain.entity.mind.MindCard
 import com.ccc.remind.domain.entity.mind.MindCardSelectType
 import com.ccc.remind.domain.entity.mind.MindPost
+import com.ccc.remind.domain.entity.mind.MindPostList
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
@@ -31,4 +32,6 @@ interface MindRepository {
     fun getFriendLastPostedMind(): Flow<MindPost?>
 
     suspend fun requestFriendMind()
+
+    fun getPostList(page: Int): Flow<MindPostList>
 }

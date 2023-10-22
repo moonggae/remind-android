@@ -19,6 +19,8 @@ import com.ccc.remind.presentation.ui.card.CardDetailScreen
 import com.ccc.remind.presentation.ui.card.CardListDetailScreen
 import com.ccc.remind.presentation.ui.card.CardListScreen
 import com.ccc.remind.presentation.ui.card.CardViewModel
+import com.ccc.remind.presentation.ui.history.MindHistoryScreen
+import com.ccc.remind.presentation.ui.history.MindHistoryViewModel
 import com.ccc.remind.presentation.ui.home.HomeScreen
 import com.ccc.remind.presentation.ui.home.HomeViewModel
 import com.ccc.remind.presentation.ui.invite.InviteProfileScreen
@@ -65,6 +67,7 @@ sealed class Route(val name: String, val parent: Route? = null) {
 
     object Main: Route("Main") {
         object Home: Route("Main.Home", Main)
+        object MindHistory: Route("Main.MindHistory", Main)
         object Cards: Route("Main.Cards", Main)
         object User: Route("Main.User", Main) {
             object ProfileEdit: Route("Main.User.ProfileEdit", User)
@@ -100,6 +103,7 @@ fun NavGraphBuilder.mainNavGraph(
     homeViewModel: HomeViewModel,
     notificationViewModel: NotificationViewModel,
     cardViewModel: CardViewModel,
+    mindHistoryViewModel: MindHistoryViewModel
 ) {
     val startDestination =
         if(Constants.START_TOP_SCREEN.root == Route.Main) Constants.START_TOP_SCREEN
@@ -128,6 +132,12 @@ fun NavGraphBuilder.mainNavGraph(
                 viewModel = homeViewModel,
                 notificationViewModel = notificationViewModel,
                 sharedViewModel = sharedViewModel
+            )
+        }
+        composable(Route.Main.MindHistory.name) {
+            MindHistoryScreen(
+                navController = navController,
+                viewModel = mindHistoryViewModel
             )
         }
         composable(Route.Main.User.name) {

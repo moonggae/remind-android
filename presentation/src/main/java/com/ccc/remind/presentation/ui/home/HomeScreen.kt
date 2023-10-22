@@ -117,45 +117,26 @@ fun HomeScreen(
                 modifier = Modifier.padding(top = 40.dp)
             )
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
-                verticalAlignment = Alignment.Top,
-            ) {
-                Box(modifier = Modifier.size(40.dp)) {
-                    IconButton(onClick = {
-                        scope.launch {
-                            navController.navigate(Route.NotificationList.name)
-                        }
-                    }, modifier = Modifier.size(40.dp)) {
-                        Image(
-                            painter = painterResource(R.drawable.ic_notification),
-                            contentDescription = null,
-                            modifier = Modifier.background(Color.Transparent)
-                        )
+            Box(modifier = Modifier.size(40.dp)) {
+                IconButton(onClick = {
+                    scope.launch {
+                        navController.navigate(Route.NotificationList.name)
                     }
-
-                    if (notificationUiState.isNotificationAlarmOn) {
-                        Box(
-                            Modifier
-                                .size(12.dp)
-                                .clip(CircleShape)
-                                .background(RemindMaterialTheme.colorScheme.alarm)
-                                .align(TopEnd)
-                        )
-                    }
+                }, modifier = Modifier.size(40.dp)) {
+                    Image(
+                        painter = painterResource(R.drawable.ic_notification),
+                        contentDescription = null,
+                        modifier = Modifier.background(Color.Transparent)
+                    )
                 }
 
-
-                IconButton(
-                    onClick = {
-                        // todo
-                    },
-                    modifier = Modifier.size(40.dp)
-                )
-                {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_calendar),
-                        contentDescription = null
+                if (notificationUiState.isNotificationAlarmOn) {
+                    Box(
+                        Modifier
+                            .size(12.dp)
+                            .clip(CircleShape)
+                            .background(RemindMaterialTheme.colorScheme.alarm)
+                            .align(TopEnd)
                     )
                 }
             }

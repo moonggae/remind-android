@@ -1,6 +1,7 @@
 package com.ccc.remind.data.mapper
 
 import com.ccc.remind.data.source.local.model.ImageEntity
+import com.ccc.remind.data.source.remote.model.mind.dto.MindPostPaginationDto
 import com.ccc.remind.data.source.remote.model.mind.dto.MindPostResponseDto
 import com.ccc.remind.data.source.remote.model.mind.vo.ImageFileVO
 import com.ccc.remind.data.source.remote.model.mind.vo.MindCardBookmarkVO
@@ -22,6 +23,7 @@ import com.ccc.remind.domain.entity.mind.MindLike
 import com.ccc.remind.domain.entity.mind.MindMemo
 import com.ccc.remind.domain.entity.mind.MindPost
 import com.ccc.remind.domain.entity.mind.MindPostCard
+import com.ccc.remind.domain.entity.mind.MindPostList
 import com.ccc.remind.domain.entity.mind.MindTag
 import com.ccc.remind.domain.entity.user.PostUser
 
@@ -30,7 +32,14 @@ fun MindPostResponseDto.toDomain() = MindPost(
     createdAt = this.createdAt,
     cards = this.cards.map { it.toDomain() },
     images = this.images.map { it.image.toDomain() },
-    memo = this.memo?.toDomain()
+    memo = this.memo?.toDomain(),
+    user = this.user?.toDomain()
+)
+
+fun MindPostPaginationDto.toDomain() = MindPostList(
+    page = this.page,
+    lastPage = this.lastPage,
+    data = this.data.map { it.toDomain() }
 )
 
 fun MindCardVO.toDomain() = MindCard(

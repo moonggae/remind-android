@@ -7,6 +7,7 @@ import com.ccc.remind.data.source.remote.model.mind.dto.MindPostRequestDto
 import com.ccc.remind.domain.entity.mind.MindCard
 import com.ccc.remind.domain.entity.mind.MindCardSelectType
 import com.ccc.remind.domain.entity.mind.MindPost
+import com.ccc.remind.domain.entity.mind.MindPostList
 import com.ccc.remind.domain.repository.MindRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -65,5 +66,9 @@ class MindRepositoryImpl(private val mindRemoteService: MindRemoteService) : Min
 
     override suspend fun requestFriendMind() {
         mindRemoteService.postRequestFriendMind()
+    }
+
+    override fun getPostList(page: Int): Flow<MindPostList> = flow {
+        emit(mindRemoteService.fetchMindPostPagination(page).body()!!.toDomain())
     }
 }
