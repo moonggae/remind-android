@@ -60,7 +60,7 @@ fun CardListScreen(
             AppBar(
                 title = stringResource(R.string.card_list_appbar_title),
                 enableBack = false,
-                suffix = bookMarkIconButton
+                suffix = { bookMarkIconButton() }
             )
         }
     ) {

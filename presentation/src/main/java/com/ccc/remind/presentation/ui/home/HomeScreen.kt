@@ -321,7 +321,7 @@ fun MyHomeContents(
         if (postMind == null) {
             EmptyPostMindCard(
                 userDisplayName = displayName ?: "유저",
-                onClickAddButton = { navController.navigate(Route.MindPost.CardList.name) }
+                onClickAddButton = { navController.navigate(Route.MindPost.SelectCard.name) }
             )
         } else {
             PostMindCard(
@@ -337,7 +337,7 @@ fun MyHomeContents(
                 modifier = Modifier
                     .padding(horizontal = 50.dp)
                     .height(46.dp),
-                onClick = { navController.navigate(Route.MindPost.CardList.name) }
+                onClick = { navController.navigate(Route.MindPost.SelectCard.name) }
             )
         }
 

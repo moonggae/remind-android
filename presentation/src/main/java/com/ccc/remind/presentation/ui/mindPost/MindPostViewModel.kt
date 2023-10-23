@@ -10,6 +10,7 @@ import com.ccc.remind.domain.entity.mind.MindPost
 import com.ccc.remind.domain.usecase.PostImagesUseCase
 import com.ccc.remind.domain.usecase.mind.GetMindCardsUseCase
 import com.ccc.remind.domain.usecase.post.DeleteMindUseCase
+import com.ccc.remind.domain.usecase.post.GetMindPostUseCase
 import com.ccc.remind.domain.usecase.post.PostMindUseCase
 import com.ccc.remind.domain.usecase.post.UpdateMindUseCase
 import com.ccc.remind.presentation.MyApplication
@@ -30,7 +31,8 @@ class MindPostViewModel @Inject constructor(
     private val postImages: PostImagesUseCase,
     private val postMind: PostMindUseCase,
     private val updateMind: UpdateMindUseCase,
-    private val deleteMind: DeleteMindUseCase
+    private val deleteMind: DeleteMindUseCase,
+    private val getMindPost: GetMindPostUseCase
 ) : ViewModel() {
 
     companion object {
@@ -61,7 +63,7 @@ class MindPostViewModel @Inject constructor(
                     selectedMindFilters = listOf(MindFilter.ALL),
                     mindCards = it.mindCards,
                     selectedMindCards = it.mindCards.filter { card -> _initialCardIds.value.contains(card.id) },
-                    cardListScreenBackStackEntryId = it.cardListScreenBackStackEntryId
+                    selectCardScreenBackStackEntryId = it.selectCardScreenBackStackEntryId
                 )
             }
 
@@ -70,11 +72,11 @@ class MindPostViewModel @Inject constructor(
     }
 
     fun updateBackStackEntryId(id: String?) {
-        if(id == _uiState.value.cardListScreenBackStackEntryId) return
+        if(id == _uiState.value.selectCardScreenBackStackEntryId) return
         viewModelScope.launch {
             _uiState.update {
                 it.copy(
-                    cardListScreenBackStackEntryId = id
+                    selectCardScreenBackStackEntryId = id
                 )
             }
             initUiState()
@@ -181,20 +183,20 @@ class MindPostViewModel @Inject constructor(
                 val memo = _uiState.value.memo
 
                 val response: Flow<MindPost> =
-                    if (_uiState.value.postedMind == null) {
+                    if (_uiState.value.openedPost == null) {
                         postMind(
                             mindCards, images, memo
                         )
                     } else {
                         updateMind(
-                            id = _uiState.value.postedMind!!.id,
+                            id = _uiState.value.openedPost!!.id,
                             mindCards, images, memo
                         )
                     }
 
                 response.collect { post ->
                     _uiState.update {
-                        it.copy(postedMind = post)
+                        it.copy(openedPost = post)
                     }
 
                     onSuccess(post)
@@ -208,13 +210,53 @@ class MindPostViewModel @Inject constructor(
 
     fun deleteMind(onSuccess: () -> Unit = {}) {
         viewModelScope.launch {
-            deleteMind(_uiState.value.postedMind!!.id).collect {
+            deleteMind(_uiState.value.openedPost!!.id).collect {
                 _uiState.update {
                     it.copy(
-                        postedMind = null
+                        openedPost = null
                     )
                 }
                 onSuccess()
+            }
+        }
+    }
+
+    fun setOpenedMindPost(id: Int) {
+        viewModelScope.launch {
+            getMindPost(id).collect { post ->
+                setOpenedMindPost(post)
+            }
+        }
+    }
+
+    private fun setOpenedMindPost(post: MindPost?) {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    openedPost = post
+                )
+            }
+        }
+    }
+
+    fun setViewType(postViewType: PostViewType) {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    viewType = postViewType
+                )
+            }
+        }
+    }
+
+    fun initEditPost(post: MindPost) {
+        viewModelScope.launch {
+            _uiState.update { state ->
+                state.copy(
+                    selectedMindCards = post.cards.map { it.card },
+                    memo = post.memo?.text,
+                    uploadedPhotos = post.images,
+                )
             }
         }
     }

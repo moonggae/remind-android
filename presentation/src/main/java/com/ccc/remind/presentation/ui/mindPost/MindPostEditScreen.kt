@@ -53,6 +53,7 @@ fun MindPostEditScreen(
 ) {
     val sharedUiState by sharedViewModel.uiState.collectAsState()
     val uiState by viewModel.uiState.collectAsState()
+    val viewType = remember { viewModel.uiState.value.viewType }
     var maxSize by remember { mutableStateOf(IntSize.Zero) }
     val photoItemWidth = with(LocalDensity.current) { (maxSize.width.toDp() - 20.dp).div(other = 3) }
 
@@ -64,11 +65,18 @@ fun MindPostEditScreen(
         ) {
             TextButton(
                 onClick = {
-                    viewModel.submitMind {
+                    viewModel.submitMind { postedMind ->
                         navController.previousBackStackEntry
                             ?.savedStateHandle
                             ?.set(POST_MIND_RESULT_KEY, true)
-                        navController.navigate(Route.MindPost.Complete.name)
+                        when(viewType) {
+                            PostViewType.FIRST_POST -> navController.navigate("${Route.MindPost.Detail.name}?id=${postedMind.id}?type=${PostViewType.FIRST_POST}")
+                            PostViewType.DETAIL -> navController.popBackStack(
+                                route = Route.MindPost.Detail.name,
+                                saveState = false,
+                                inclusive = false
+                            )
+                        }
                     }
                 },
                 contentPadding = PaddingValues(0.dp),
@@ -88,7 +96,7 @@ fun MindPostEditScreen(
             AppBar(
                 title = "",
                 navController = navController,
-                suffix = nextButton
+                suffix = { nextButton() }
             )
         },
         modifier = Modifier.onSizeChanged { maxSize = it }

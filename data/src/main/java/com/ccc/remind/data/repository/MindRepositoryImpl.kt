@@ -71,4 +71,8 @@ class MindRepositoryImpl(private val mindRemoteService: MindRemoteService) : Min
     override fun getPostList(page: Int): Flow<MindPostList> = flow {
         emit(mindRemoteService.fetchMindPostPagination(page).body()!!.toDomain())
     }
+
+    override fun getOne(id: Int): Flow<MindPost?> = flow {
+        emit(mindRemoteService.fetchMindPost(id).body()?.toDomain())
+    }
 }

@@ -2,6 +2,7 @@ package com.ccc.remind.presentation.ui.component.layout
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -24,7 +25,7 @@ fun AppBar(
     enableBack: Boolean = true,
     title: String,
     isExit: Boolean = false,
-    suffix: @Composable (() -> Unit)? = null
+    suffix: @Composable() (RowScope.() -> Unit)? = null
 ) {
     Row(
         modifier = Modifier
@@ -56,9 +57,12 @@ fun AppBar(
                 color = RemindMaterialTheme.colorScheme.fg_default
             )
 
-            if(suffix != null) {
+            suffix?.let { suffix ->
                 Spacer(modifier = Modifier.weight(1f))
-                suffix()
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    content = suffix
+                )
             }
         }
     }

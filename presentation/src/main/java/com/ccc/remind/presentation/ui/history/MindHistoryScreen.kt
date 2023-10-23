@@ -1,6 +1,7 @@
 package com.ccc.remind.presentation.ui.history
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +13,9 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,10 +39,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ccc.remind.R
 import com.ccc.remind.domain.entity.mind.MindPost
+import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
 import com.ccc.remind.presentation.ui.component.icon.UserProfileIcon
 import com.ccc.remind.presentation.ui.component.layout.AppBar
+import com.ccc.remind.presentation.ui.mindPost.PostViewType
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.toFormatString
 import kotlinx.coroutines.launch
@@ -55,7 +61,9 @@ fun MindHistoryScreen(
     navController: NavController = rememberNavController(),
     viewModel: MindHistoryViewModel = hiltViewModel()
 ) {
+    val scope = rememberCoroutineScope()
     val uiState by viewModel.uiState.collectAsState()
+    val mindList = uiState.postMinds
     val scrollState = rememberLazyListState()
     val isLoadLastPage by remember {
         mutableStateOf(
@@ -82,22 +90,35 @@ fun MindHistoryScreen(
             )
         }
     ) {
-        LazyColumn(
+        LazyColumn( // todo: performance
             state = scrollState,
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
         ) {
-            itemsIndexed(uiState.postMinds) { index, item ->
+            itemsIndexed(
+                items = mindList,
+//                key = { _, item -> item.id }  // todo: conflict when load data
+            ) { index, item ->
                 if (
                     index == 0 ||
-                    uiState.postMinds[index - 1].createdAt.dayOfMonth != item.createdAt.dayOfMonth
+                    mindList[index - 1].createdAt.dayOfMonth != item.createdAt.dayOfMonth
                 ) {
                     PostDateLabel(item.createdAt)
                     Spacer(modifier = Modifier.height(8.dp))
                 }
 
-                MindPostListItem(data = item)
 
+                MindPostListItem(
+                    data = item,
+                    modifier = Modifier.clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = rememberRipple(bounded = true)
+                    ) {
+                        scope.launch {
+                            navController.navigate("${Route.MindPost.Detail.name}?id=${item.id}&type=${PostViewType.DETAIL}")
+                        }
+                    }
+                )
             }
         }
     }
@@ -105,54 +126,64 @@ fun MindHistoryScreen(
 
 @Composable
 private fun MindPostListItem(
+    modifier: Modifier = Modifier,
     data: MindPost
 ) {
     val scope = rememberCoroutineScope()
     var showCardTagCount by remember { mutableStateOf(data.cards.size) }
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
+    LaunchedEffect(showCardTagCount) {}
+
+    Card(
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = RemindMaterialTheme.colorScheme.bg_muted
+        ),
         modifier = Modifier
             .clip(RoundedCornerShape(20.dp))
-            .background(RemindMaterialTheme.colorScheme.bg_muted)
-            .padding(vertical = 14.dp, horizontal = 20.dp)
+            .then(modifier)
     ) {
-        UserProfileIcon(
-            size = 44.dp,
-            modifier = Modifier.padding(end = 20.dp),
-            imageUrl = data.user?.profileImage?.url
-        )
-
-
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            userScrollEnabled = false
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(vertical = 14.dp, horizontal = 20.dp)
         ) {
-            items(count = showCardTagCount) { index ->
-                RoundedTextIcon(
-                    text = data.cards[index].card.displayName,
-                    color = RemindMaterialTheme.colorScheme.accent_default,
-                    containerColor = RemindMaterialTheme.colorScheme.bg_default,
-                    style = RemindMaterialTheme.typography.bold_md,
-                    showBorder = true
-                )
-            }
-        }
+            UserProfileIcon(
+                size = 44.dp,
+                modifier = Modifier.padding(end = 20.dp),
+                imageUrl = data.user?.profileImage?.url
+            )
 
-        Spacer(modifier = Modifier
-            .weight(1f)
-            .onSizeChanged {
-                if (it.width <= 0 && showCardTagCount > 0) {
-                    scope.launch { showCardTagCount -= 1 }
+
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                userScrollEnabled = false
+            ) {
+                items(count = showCardTagCount) { index ->
+                    RoundedTextIcon(
+                        text = data.cards[index].card.displayName,
+                        color = RemindMaterialTheme.colorScheme.accent_default,
+                        containerColor = RemindMaterialTheme.colorScheme.bg_default,
+                        style = RemindMaterialTheme.typography.bold_md,
+                        showBorder = true
+                    )
                 }
-            })
+            }
 
-        Icon(
-            painter = painterResource(R.drawable.ic_arrow_light),
-            contentDescription = stringResource(R.string.arrow_light_icon),
-            tint = RemindMaterialTheme.colorScheme.accent_default,
-            modifier = Modifier.size(16.dp)
-        )
+            Spacer(modifier = Modifier
+                .weight(1f)
+                .onSizeChanged {
+                    if (it.width <= 0 && showCardTagCount > 0) {
+                        scope.launch { showCardTagCount -= 1 }
+                    }
+                })
+
+            Icon(
+                painter = painterResource(R.drawable.ic_arrow_light),
+                contentDescription = stringResource(R.string.arrow_light_icon),
+                tint = RemindMaterialTheme.colorScheme.accent_default,
+                modifier = Modifier.size(16.dp)
+            )
+        }
     }
 }
 

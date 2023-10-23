@@ -36,4 +36,7 @@ interface MindRemoteService {
 
     @GET("mind/post/list/{page}")
     suspend fun fetchMindPostPagination(@Path("page") page: Int): Response<MindPostPaginationDto>
+
+    @GET("mind/post/{id}")
+    suspend fun fetchMindPost(@Path("id") id: Int): Response<MindPostResponseDto>
 }

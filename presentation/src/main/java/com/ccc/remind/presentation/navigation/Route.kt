@@ -28,10 +28,11 @@ import com.ccc.remind.presentation.ui.invite.InviteScreen
 import com.ccc.remind.presentation.ui.invite.InviteViewModel
 import com.ccc.remind.presentation.ui.memo.MemoEditScreen
 import com.ccc.remind.presentation.ui.memo.MemoEditViewModel
-import com.ccc.remind.presentation.ui.mindPost.MindPostCardListScreen
-import com.ccc.remind.presentation.ui.mindPost.MindPostCompleteScreen
+import com.ccc.remind.presentation.ui.mindPost.MindPostDetailScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostEditScreen
+import com.ccc.remind.presentation.ui.mindPost.MindPostSelectCardScreen
 import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
+import com.ccc.remind.presentation.ui.mindPost.PostViewType
 import com.ccc.remind.presentation.ui.notification.NotificationListScreen
 import com.ccc.remind.presentation.ui.notification.NotificationViewModel
 import com.ccc.remind.presentation.ui.user.UserProfileEditScreen
@@ -65,33 +66,34 @@ sealed class Route(val name: String, val parent: Route? = null) {
         }
     }
 
-    object Main: Route("Main") {
-        object Home: Route("Main.Home", Main)
-        object MindHistory: Route("Main.MindHistory", Main)
-        object Cards: Route("Main.Cards", Main)
-        object User: Route("Main.User", Main) {
-            object ProfileEdit: Route("Main.User.ProfileEdit", User)
+    object Main : Route("Main") {
+        object Home : Route("Main.Home", Main)
+        object MindHistory : Route("Main.MindHistory", Main)
+        object Cards : Route("Main.Cards", Main)
+        object User : Route("Main.User", Main) {
+            object ProfileEdit : Route("Main.User.ProfileEdit", User)
         }
     }
-    object MindPost: Route("MindPost") {
-        object CardList: Route("MindPost.CardList", MindPost)
-        object Edit: Route("MindPost.Edit", MindPost)
-        object Complete: Route("MindPost.Complete", MindPost)
+
+    object MindPost : Route("MindPost") {
+        object SelectCard : Route("MindPost.SelectCard", MindPost)
+        object Edit : Route("MindPost.Edit", MindPost)
+        object Detail : Route("MindPost.Detail", MindPost)
     }
 
-    object MindCard: Route("MindCard") {
-        object BookmarkList: Route("MindCard.BookmarkList", MindCard)
-        object Detail: Route("MindCard.Detail", MindCard)
-        object DetailCardList: Route("MindCard.DetailCardList", MindCard)
+    object MindCard : Route("MindCard") {
+        object BookmarkList : Route("MindCard.BookmarkList", MindCard)
+        object Detail : Route("MindCard.Detail", MindCard)
+        object DetailCardList : Route("MindCard.DetailCardList", MindCard)
     }
 
-    object MemoEdit: Route("MemoEdit")
+    object MemoEdit : Route("MemoEdit")
 
-    object Invite: Route("Invite") {
-        object Profile: Route("Invite.Profile", Invite)
+    object Invite : Route("Invite") {
+        object Profile : Route("Invite.Profile", Invite)
     }
 
-    object NotificationList: Route("NotificationList")
+    object NotificationList : Route("NotificationList")
 
     val root: Route
         get() = parent?.root ?: this
@@ -106,7 +108,7 @@ fun NavGraphBuilder.mainNavGraph(
     mindHistoryViewModel: MindHistoryViewModel
 ) {
     val startDestination =
-        if(Constants.START_TOP_SCREEN.root == Route.Main) Constants.START_TOP_SCREEN
+        if (Constants.START_TOP_SCREEN.root == Route.Main) Constants.START_TOP_SCREEN
         else Route.Main.Home
 
     navigation(
@@ -121,7 +123,7 @@ fun NavGraphBuilder.mainNavGraph(
         }
         composable(Route.Main.Home.name) {
             navController.addOnDestinationChangedListener { _, destination, _ ->
-                if(destination.route == Route.Main.Home.name) {
+                if (destination.route == Route.Main.Home.name) {
                     homeViewModel.initUiState()
                     notificationViewModel.initNotifications()
                 }
@@ -150,8 +152,8 @@ fun NavGraphBuilder.mainNavGraph(
             val userProfileViewModel: UserProfileViewModel = hiltViewModel()
             userProfileViewModel.initUserProfile()
             UserProfileEditScreen(
-                navController =  navController,
-                viewModel =  userProfileViewModel,
+                navController = navController,
+                viewModel = userProfileViewModel,
                 sharedViewModel = sharedViewModel
             )
         }
@@ -165,29 +167,35 @@ fun NavGraphBuilder.postMindNavGraph(
     sharedViewModel: SharedViewModel
 ) {
     val startDestination =
-        if(Constants.START_TOP_SCREEN.root == Route.MindPost) Constants.START_TOP_SCREEN
-        else Route.MindPost.CardList
+        if (Constants.START_TOP_SCREEN.root == Route.MindPost) Constants.START_TOP_SCREEN
+        else Route.MindPost.SelectCard
     navigation(
         startDestination = startDestination.name,
         route = Route.MindPost.name
     ) {
         composable(
-            route = "${Route.MindPost.CardList.name}?cardId={cardId}",
+            route = "${Route.MindPost.SelectCard.name}?cardId={cardId}&type={type}",
             arguments = listOf(navArgument("cardId") {
                 nullable = true
                 type = NavType.StringType
                 defaultValue = null
+            }, navArgument("type") {
+                nullable = true
+                type = NavType.StringType
+                defaultValue = PostViewType.FIRST_POST.name
             })
         ) {
             LaunchedEffect(navController.currentBackStackEntry) {
-                if(navController.currentDestination?.route?.startsWith(Route.MindPost.CardList.name) == true) {
+                if (navController.currentDestination?.route?.startsWith(Route.MindPost.SelectCard.name) == true) {
                     it.arguments?.getString("cardId")?.let { cardId ->
                         viewModel.setInitialCard(listOf(cardId.toInt()))
                     }
-                    viewModel.updateBackStackEntryId(navController.currentBackStackEntry?.id)
+                    if(it.arguments?.getString("type") == PostViewType.FIRST_POST.name) {
+                        viewModel.updateBackStackEntryId(navController.currentBackStackEntry?.id)
+                    }
                 }
             }
-            MindPostCardListScreen(
+            MindPostSelectCardScreen(
                 navController = navController,
                 viewModel = viewModel
             )
@@ -199,8 +207,34 @@ fun NavGraphBuilder.postMindNavGraph(
                 sharedViewModel = sharedViewModel
             )
         }
-        composable(Route.MindPost.Complete.name) {
-            MindPostCompleteScreen(
+        composable(
+            route = "${Route.MindPost.Detail.name}?id={id}&type={type}",
+            arguments = listOf(navArgument("id") {
+                nullable = true
+                type = NavType.StringType
+                defaultValue = null
+            }, navArgument("type") {
+                nullable = true
+                type = NavType.StringType
+                defaultValue = PostViewType.FIRST_POST.name
+            })
+        ) {
+            LaunchedEffect(navController.currentDestination) {
+                if (navController.currentDestination?.route?.startsWith(Route.MindPost.Detail.name) == true) {
+                    val postId = it.arguments?.getString("id")
+                    postId?.toIntOrNull()?.let { id ->
+                        viewModel.setOpenedMindPost(id)
+                    }
+
+                    it.arguments?.getString("type")?.let { typeString ->
+                        try {
+                            viewModel.setViewType(PostViewType.valueOf(typeString))
+                        } catch (_:Exception) {}
+                    }
+                }
+            }
+
+            MindPostDetailScreen(
                 navController = navController,
                 viewModel = viewModel,
                 sharedViewModel = sharedViewModel
@@ -222,7 +256,7 @@ fun NavGraphBuilder.memoEditNavGraph(
             navArgument("isFriend") { type = NavType.BoolType }
         )
     ) {
-        if(it.lifecycle.currentState == Lifecycle.State.STARTED) {
+        if (it.lifecycle.currentState == Lifecycle.State.STARTED) {
             viewModel.setInitData(
                 postId = it.arguments!!.getInt("postId"),
                 memoId = it.arguments?.getInt("memoId"),
@@ -233,7 +267,7 @@ fun NavGraphBuilder.memoEditNavGraph(
 
         MemoEditScreen(
             navController = navController,
-            viewModel =  viewModel,
+            viewModel = viewModel,
             sharedViewModel = sharedViewModel
         )
     }
@@ -268,7 +302,7 @@ fun NavGraphBuilder.notificationGraph(
     viewModel: NotificationViewModel
 ) {
     navController.addOnDestinationChangedListener { _, destination, _ ->
-        if(destination.route == Route.NotificationList.name) {
+        if (destination.route == Route.NotificationList.name) {
             viewModel.updateNotificationsReadAll()
         }
     }
@@ -318,17 +352,17 @@ fun NavGraphBuilder.mindCardGraph(
         }
 
         LaunchedEffect(navController.currentBackStackEntry) {
-            if(navController.currentDestination?.route?.startsWith(Route.MindCard.DetailCardList.name) == true) {
+            if (navController.currentDestination?.route?.startsWith(Route.MindCard.DetailCardList.name) == true) {
                 cardIds = (it.arguments?.getStringArray("cardId")?.toList() ?: emptyList()).map { id -> id.toInt() }
-                if(cardIds.size > 1) {
+                if (cardIds.size > 1) {
                     viewModel.setDetailCardListIds(cardIds)
-                } else if (cardIds.isNotEmpty()){
+                } else if (cardIds.isNotEmpty()) {
                     viewModel.setOpenedCard(cardIds.first())
                 }
             }
         }
 
-        if(cardIds.size > 1) {
+        if (cardIds.size > 1) {
             CardListDetailScreen(
                 navController = navController,
                 viewModel = viewModel

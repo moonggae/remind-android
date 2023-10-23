@@ -25,7 +25,6 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -167,7 +166,7 @@ fun CardDetailScreen(
 
                 PrimaryButton(text = stringResource(R.string.card_detail_button_post_this_mind_card)) {
                     scope.launch {
-                        navController.navigate(route = "${Route.MindPost.CardList.name}?cardId=${openedMindCard.id}")
+                        navController.navigate(route = "${Route.MindPost.SelectCard.name}?cardId=${openedMindCard.id}")
                     }
                 }
             }

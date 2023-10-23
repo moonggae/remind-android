@@ -36,12 +36,12 @@ private const val TAG = "TAG"
 @Preview
 @Composable
 fun MindPostCardListScreenPreview() {
-    MindPostCardListScreen(navController = rememberNavController())
+    MindPostSelectCardScreen(navController = rememberNavController())
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MindPostCardListScreen(
+fun MindPostSelectCardScreen(
     navController: NavController,
     viewModel: MindPostViewModel = hiltViewModel()
 ) {
@@ -77,7 +77,7 @@ fun MindPostCardListScreen(
                 title = "",
                 isExit = true,
                 navController = navController,
-                suffix = nextButton,
+                suffix = { nextButton() },
             )
         }
     ) {

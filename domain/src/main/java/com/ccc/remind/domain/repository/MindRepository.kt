@@ -34,4 +34,6 @@ interface MindRepository {
     suspend fun requestFriendMind()
 
     fun getPostList(page: Int): Flow<MindPostList>
+
+    fun getOne(id: Int): Flow<MindPost?>
 }
