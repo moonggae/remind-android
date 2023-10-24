@@ -122,8 +122,8 @@ fun NavGraphBuilder.mainNavGraph(
             )
         }
         composable(Route.Main.Home.name) {
-            navController.addOnDestinationChangedListener { _, destination, _ ->
-                if (destination.route == Route.Main.Home.name) {
+            LaunchedEffect(navController.currentDestination) {
+                if(navController.currentDestination?.route?.startsWith(Route.Main.Home.name) == true) {
                     homeViewModel.initUiState()
                     notificationViewModel.initNotifications()
                 }

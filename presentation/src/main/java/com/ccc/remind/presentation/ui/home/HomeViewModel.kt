@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,8 +25,12 @@ class HomeViewModel @Inject constructor(
         get() = _uiState
 
     fun initUiState() {
-        refreshLastPostedMind()
-        refreshFriendLastPostedMind()
+        viewModelScope.launch {
+            runBlocking {
+                refreshLastPostedMind()
+                refreshFriendLastPostedMind()
+            }
+        }
     }
 
     private fun refreshLastPostedMind() {
