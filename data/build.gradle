@@ -57,6 +57,9 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:okhttp:4.11.0"
     implementation "com.squareup.okio:okio-jvm:3.3.0"
+
+    // socket.io
+    implementation "io.socket:socket.io-client:2.1.0"
 }
 
 kapt {

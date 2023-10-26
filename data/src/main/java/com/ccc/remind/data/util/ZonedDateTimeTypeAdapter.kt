@@ -1,4 +1,4 @@
-package com.ccc.remind.presentation.di.network
+package com.ccc.remind.data.util
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer

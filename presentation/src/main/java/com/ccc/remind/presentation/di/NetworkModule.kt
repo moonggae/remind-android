@@ -7,12 +7,12 @@ import com.ccc.remind.data.source.remote.MindCardBookmarkRemoteService
 import com.ccc.remind.data.source.remote.MindMemoRemoteService
 import com.ccc.remind.data.source.remote.MindRemoteService
 import com.ccc.remind.data.source.remote.UserRemoteService
+import com.ccc.remind.data.util.ZonedDateTimeTypeAdapter
 import com.ccc.remind.presentation.di.network.AuthOkHttpClient
 import com.ccc.remind.presentation.di.network.AuthRetrofit
 import com.ccc.remind.presentation.di.network.InterceptorOkHttpClient
 import com.ccc.remind.presentation.di.network.InterceptorRetrofit
 import com.ccc.remind.presentation.di.network.TokenInterceptor
-import com.ccc.remind.presentation.di.network.ZonedDateTimeTypeAdapter
 import com.ccc.remind.presentation.util.Constants.BASE_URL
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
