@@ -1,5 +1,6 @@
 package com.ccc.remind.data.source.remote
 
+import android.util.Log
 import com.ccc.remind.data.util.ZonedDateTimeTypeAdapter
 import com.ccc.remind.domain.entity.user.JwtToken
 import com.google.gson.GsonBuilder
@@ -8,6 +9,7 @@ import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -65,25 +67,37 @@ class SocketManager {
         }
     }
 
-    fun <T> listen(event: String, classOfT: Class<T>): SharedFlow<T> {
+    fun <T> listen(event: String, classOfT: Class<T>, scope: CoroutineScope): SharedFlow<T> {
         val flow = eventsFlows.getOrPut(event) {
             val newFlow = MutableSharedFlow<Any>()
             val listener = Emitter.Listener { args ->
-                try {
-                    val data: T? =
-                    if(args[0] is JSONObject)
-                        gson.fromJson((args[0] as JSONObject).toString(), classOfT)
-                    else if(args[0] is JSONArray)
-                        gson.fromJson((args[0] as JSONArray).toString(), classOfT)
-                    else
-                        null
-                    newFlow.tryEmit(data as Any) // Emit the data to the SharedFlow
-                } catch (e: Exception) {
-                    throw e
+                scope.launch {
+                    try {
+                        val data: T? =
+                            if (args[0] is JSONObject)
+                                gson.fromJson((args[0] as JSONObject).toString(), classOfT)
+                            else if (args[0] is JSONArray)
+                                gson.fromJson((args[0] as JSONArray).toString(), classOfT)
+                            else
+                                null
+
+                        if (data != null) {
+                            newFlow.emit(data as Any)
+                        }
+                    } catch (e: Exception) {
+                        Log.d(TAG, "SocketManager - listen - error: ${e}")
+                        e.printStackTrace()
+                    }
                 }
             }
 
-            socket.on(event, listener)
+            // Here you might want to use the scope as well for launching coroutines
+            scope.launch {
+                while (!this@SocketManager::socket.isInitialized || !socket.connected()) {
+                    delay(100) // wait for 100ms before checking again
+                }
+                socket.on(event, listener)
+            }
             newFlow
         }
 

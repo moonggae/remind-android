@@ -8,6 +8,7 @@ import com.ccc.remind.data.repository.MindMemoRepositoryImpl
 import com.ccc.remind.data.repository.MindRepositoryImpl
 import com.ccc.remind.data.repository.NotificationRepositoryImpl
 import com.ccc.remind.data.repository.SettingRepositoryImpl
+import com.ccc.remind.data.repository.SocketRepositoryImpl
 import com.ccc.remind.data.repository.UserRepositoryImpl
 import com.ccc.remind.data.source.local.NotificationLocalDataSource
 import com.ccc.remind.data.source.local.SettingLocalDataSource
@@ -28,6 +29,7 @@ import com.ccc.remind.domain.repository.MindMemoRepository
 import com.ccc.remind.domain.repository.MindRepository
 import com.ccc.remind.domain.repository.NotificationRepository
 import com.ccc.remind.domain.repository.SettingRepository
+import com.ccc.remind.domain.repository.SocketRepository
 import com.ccc.remind.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -59,11 +61,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideMindMemoRepository(
-        mindMemoRemoteService: MindMemoRemoteService,
-        socketManager: SocketManager
-    ): MindMemoRepository {
-        return MindMemoRepositoryImpl(mindMemoRemoteService, socketManager)
+    fun provideMindMemoRepository(mindMemoRemoteService: MindMemoRemoteService): MindMemoRepository {
+        return MindMemoRepositoryImpl(mindMemoRemoteService)
     }
 
     @Provides
@@ -94,5 +93,11 @@ object RepositoryModule {
     @Singleton
     fun provideMindCardBookmarkRepository(mindCardBookmarkRemoteService: MindCardBookmarkRemoteService): MindCardBookmarkRepository {
         return MindCardBookmarkRepositoryImpl(mindCardBookmarkRemoteService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSocketRepository(socketManager: SocketManager): SocketRepository {
+        return SocketRepositoryImpl(socketManager)
     }
 }

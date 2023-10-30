@@ -1,7 +1,8 @@
 package com.ccc.remind.presentation.ui.memo
 
-import androidx.lifecycle.ViewModel
+import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.ccc.remind.domain.repository.SocketRepository
 import com.ccc.remind.domain.usecase.memo.DeleteLikeUseCase
 import com.ccc.remind.domain.usecase.memo.DeleteMemoUseCase
 import com.ccc.remind.domain.usecase.memo.GetMemoUseCase
@@ -9,12 +10,17 @@ import com.ccc.remind.domain.usecase.memo.PostCommentUseCase
 import com.ccc.remind.domain.usecase.memo.PostLikeUseCase
 import com.ccc.remind.domain.usecase.memo.PostMemoUseCase
 import com.ccc.remind.domain.usecase.memo.UpdateMemoUseCase
+import com.ccc.remind.presentation.base.ComposeLifecycleViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+// TODO: viewmodel scope 관리
 
 @HiltViewModel
 class MemoEditViewModel @Inject constructor(
@@ -24,11 +30,45 @@ class MemoEditViewModel @Inject constructor(
     private val deleteMemo: DeleteMemoUseCase,
     private val postComment: PostCommentUseCase,
     private val postLike: PostLikeUseCase,
-    private val deleteLike: DeleteLikeUseCase
-): ViewModel() {
+    private val deleteLike: DeleteLikeUseCase,
+    private val socketRepository: SocketRepository
+): ComposeLifecycleViewModel() {
+    companion object {
+        private const val TAG = "MemoEditViewModel"
+    }
+
+    override fun onCreate() {
+        Log.d(TAG, "onCreate")
+    }
+
+    override fun onStart() {
+        Log.d(TAG, "onStart")
+    }
+
+    override fun onResume() {
+        Log.d(TAG, "onResume")
+    }
+
+    override fun onPause() {
+        Log.d(TAG, "onPause")
+    }
+
+    override fun onStop() {
+        Log.d(TAG, "onStop")
+    }
+
+    override fun onDispose() {
+        Log.d(TAG, "onDispose")
+    }
+
+
     private val _uiState = MutableStateFlow(MemoEditUiStatus())
     val uiStatus: StateFlow<MemoEditUiStatus>
         get() = _uiState
+
+    init {
+        observeCommentFlow()
+    }
 
     fun setInitData(postId: Int, memoId: Int?, isFriend: Boolean? = null) {
         viewModelScope.launch {
@@ -185,6 +225,44 @@ class MemoEditViewModel @Inject constructor(
                             }
                         )
                     )
+                }
+            }
+        }
+    }
+
+    fun observeCommentFlow() {
+        viewModelScope.launch {
+            socketRepository.watchMemoComment(this).shareIn(
+                this,
+                SharingStarted.Lazily
+            ).collect { newComment ->
+                // TODO: memo id에 따라서 제어하기 - event 네임 뒤에 memoid 를 추가하면 될 것 같음
+                // TODO: lifecycle에 따라서 제어하기
+                _uiState.value.openedMemo?.let { memo ->
+                    val existCommentIndex = memo.comments.indexOfFirst {  comment ->
+                        comment.id == newComment.id
+                    }
+
+                    if(existCommentIndex > 0) {
+                        val newComments = memo.comments.toMutableList()
+                        newComments[existCommentIndex] = newComment
+
+                        _uiState.update {
+                            it.copy(
+                                openedMemo = memo.copy(
+                                    comments = newComments
+                                )
+                            )
+                        }
+                    } else {
+                        _uiState.update {
+                            it.copy(
+                                openedMemo = memo.copy(
+                                    comments = memo.comments.plus(newComment)
+                                )
+                            )
+                        }
+                    }
                 }
             }
         }

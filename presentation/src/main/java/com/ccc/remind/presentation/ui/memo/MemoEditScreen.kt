@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -33,6 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ccc.remind.R
 import com.ccc.remind.presentation.ui.SharedViewModel
+import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.dialog.AlertDialog
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.pageComponent.memo.CommentInputBox
@@ -61,14 +61,16 @@ fun MemoEditScreen(
 
     var openDeleteMemoAlertDialog by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier.fillMaxSize()
+    BasicScreen(
+        viewModel = viewModel,
+        appBar = {
+            AppBar(
+                navController = navController,
+                title = stringResource(R.string.mind_memo_edit_appbar_title)
+            )
+        },
+        padding = PaddingValues(0.dp)
     ) {
-        AppBar(
-            navController = navController,
-            title = stringResource(R.string.mind_memo_edit_appbar_title)
-        )
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -113,10 +115,10 @@ fun MemoEditScreen(
                 if (uiState.editType == MemoEditType.UPDATE) {
                     Button(
                         onClick = {
-                              scope.launch {
-                                  viewModel.submitUpdateMemo()
-                                  Toast.makeText(context, context.resources.getString(R.string.mind_memo_edit_memo_update_message) , Toast.LENGTH_SHORT).show()
-                              }
+                            scope.launch {
+                                viewModel.submitUpdateMemo()
+                                Toast.makeText(context, context.resources.getString(R.string.mind_memo_edit_memo_update_message) , Toast.LENGTH_SHORT).show()
+                            }
                         },
                         shape = RoundedCornerShape(8.dp),
                         colors = ButtonDefaults.buttonColors(
@@ -190,7 +192,7 @@ fun MemoEditScreen(
                 )
             )
         }
-        
+
 
         CommentList(
             comments = uiState.openedMemo?.comments ?: emptyList(),
@@ -212,8 +214,6 @@ fun MemoEditScreen(
             onClickSendButton = viewModel::submitPostComment
         )
     }
-
-
 
     if (openDeleteMemoAlertDialog) {
         AlertDialog(
