@@ -29,20 +29,13 @@ fun BasicScreen(
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     DisposableEffect(lifecycle) {
         val lifecycleObserver = LifecycleEventObserver { _, event ->
-            when (event) {
-                Lifecycle.Event.ON_CREATE -> viewModel?.onCreate()
-                Lifecycle.Event.ON_START -> viewModel?.onStart()
-                Lifecycle.Event.ON_RESUME -> viewModel?.onResume()
-                Lifecycle.Event.ON_PAUSE -> viewModel?.onPause()
-                Lifecycle.Event.ON_STOP -> viewModel?.onStop()
-                else -> {}
-            }
+            viewModel?.call(event)
         }
 
         lifecycle.addObserver(lifecycleObserver)
         onDispose {
             lifecycle.removeObserver(lifecycleObserver)
-            viewModel?.onDispose()
+            viewModel?.call(Lifecycle.Event.ON_DESTROY)
         }
     }
 

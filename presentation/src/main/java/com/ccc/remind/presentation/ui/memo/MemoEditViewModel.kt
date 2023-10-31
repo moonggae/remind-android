@@ -1,7 +1,8 @@
 package com.ccc.remind.presentation.ui.memo
 
-import android.util.Log
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.viewModelScope
+import com.ccc.remind.domain.entity.mind.MindComment
 import com.ccc.remind.domain.repository.SocketRepository
 import com.ccc.remind.domain.usecase.memo.DeleteLikeUseCase
 import com.ccc.remind.domain.usecase.memo.DeleteMemoUseCase
@@ -12,15 +13,14 @@ import com.ccc.remind.domain.usecase.memo.PostMemoUseCase
 import com.ccc.remind.domain.usecase.memo.UpdateMemoUseCase
 import com.ccc.remind.presentation.base.ComposeLifecycleViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-// TODO: viewmodel scope 관리
 
 @HiltViewModel
 class MemoEditViewModel @Inject constructor(
@@ -37,37 +37,25 @@ class MemoEditViewModel @Inject constructor(
         private const val TAG = "MemoEditViewModel"
     }
 
-    override fun onCreate() {
-        Log.d(TAG, "onCreate")
-    }
-
-    override fun onStart() {
-        Log.d(TAG, "onStart")
-    }
-
-    override fun onResume() {
-        Log.d(TAG, "onResume")
-    }
-
-    override fun onPause() {
-        Log.d(TAG, "onPause")
-    }
-
-    override fun onStop() {
-        Log.d(TAG, "onStop")
-    }
-
-    override fun onDispose() {
-        Log.d(TAG, "onDispose")
-    }
-
-
     private val _uiState = MutableStateFlow(MemoEditUiStatus())
     val uiStatus: StateFlow<MemoEditUiStatus>
         get() = _uiState
 
+    private val openedMemoId: Flow<Int?> = _uiState
+        .map { it.openedMemo?.id }
+        .distinctUntilChanged() // openedMemo 값이 변경될 때만 새 값을 방출
+
     init {
-        observeCommentFlow()
+        super.addWatchFlow(
+            start = Lifecycle.Event.ON_RESUME,
+            end = Lifecycle.Event.ON_PAUSE,
+            triggerFlow = openedMemoId,
+            flowProvider = { memoId, scope ->
+                if(memoId == null) return@addWatchFlow null
+                socketRepository.watchMemoComment(memoId, scope)
+            },
+            onCollect = this::updateOrAppendComment
+        )
     }
 
     fun setInitData(postId: Int, memoId: Int?, isFriend: Boolean? = null) {
@@ -174,11 +162,9 @@ class MemoEditViewModel @Inject constructor(
         _uiState.value.openedMemo?.let { openedMemo ->
             viewModelScope.launch {
                 postComment(openedMemo.id, _uiState.value.commentText).collect { postedComment ->
+                    updateOrAppendComment(postedComment)
                     _uiState.update {
                         it.copy(
-                            openedMemo = it.openedMemo?.copy(
-                                comments = it.openedMemo.comments.plus(postedComment)
-                            ),
                             commentText = ""
                         )
                     }
@@ -230,40 +216,26 @@ class MemoEditViewModel @Inject constructor(
         }
     }
 
-    fun observeCommentFlow() {
-        viewModelScope.launch {
-            socketRepository.watchMemoComment(this).shareIn(
-                this,
-                SharingStarted.Lazily
-            ).collect { newComment ->
-                // TODO: memo id에 따라서 제어하기 - event 네임 뒤에 memoid 를 추가하면 될 것 같음
-                // TODO: lifecycle에 따라서 제어하기
-                _uiState.value.openedMemo?.let { memo ->
-                    val existCommentIndex = memo.comments.indexOfFirst {  comment ->
-                        comment.id == newComment.id
-                    }
+    private fun updateOrAppendComment(newComment: MindComment) {
+        _uiState.value.openedMemo?.let { memo ->
+            val modifiedComments = memo.comments.toMutableList()
 
-                    if(existCommentIndex > 0) {
-                        val newComments = memo.comments.toMutableList()
-                        newComments[existCommentIndex] = newComment
+            val commentIndex = modifiedComments.indexOfFirst { comment ->
+                comment.id == newComment.id
+            }
 
-                        _uiState.update {
-                            it.copy(
-                                openedMemo = memo.copy(
-                                    comments = newComments
-                                )
-                            )
-                        }
-                    } else {
-                        _uiState.update {
-                            it.copy(
-                                openedMemo = memo.copy(
-                                    comments = memo.comments.plus(newComment)
-                                )
-                            )
-                        }
-                    }
-                }
+            if (commentIndex >= 0) {
+                modifiedComments[commentIndex] = newComment
+            } else {
+                modifiedComments.add(newComment)
+            }
+
+            _uiState.update {
+                it.copy(
+                    openedMemo = memo.copy(
+                        comments = modifiedComments
+                    )
+                )
             }
         }
     }

@@ -5,5 +5,5 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharedFlow
 
 interface SocketRepository {
-    fun watchMemoComment(scope: CoroutineScope): SharedFlow<MindComment>
+    fun watchMemoComment(memoId: Int, scope: CoroutineScope): SharedFlow<MindComment>
 }

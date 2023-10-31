@@ -19,7 +19,7 @@ import com.ccc.remind.data.source.remote.ImageRemoteService
 import com.ccc.remind.data.source.remote.MindCardBookmarkRemoteService
 import com.ccc.remind.data.source.remote.MindMemoRemoteService
 import com.ccc.remind.data.source.remote.MindRemoteService
-import com.ccc.remind.data.source.remote.SocketManager
+import com.ccc.remind.data.source.socket.SocketManager
 import com.ccc.remind.data.source.remote.UserRemoteService
 import com.ccc.remind.domain.repository.AuthRepository
 import com.ccc.remind.domain.repository.FriendRepository

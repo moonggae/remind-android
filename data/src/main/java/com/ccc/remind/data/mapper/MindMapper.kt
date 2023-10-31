@@ -13,6 +13,7 @@ import com.ccc.remind.data.source.remote.model.mind.vo.MindMemoVO
 import com.ccc.remind.data.source.remote.model.mind.vo.MindPostCardVO
 import com.ccc.remind.data.source.remote.model.mind.vo.MindTagVO
 import com.ccc.remind.data.source.remote.model.user.UserVO
+import com.ccc.remind.data.source.socket.model.AppendMindCommentDto
 import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.domain.entity.mind.MindCard
 import com.ccc.remind.domain.entity.mind.MindCardBookmark
@@ -98,7 +99,16 @@ fun MindMemoVO.toDomain() = MindMemo(
     comments = this.comments.map { it.toDomain() }
 )
 
+
 fun MindCommentVO.toDomain() = MindComment(
+    id = this.id,
+    createdAt = this.createdAt,
+    text = this.text,
+    user = this.user.toDomain(),
+    likes = this.likes.map { it.toDomain() }
+)
+
+fun AppendMindCommentDto.toDomain() = MindComment(
     id = this.id,
     createdAt = this.createdAt,
     text = this.text,

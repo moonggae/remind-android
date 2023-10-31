@@ -1,4 +1,4 @@
-package com.ccc.remind.data.source.remote
+package com.ccc.remind.data.source.socket
 
 import android.util.Log
 import com.ccc.remind.data.util.ZonedDateTimeTypeAdapter

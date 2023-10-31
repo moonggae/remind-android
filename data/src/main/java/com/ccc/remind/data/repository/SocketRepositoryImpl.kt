@@ -1,8 +1,8 @@
 package com.ccc.remind.data.repository
 
 import com.ccc.remind.data.mapper.toDomain
-import com.ccc.remind.data.source.remote.SocketManager
-import com.ccc.remind.data.source.remote.model.mind.vo.MindCommentVO
+import com.ccc.remind.data.source.socket.SocketManager
+import com.ccc.remind.data.source.socket.model.AppendMindCommentDto
 import com.ccc.remind.domain.entity.mind.MindComment
 import com.ccc.remind.domain.repository.SocketRepository
 import kotlinx.coroutines.CoroutineScope
@@ -19,16 +19,18 @@ class SocketRepositoryImpl(
     }
 
 
-    override fun watchMemoComment(scope: CoroutineScope): SharedFlow<MindComment> {
+    override fun watchMemoComment(memoId: Int, scope: CoroutineScope): SharedFlow<MindComment> {
         val mutableSharedFlow = MutableSharedFlow<MindComment>()
-        val dataFlow: SharedFlow<MindCommentVO> = socketManager.listen(
+        val dataFlow: SharedFlow<AppendMindCommentDto> = socketManager.listen(
             event = "mind-memo-comment",
-            classOfT =  MindCommentVO::class.java, scope
+            classOfT =  AppendMindCommentDto::class.java, scope
         )
 
         scope.launch {
-            dataFlow.collect { vo ->
-                mutableSharedFlow.emit(vo.toDomain())
+            dataFlow.collect { dto ->
+                if(dto.memo.id == memoId) {
+                    mutableSharedFlow.emit(dto.toDomain())
+                }
             }
         }
 

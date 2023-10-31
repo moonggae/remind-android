@@ -1,6 +1,6 @@
 package com.ccc.remind.presentation.di
 
-import com.ccc.remind.data.source.remote.SocketManager
+import com.ccc.remind.data.source.socket.SocketManager
 import com.ccc.remind.domain.repository.AuthRepository
 import com.ccc.remind.presentation.util.Constants
 import dagger.Module
