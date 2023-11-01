@@ -57,10 +57,13 @@ open class ComposeLifecycleViewModel: ViewModel() {
                 endEvent?.let { removeEvent(it) }
                 collectionJob?.cancel()
 
-                flowProvider(inputData, this)?.let { provider ->
+                val flow = flowProvider(inputData, this)
+                if(flow == null) {
+                    collectionJob?.cancel()
+                } else {
                     startEvent = addOn(start) {
                         collectionJob = viewModelScope.launch {
-                            provider.collect {
+                            flow.collect {
                                 onCollect(it)
                             }
                         }
@@ -68,7 +71,6 @@ open class ComposeLifecycleViewModel: ViewModel() {
 
                     endEvent = addOn(end) {
                         collectionJob?.cancel()
-                        collectionJob = null
                     }
                 }
             }
