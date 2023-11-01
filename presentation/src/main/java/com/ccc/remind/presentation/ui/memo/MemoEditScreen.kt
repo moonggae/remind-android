@@ -45,7 +45,6 @@ import java.util.UUID
 
 /* TODO
 - delete comment
-- user profile image
 - timestamp location time
 */
 

@@ -36,11 +36,6 @@ import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.toTimestamp
 import kotlinx.coroutines.launch
 
-
-/* TODO
-- insert title
- */
-
 @Preview(showBackground = true)
 @Composable
 fun NotificationListItemPreview() {

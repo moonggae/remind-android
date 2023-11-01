@@ -15,7 +15,9 @@
     <string name="empty_screen_title">작업중인 페이지 입니다</string>
     <string name="empty_screen_subtitle">작업중인 페이지 입니다</string>
 
-    <string name="home_title_greeting">%1$s님\n좋은 꿈 꾸셨나요?</string>
+    <string name="home_title_my_view">%1$s님\n좋은 꿈 꾸셨나요?</string>
+    <string name="home_title_other_view_empty_user">누구와\n함께할까요?</string>
+    <string name="home_title_other_user_view">%1$s님과\n함께하고있어요</string>
     <string name="home_empty_mind_box_message">눌러서 %1$s님의 감정을\n알려주세요!</string>
     <string name="home_empty_other_mind_box_message">아직 %1$s님이\n기록한 감정이 없어요</string>
     <string name="home_label_mind_history">기록된 감정</string>
@@ -23,7 +25,8 @@
     <string name="home_label_mind_memo">감정 메모</string>
     <string name="home_empty_mind_memo">아직 작성된 메모가 없어요</string>
     <string name="home_ask_mind_button">감정 묻기</string>
-    <string name="home_ask_mind_dailog_content_text">%1$s님에게 감정을 물어볼까요?</string>
+    <string name="home_ask_mind_dialog_content_text">%1$s님에게 감정을 물어볼까요?</string>
+    <string name="home_my_view_button_post_mind">감정 기록하기</string>
 
     <string name="mind_history_appbar_title">감정 기록</string>
 
