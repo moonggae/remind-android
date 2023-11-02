@@ -1,7 +1,7 @@
 package com.ccc.remind.data.source.socket
 
 import android.util.Log
-import com.ccc.remind.data.util.ZonedDateTimeTypeAdapter
+import com.ccc.remind.data.util.LocalDataTypeConverter
 import com.ccc.remind.domain.entity.user.JwtToken
 import com.google.gson.GsonBuilder
 import io.socket.client.IO
@@ -24,7 +24,7 @@ class SocketManager {
     private val gson =
         GsonBuilder()
             .serializeNulls()
-            .registerTypeAdapter(ZonedDateTime::class.java, ZonedDateTimeTypeAdapter()) // ZonedDateTime converter
+            .registerTypeAdapter(ZonedDateTime::class.java, LocalDataTypeConverter()) // ZonedDateTime converter
             .create() // include null value
     private val eventsFlows = mutableMapOf<String, MutableSharedFlow<Any>>()
     private var token: String? = null

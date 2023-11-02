@@ -45,7 +45,6 @@ import java.util.UUID
 
 /* TODO
 - delete comment
-- timestamp location time
 */
 
 @Composable

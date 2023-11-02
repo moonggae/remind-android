@@ -7,7 +7,7 @@ import com.ccc.remind.data.source.remote.MindCardBookmarkRemoteService
 import com.ccc.remind.data.source.remote.MindMemoRemoteService
 import com.ccc.remind.data.source.remote.MindRemoteService
 import com.ccc.remind.data.source.remote.UserRemoteService
-import com.ccc.remind.data.util.ZonedDateTimeTypeAdapter
+import com.ccc.remind.data.util.LocalDataTypeConverter
 import com.ccc.remind.presentation.di.network.AuthOkHttpClient
 import com.ccc.remind.presentation.di.network.AuthRetrofit
 import com.ccc.remind.presentation.di.network.InterceptorOkHttpClient
@@ -85,7 +85,7 @@ object NetworkModule {
         GsonConverterFactory.create(
             GsonBuilder()
                 .serializeNulls()
-                .registerTypeAdapter(ZonedDateTime::class.java, ZonedDateTimeTypeAdapter()) // ZonedDateTime converter
+                .registerTypeAdapter(ZonedDateTime::class.java, LocalDataTypeConverter()) // ZonedDateTime converter
                 .create() // include null value
         )
 
