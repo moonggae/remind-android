@@ -1,6 +1,7 @@
 package com.ccc.remind.presentation.ui.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
@@ -50,6 +51,7 @@ fun HomeScreen(
                 navController = navController,
                 title = "",
                 enableBack = false,
+                padding = PaddingValues(start = 20.dp, end = 20.dp, top = 16.dp),
                 suffix = {
                     NotificationIconButton(
                         isNotificationAlarmOn =  notificationUiState.isNotificationAlarmOn,

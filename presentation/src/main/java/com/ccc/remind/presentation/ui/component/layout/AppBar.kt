@@ -1,6 +1,7 @@
 package com.ccc.remind.presentation.ui.component.layout
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -25,14 +26,11 @@ fun AppBar(
     enableBack: Boolean = true,
     title: String,
     isExit: Boolean = false,
+    padding: PaddingValues = PaddingValues(horizontal = 20.dp, vertical = 16.dp),
     suffix: @Composable() (RowScope.() -> Unit)? = null
 ) {
     Row(
-        modifier = Modifier
-            .padding(
-                horizontal = 20.dp,
-                vertical = 16.dp
-            ),
+        modifier = Modifier.padding(padding),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Row(
