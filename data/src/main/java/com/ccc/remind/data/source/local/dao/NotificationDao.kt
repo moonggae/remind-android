@@ -12,8 +12,11 @@ interface NotificationDao {
     @Query("SELECT * FROM notification ORDER BY id DESC LIMIT :loadSize OFFSET :page * :loadSize")
     fun get(page: Int, loadSize: Int): List<NotificationEntity>
 
+    @Query("SELECT * FROM notification WHERE rowid = :rowId")
+    fun getByRowId(rowId: Long): NotificationEntity
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(entity: NotificationEntity)
+    fun insert(entity: NotificationEntity): Long
 
     @Update
     fun update(entities: List<NotificationEntity>)

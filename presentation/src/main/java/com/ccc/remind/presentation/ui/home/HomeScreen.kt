@@ -46,6 +46,7 @@ fun HomeScreen(
     )
 
     BasicScreen(
+        viewModel = notificationViewModel,
         appBar = {
             AppBar(
                 navController = navController,

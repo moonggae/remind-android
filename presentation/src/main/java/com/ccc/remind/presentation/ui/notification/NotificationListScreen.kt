@@ -27,11 +27,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ccc.remind.R
+import com.ccc.remind.presentation.navigation.moveToNotificationRoute
 import com.ccc.remind.presentation.ui.component.button.OutlinedTextButton
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.pageComponent.notification.NotificationListItem
-import com.ccc.remind.presentation.navigation.moveToNotificationRoute
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.toTimestamp
 import kotlinx.coroutines.launch
@@ -75,6 +75,7 @@ fun NotificationListScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     BasicScreen(
+        viewModel = viewModel,
         appBar = {
             AppBar(
                 title = stringResource(R.string.notification_list_title),

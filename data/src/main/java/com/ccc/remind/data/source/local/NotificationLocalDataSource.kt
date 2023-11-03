@@ -13,8 +13,9 @@ class NotificationLocalDataSource(
         notificationDao.get(page, NOTIFICATION_LOAD_SIZE)
     }
 
-    suspend fun pushNotification(entity: NotificationEntity) = withContext(ioDispatcher) {
-        notificationDao.insert(entity)
+    suspend fun pushNotification(entity: NotificationEntity): NotificationEntity = withContext(ioDispatcher) {
+        val rowId = notificationDao.insert(entity)
+        notificationDao.getByRowId(rowId)
     }
 
     suspend fun updateNotificationsReadAll() = withContext(ioDispatcher) {

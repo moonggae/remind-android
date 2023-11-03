@@ -3,9 +3,11 @@ package com.ccc.remind.presentation.base
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ccc.remind.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
 open class ComposeLifecycleViewModel: ViewModel() {
@@ -39,6 +41,25 @@ open class ComposeLifecycleViewModel: ViewModel() {
         }
     }
 
+    fun <T> addWatchFlow(
+        start: Lifecycle.Event = Lifecycle.Event.ON_RESUME,
+        end: Lifecycle.Event = Lifecycle.Event.ON_PAUSE,
+        sharedFlow: SharedFlow<T>,
+        onCollect: (T) -> Unit
+    ) {
+        var collectionJob: Job? = null
+
+        addOn(start) {
+            collectionJob = viewModelScope.launch {
+                sharedFlow.collect(onCollect)
+            }
+        }
+
+        addOn(end) {
+            collectionJob?.cancel()
+            collectionJob = null
+        }
+    }
 
     fun <T, R> addWatchFlow(
         start: Lifecycle.Event = Lifecycle.Event.ON_RESUME,
