@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface AuthRepository {
     fun login(accessToken: String, logInType: LogInType) : Flow<JwtToken>
 
-    suspend fun getNewToken(refreshToken: String): JwtToken?
+    suspend fun getNewToken(): JwtToken?
 
     suspend fun getToken(): JwtToken?
 }

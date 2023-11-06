@@ -30,7 +30,8 @@ class AuthRepositoryImpl(
             }
         }
     }
-    override suspend fun getNewToken(refreshToken: String): JwtToken? {
+    override suspend fun getNewToken(): JwtToken? {
+        val refreshToken = userLocalDataSource.fetchLoggedInUser()?.refreshToken
         val token = authRemoteService.getNewToken("Bearer $refreshToken").body()
         return if(token != null) {
             val user = userLocalDataSource.fetchLoggedInUser()

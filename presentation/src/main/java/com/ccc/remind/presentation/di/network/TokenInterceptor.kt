@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
-import org.json.JSONObject
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,17 +14,14 @@ import javax.inject.Singleton
 class TokenInterceptor @Inject constructor(private val authRepository: AuthRepository) : Interceptor {
     private val TAG = "TokenInterceptor"
     private lateinit var accessToken: String
-    private lateinit var refreshToken: String
     private val isGettingToken = MutableStateFlow(false)
 
     fun removeToken() {
         accessToken = ""
-        refreshToken = ""
     }
 
     private fun updateToken(token: JwtToken) {
         accessToken = token.accessToken
-        refreshToken = token.refreshToken
     }
 
     private fun waitForTokenRefresh() {
@@ -47,18 +43,6 @@ class TokenInterceptor @Inject constructor(private val authRepository: AuthRepos
         }
     }
 
-    private fun updateLoginToken(response: Response) {
-        val paths = response.request.url.pathSegments
-        if(paths[0] == "auth" && paths[0] == "login" && response.isSuccessful) {
-            val json = JSONObject(response.body?.string() ?: "")
-            val accessToken = json.getString("access_token")
-            val refreshToken = json.getString("refresh_token")
-            if(accessToken.isNotEmpty() && refreshToken.isNotEmpty()) {
-                updateToken(JwtToken(accessToken, refreshToken))
-            }
-        }
-    }
-
     override fun intercept(chain: Interceptor.Chain): Response {
         if(isGettingToken.value) {
             waitForTokenRefresh()
@@ -73,7 +57,7 @@ class TokenInterceptor @Inject constructor(private val authRepository: AuthRepos
         if (response.isTokenExpired()) {
             isGettingToken.value = true
             runBlocking {
-                val newToken = authRepository.getNewToken(refreshToken)
+                val newToken = authRepository.getNewToken()
                 if (newToken != null) {
                     updateToken(newToken)
                     val newRequest = chain.request().putTokenHeader(accessToken)
