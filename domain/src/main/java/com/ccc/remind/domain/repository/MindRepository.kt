@@ -4,10 +4,14 @@ import com.ccc.remind.domain.entity.mind.MindCard
 import com.ccc.remind.domain.entity.mind.MindCardSelectType
 import com.ccc.remind.domain.entity.mind.MindPost
 import com.ccc.remind.domain.entity.mind.MindPostList
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
 import java.util.UUID
 
 interface MindRepository {
+    val postsFlow: SharedFlow<List<MindPost>>
+
     fun getMindCards(): Flow<List<MindCard>>
 
     fun postMinds(
@@ -36,4 +40,6 @@ interface MindRepository {
     fun getPostList(page: Int): Flow<MindPostList>
 
     fun getOne(id: Int): Flow<MindPost?>
+
+    fun observeSocket(scope: CoroutineScope)
 }

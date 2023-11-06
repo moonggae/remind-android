@@ -6,8 +6,11 @@ import com.ccc.remind.domain.usecase.post.GetMindPostListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,33 +22,49 @@ class MindHistoryViewModel @Inject constructor(
 
     private val isLoadingData = MutableStateFlow(false)
 
+    private val mutex = Mutex()
+
+
 
     init {
-        submitGetMindPostList(0)
+        initMindPostList()
     }
 
-    private fun submitGetMindPostList(page: Int) {
-        if(_uiState.value.lastPage != null && page > _uiState.value.lastPage!!) return
-
+    private fun initMindPostList() {
+        if(_uiState.value.isLastPage) return
+        getMindPostList.initObserver(viewModelScope)
         viewModelScope.launch {
             isLoadingData.update { true }
-
-            getMindPostList(page).collect { postList ->
-                _uiState.update { state ->
-                    state.copy(
-                        page = postList.page,
-                        lastPage = postList.lastPage,
-                        postMinds = _uiState.value.postMinds.plus(postList.data).distinct().sortedByDescending { it.id }
+            getMindPostList.get().collectLatest { newPosts ->
+                _uiState.update {
+                    it.copy(
+                        postMinds = newPosts
                     )
                 }
-
-                isLoadingData.emit(false)
+                isLoadingData.update { false }
             }
         }
     }
 
     fun loadNextPage() {
-        if(isLoadingData.value) return
-        submitGetMindPostList(_uiState.value.page + 1)
+        viewModelScope.launch {
+            mutex.withLock {
+                if(isLoadingData.value || _uiState.value.isLastPage) return@withLock
+                isLoadingData.value = true
+            }
+
+            val dataUpdated = getMindPostList.next()
+
+            if(dataUpdated) {
+                getMindPostList.posts.replayCache.lastOrNull()?.let { newPosts ->
+                    _uiState.update { it.copy(postMinds = newPosts) }
+                }
+            } else {
+                _uiState.update { it.copy(isLastPage = true) }
+            }
+
+            isLoadingData.value = false
+        }
     }
+
 }

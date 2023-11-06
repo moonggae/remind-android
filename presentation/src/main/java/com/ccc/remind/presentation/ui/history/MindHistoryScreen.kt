@@ -50,6 +50,8 @@ import com.ccc.remind.presentation.util.toFormatString
 import kotlinx.coroutines.launch
 import java.time.ZonedDateTime
 
+// TODO: update post list when post is created
+
 @Composable
 @Preview(showBackground = true)
 fun MindHistoryScreenPreview() {
@@ -65,15 +67,9 @@ fun MindHistoryScreen(
     val uiState by viewModel.uiState.collectAsState()
     val mindList = uiState.postMinds
     val scrollState = rememberLazyListState()
-    val isLoadLastPage by remember {
-        mutableStateOf(
-            if(uiState.lastPage == null) false
-            else uiState.page >= uiState.lastPage!!
-        )
-    }
 
     LaunchedEffect(scrollState.firstVisibleItemIndex) {
-        if(!isLoadLastPage) {
+        if(!uiState.isLastPage) {
             val scrollPercent = scrollState.firstVisibleItemIndex / scrollState.layoutInfo.totalItemsCount.toDouble()
             if(scrollPercent >= 0.5) {
                 viewModel.loadNextPage()
@@ -134,6 +130,10 @@ private fun MindPostListItem(
 
     LaunchedEffect(showCardTagCount) {}
 
+    LaunchedEffect(data.cards.size) {
+        showCardTagCount = data.cards.size
+    }
+
     Card(
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
@@ -159,13 +159,15 @@ private fun MindPostListItem(
                 userScrollEnabled = false
             ) {
                 items(count = showCardTagCount) { index ->
-                    RoundedTextIcon(
-                        text = data.cards[index].card.displayName,
-                        color = RemindMaterialTheme.colorScheme.accent_default,
-                        containerColor = RemindMaterialTheme.colorScheme.bg_default,
-                        style = RemindMaterialTheme.typography.bold_md,
-                        showBorder = true
-                    )
+                    if(index < data.cards.size) { // note: socket으로 인한 update시 out of index 에러 방지
+                        RoundedTextIcon(
+                            text = data.cards[index].card.displayName,
+                            color = RemindMaterialTheme.colorScheme.accent_default,
+                            containerColor = RemindMaterialTheme.colorScheme.bg_default,
+                            style = RemindMaterialTheme.typography.bold_md,
+                            showBorder = true
+                        )
+                    }
                 }
             }
 

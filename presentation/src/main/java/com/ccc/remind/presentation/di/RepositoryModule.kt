@@ -19,8 +19,8 @@ import com.ccc.remind.data.source.remote.ImageRemoteService
 import com.ccc.remind.data.source.remote.MindCardBookmarkRemoteService
 import com.ccc.remind.data.source.remote.MindMemoRemoteService
 import com.ccc.remind.data.source.remote.MindRemoteService
-import com.ccc.remind.data.source.socket.SocketManager
 import com.ccc.remind.data.source.remote.UserRemoteService
+import com.ccc.remind.data.source.socket.SocketManager
 import com.ccc.remind.domain.repository.AuthRepository
 import com.ccc.remind.domain.repository.FriendRepository
 import com.ccc.remind.domain.repository.ImageRepository
@@ -49,8 +49,11 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideMindRepository(mindRemoteService: MindRemoteService) : MindRepository {
-        return MindRepositoryImpl(mindRemoteService)
+    fun provideMindRepository(
+        mindRemoteService: MindRemoteService,
+        socketRepository: SocketRepository
+    ) : MindRepository {
+        return MindRepositoryImpl(mindRemoteService, socketRepository)
     }
 
     @Provides

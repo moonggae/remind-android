@@ -31,7 +31,7 @@ class SocketManager {
     private lateinit var host: String
 
     companion object {
-        private const val TAG = "SocketModule"
+        private const val TAG = "SocketManager"
     }
 
     fun socketConnect(host: String, token: Flow<JwtToken?>) {
@@ -82,10 +82,13 @@ class SocketManager {
                                 null
 
                         if (data != null) {
+                            Log.d(TAG, "listen - data emit: ${data}")
                             newFlow.emit(data as Any)
+                        } else {
+                            Log.d(TAG, "listen - data: null")
                         }
                     } catch (e: Exception) {
-                        Log.d(TAG, "SocketManager - listen - error: ${e}")
+                        Log.d(TAG, "listen - error: ${e}")
                         e.printStackTrace()
                     }
                 }
