@@ -13,18 +13,14 @@ class GetLoggedInUserUserCase @Inject constructor(private val userRepository: Us
             loggedInUser = localUser
         }
 
-        loggedInUser?.let { user ->
+        loggedInUser?.let {
             userRepository.getUserProfile().collect { profile ->
-                loggedInUser = user.copy(
+                loggedInUser = userRepository.updateLocalUser(
                     displayName = profile.displayName,
-                    inviteCode = profile.inviteCode,
-                    profileImage = profile.profileImage
+                    profileImage = profile.profileImage,
+                    inviteCode = profile.inviteCode
                 )
             }
-        }
-
-        loggedInUser?.let { user ->
-            userRepository.replaceLoggedInUser(user)
         }
 
         emit(loggedInUser)

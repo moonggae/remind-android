@@ -29,5 +29,5 @@ interface UserRepository {
         logInType: LogInType? = null,
         profileImage: ImageFile? = null,
         inviteCode: String? = null
-    )
+    ): User?
 }

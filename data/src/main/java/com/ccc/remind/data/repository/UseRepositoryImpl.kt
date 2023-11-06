@@ -70,16 +70,17 @@ class UserRepositoryImpl(
         logInType: LogInType?,
         profileImage: ImageFile?,
         inviteCode: String?
-    ) {
+    ): User? {
         userLocalDataSource.fetchLoggedInUser()?.let { entity ->
-            userLocalDataSource.updateLoggedInUser(entity.copy(
+            return userLocalDataSource.updateLoggedInUser(entity.copy(
                 accessToken = accessToken ?: entity.accessToken,
                 refreshToken = refreshToken ?: entity.refreshToken,
                 displayName = displayName ?: entity.displayName,
                 logInType = (logInType ?: entity.logInType) as String,
                 profileImage = profileImage?.toEntity() ?: entity.profileImage,
                 inviteCode = inviteCode ?: entity.inviteCode
-            ))
+            )).toDomain()
         }
+        return null
     }
 }
