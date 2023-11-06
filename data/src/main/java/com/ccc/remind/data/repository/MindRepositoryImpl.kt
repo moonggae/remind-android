@@ -117,6 +117,12 @@ class MindRepositoryImpl(
                 updatePostFlow(listOf(it))
             }
         }
+
+        scope.launch {
+            socketRepository.watchDeleteMindPost(scope).collect { deletePostId ->
+                deletePostFlow(deletePostId)
+            }
+        }
     }
 
     private suspend fun deletePostFlow(id: Int) {

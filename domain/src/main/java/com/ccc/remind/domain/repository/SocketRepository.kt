@@ -9,4 +9,6 @@ interface SocketRepository {
     fun watchMemoComment(memoId: Int, scope: CoroutineScope): SharedFlow<MindComment>
 
     fun watchMindPost(scope: CoroutineScope): SharedFlow<MindPost>
+
+    fun watchDeleteMindPost(scope: CoroutineScope): SharedFlow<Int>
 }
