@@ -69,97 +69,40 @@ dependencies {
     implementation project(':data')
     implementation project(':domain')
 
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.core.splashscreen
+    implementation libs.kotlin.reflect
+    implementation libs.androidx.appcompat
+    implementation libs.google.material
+    implementation libs.androidx.constraint.layout
+    implementation libs.bundles.androidx.activity
+    implementation libs.bundles.androidx.fragment
+    implementation platform(libs.compose.bom)
+    implementation libs.bundles.compose
+    debugImplementation libs.bundles.compose.debug
+    androidTestImplementation libs.bundles.compose.test
+    implementation libs.bundles.androidx.lifecycle
+    implementation platform(libs.firebase.bom)
+    implementation libs.bundles.firebase
+    implementation libs.work.runtime
+    implementation libs.kakao.sdk.v2.user
+    implementation libs.kakao.sdk.v2.all
+    implementation libs.bundles.hilt
+    kapt libs.hilt.compiler
+    implementation libs.room.runtime
+    implementation libs.bundles.coil
+    implementation libs.timber
+    implementation libs.circleindicator
+    implementation libs.bundles.androidx.navigation
+    implementation libs.sandwich
 
-    implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.8.22"
-
-
-    // compose
-    def composeBom = platform('androidx.compose:compose-bom:2023.06.01')
-    implementation composeBom
-    androidTestImplementation composeBom
-    implementation 'androidx.compose.material3:material3'
-    implementation 'androidx.compose.ui:ui'
-    implementation 'androidx.compose.ui:ui-tooling-preview'
-    debugImplementation 'androidx.compose.ui:ui-tooling'
-    implementation 'androidx.compose.material3:material3-window-size-class'
-    implementation 'androidx.activity:activity-compose:1.5.1'
-    implementation 'androidx.window:window:1.0.0'
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.4.3'
-    debugImplementation 'androidx.compose.ui:ui-test-manifest:1.4.3'
-
-    // test
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
-    testImplementation "com.google.truth:truth:1.0.1"
-    androidTestImplementation "com.google.truth:truth:1.0.1"
-
-
-    // lifecycle
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version"
-
-    // activity
-    implementation "androidx.activity:activity-ktx:1.7.2"
-
-    // fragment
-    implementation 'androidx.fragment:fragment:1.6.0'
-    implementation "androidx.fragment:fragment-ktx:1.6.0"
-
-
-    // splash
-    implementation "androidx.core:core-splashscreen:1.0.1"
-
-    // firebase
-    implementation platform('com.google.firebase:firebase-bom:32.3.1')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-messaging-ktx'
-
-    implementation("androidx.work:work-runtime:2.8.1")
-
-
-
-    // kakao
-    implementation "com.kakao.sdk:v2-all:2.13.0"
-    implementation "com.kakao.sdk:v2-user:2.13.0"
-
-    // hilt
-    implementation "com.google.dagger:hilt-android:${hilt_version}"
-    kapt "com.google.dagger:hilt-compiler:${hilt_version}"
-
-    // room
-    implementation "androidx.room:room-runtime:$room_version"
-
-    // circle indicator for login slide
-    implementation 'me.relex:circleindicator:2.1.6'
-
-    // navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-compose:$nav_version"
-    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
-
-    // glide
-//    implementation 'com.github.bumptech.glide:glide:4.15.1'
-//    kapt 'com.github.bumptech.glide:compiler:4.15.1'
-//    kapt "android.arch.lifecycle:compiler:1.0.0"
-//    implementation 'com.caverock:androidsvg:1.4'
-
-    // coil
-    implementation("io.coil-kt:coil:2.4.0")
-    implementation("io.coil-kt:coil-compose:2.4.0")
-    implementation("io.coil-kt:coil-svg:2.4.0")
-
-    // timber(pretty logger)
-    implementation 'com.jakewharton.timber:timber:5.0.1'
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.test.ext.junit
+    androidTestImplementation libs.androidx.test.espresso.core
+    testImplementation libs.junit.jupiter.api
+    testRuntimeOnly libs.junit.jupiter.engine
+    testImplementation libs.truth
+    androidTestImplementation libs.truth
 }
 
 kapt {

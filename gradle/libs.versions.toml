@@ -1,0 +1,180 @@
+[versions]
+androidx-core = "1.10.1"
+androidx-appcompat = "1.6.1"
+google-material = "1.9.0"
+androidx-constraint-layout = "2.1.4"
+kotlin-reflect = "1.8.22"
+androidx-activity = "1.7.2"
+androidx-fragment = "1.6.0"
+androidx-core-splashscreen = "1.0.1"
+androidx-compose-bom = "2023.06.01"
+androidx-compose-ui-test = "1.4.3"   # note :bom을 통해서 버전을 불러오지 못함
+androidx-activity-compose = "1.5.1"
+junit = "4.13.2"
+androidx-test = "1.1.5"
+androidx-espresso = "3.5.1"
+junit-jupiter = "5.9.2"
+google-truth = "1.0.1"
+androidx-lifecycle = "2.6.1"
+firebase-bom = "32.3.1"
+androidx-work = "2.8.1"
+kakao = "2.13.0"
+google-dagger = "2.44"
+circleindicator = "2.1.6"
+androidx-navigation = "2.6.0"
+androidx-hilt = "1.0.0"
+coil = "2.4.0"
+timber = "5.0.1"
+androidx-room = "2.5.1"
+sandwich = '2.0.0'
+retrofit2 = "2.9.0"
+okhttp3 = "4.11.0"
+okio-jvm = "3.3.0"
+socket-io = "2.1.0"
+
+
+[libraries]
+androidx-core-ktx                     = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
+androidx-core-splashscreen            = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidx-core-splashscreen" }
+androidx-appcompat                    = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+google-material                       = { group = "com.google.android.material", name = "material", version.ref = "google-material" }
+androidx-constraint-layout            = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraint-layout" }
+kotlin-reflect                        = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin-reflect"}
+androidx-activity-ktx                 = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidx-activity" }
+androidx-activity-compose             = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity" }
+androidx-fragment                     = { group = "androidx.fragment", name = "fragment", version.ref = "androidx-fragment" }
+androidx-fragment-ktx                 = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "androidx-fragment" }
+compose-bom                           = { group = "androidx.compose", name = "compose-bom", version.ref = "androidx-compose-bom" }
+compose-material3                     = { group = "androidx.compose.material3", name = "material3" }
+compose-material3-window-size         = { group = "androidx.compose.material3", name = "material3-window-size-class" } # 이름 맨 뒤 class 안됨
+compose-ui                            = { group = "androidx.compose.ui", name = "ui" }
+compose-ui-tooling-preview            = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-ui-tooling                    = { group = "androidx.compose.ui", name = "ui-tooling" }
+compose-ui-test-manifest              = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+compose-ui-test-junit4                = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "androidx-compose-ui-test" }
+junit                                 = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-ext-junit               = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test" }
+androidx-test-espresso-core           = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso" }
+junit-jupiter-api                     = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit-jupiter" }
+junit-jupiter-engine                  = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit-jupiter" }
+truth                                 = { group = "com.google.truth", name = "truth", version.ref = "google-truth" }
+lifecycle-viewmodel-ktx               = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
+lifecycle-runtime-ktx                 = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
+lifecycle-runtime-compose             = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+firebase-bom                          = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-analytics-ktx                = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
+firebase-messaging-ktx                = { group = "com.google.firebase", name = "firebase-messaging-ktx" }
+work-runtime                          = { group = "androidx.work", name = "work-runtime", version.ref = "androidx-work" }
+kakao-sdk-v2-user                     = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao" }
+kakao-sdk-v2-all                      = { group = "com.kakao.sdk", name = "v2-all", version.ref = "kakao" }
+hilt-android                          = { group = "com.google.dagger", name = "hilt-android", version.ref = "google-dagger" }
+hilt-compiler                         = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "google-dagger" }
+room-runtime                          = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
+room-ktx                              = { group = "androidx.room", name = "room-ktx", version.ref = "androidx-room" }
+room-compiler                         = { group = "androidx.room", name = "room-compiler", version.ref = "androidx-room" }
+circleindicator                       = { group = "me.relex", name = "circleindicator", version.ref = "circleindicator" }
+navigation-fragment-ktx               = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "androidx-navigation" }
+navigation-ui-ktx                     = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "androidx-navigation" }
+navigation-compose                    = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidx-navigation" }
+hilt-navigation-compose               = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidx-hilt" }
+coil-kt                               = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+coil-compose                          = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+coil-svg                              = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
+timber                                = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+sandwich                              = { group = "com.github.skydoves", name = "sandwich", version.ref = "sandwich" }
+retrofit2                             = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
+retrofit-converter-gson               = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2" }
+okhttp3                               = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp3" }
+okio-jvm                              = { group = "com.squareup.okio", name = "okio-jvm", version.ref = "okio-jvm" }
+socket-io                             = { group = "io.socket", name = "socket.io-client", version.ref = "socket-io" }
+
+[plugins]
+
+[bundles]
+compose = [
+    "compose-material3",
+    "compose-material3-window-size",
+    "compose-ui",
+    "compose-ui-tooling-preview"
+]
+
+compose-debug = [
+    "compose-ui-tooling",
+    "compose-ui-test-manifest"
+]
+
+compose-test = [
+    "compose-bom",
+    "compose-ui-test-junit4"
+]
+
+androidx-test = [
+    "androidx-test-ext-junit",
+    "androidx-test-espresso-core"
+]
+
+junit = [
+    "junit",
+    "junit-jupiter-api",
+    "junit-jupiter-engine"
+]
+
+firebase = [
+    "firebase-analytics-ktx",
+    "firebase-messaging-ktx"
+]
+
+kakao = [
+    "kakao-sdk-v2-user",
+    "kakao-sdk-v2-all"
+]
+
+hilt = [
+    "hilt-android",
+    "hilt-navigation-compose"
+]
+
+coil = [
+    "coil-kt",
+    "coil-compose",
+    "coil-svg"
+]
+
+androidx-lifecycle = [
+    "lifecycle-viewmodel-ktx",
+    "lifecycle-runtime-ktx",
+    "lifecycle-runtime-compose"
+]
+
+androidx-navigation = [
+    "navigation-fragment-ktx",
+    "navigation-ui-ktx",
+    "navigation-compose"
+]
+
+androidx-core = [
+    "androidx-core-ktx",
+    "androidx-core-splashscreen"
+]
+
+androidx-activity = [
+    "androidx-activity-ktx",
+    "androidx-activity-compose"
+]
+
+androidx-fragment = [
+    "androidx-fragment",
+    "androidx-fragment-ktx"
+]
+
+room = [
+    "room-runtime",
+    "room-ktx"
+]
+
+retrofit = [
+    "retrofit2",
+    "retrofit-converter-gson",
+    "okhttp3",
+    "okio-jvm"
+]
