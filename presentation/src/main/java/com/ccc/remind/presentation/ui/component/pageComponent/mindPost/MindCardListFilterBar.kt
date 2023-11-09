@@ -41,7 +41,7 @@ fun <T: IToggleValue> MindCardListFilterBar(
             filterValues.map { value ->
                 ToggleButton(
                     selectedValues = selectedFilters,
-                    value = value,
+                    item = value,
                     onClick = onClickFilter
                 )
             }

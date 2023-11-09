@@ -104,6 +104,8 @@
     <string name="mind_filter_positive">긍정</string>
     <string name="mind_filter_negative">부정</string>
     <string name="mind_filter_normal">보통</string>
+    <string name="mind_filter_energy">활력</string>
+    <string name="mind_filter_pleasantness">쾌적함</string>
 
     <string name="tab_cards">감정카드</string>
     <string name="tab_home">홈</string>

@@ -6,26 +6,21 @@ import com.ccc.remind.presentation.ui.component.model.IToggleValue
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 
 @Composable
-fun <T : IToggleValue> ToggleButton(
+fun <T : IToggleValue> StateToggleButton(
     selectedValues: List<T>,
-    item: T,
+    value: T,
     onClick: (T) -> Unit
 ) {
-    val isSelected = selectedValues.contains(item)
+    val isSelected = selectedValues.contains(value)
 
     OutlinedTextButton(
-        text = when {
-            item.value == null -> item.text
-            item.value!! > 0 -> "${item.text} ↑"
-            item.value!! < 0 -> "${item.text} ↓"
-            else -> item.text
-        },
+        text = value.text,
         contentColor =
         if (isSelected) RemindMaterialTheme.colorScheme.bg_default
         else RemindMaterialTheme.colorScheme.accent_default,
         containerColor =
         if (isSelected) RemindMaterialTheme.colorScheme.accent_default
         else Color.Transparent,
-        onClick = { onClick(item) }
+        onClick = { onClick(value) }
     )
 }
