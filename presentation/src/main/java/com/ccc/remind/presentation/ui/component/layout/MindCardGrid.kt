@@ -30,18 +30,20 @@ fun MindCardPostGrid(
     selectedMindCards: List<MindCard>,
     onClickMindCard: (MindCard) -> Unit
 ) {
+    val sortedItems: List<MindCard> = (selectedMindCards.plus(mindCards)).distinctBy { it.id }
+
     LazyVerticalGrid(
         columns = columns,
         horizontalArrangement = horizontalArrangement,
         verticalArrangement = verticalArrangement,
         modifier = modifier
     ) {
-        items(mindCards.size) { index ->
+        items(sortedItems.size) { index ->
             Column(
                 horizontalAlignment = MindCardGridDefault.columnHorizontalAlignment,
                 verticalArrangement = MindCardGridDefault.columnVerticalArrangement
             ) {
-                val item = mindCards[index]
+                val item = sortedItems[index]
                 val selectType = selectedMindCards.indexOf(item).let { index ->
                     when {
                         index == 0 -> MindCardSelectType.MAIN
