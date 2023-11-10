@@ -80,15 +80,7 @@ fun CardListScreen(
                     navController.navigate("${Route.MindCard.Detail.name}/${clickedCard.id}")
                 }
             },
-            onClickBookmark = { card ->
-                scope.launch {
-                    if (uiState.bookmarkedMindCards.contains(card)) {
-                        viewModel.submitDeleteBookmark(card.id)
-                    } else {
-                        viewModel.submitPostBookmark(card.id)
-                    }
-                }
-            }
+            onClickBookmark = { card -> viewModel.submitToggleBookmark(card.id) }
         )
     }
 }

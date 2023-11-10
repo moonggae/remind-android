@@ -38,11 +38,7 @@ fun CardListDetailScreen(
                     navController.navigate("${Route.MindCard.Detail.name}/${clickedCard.id}")
                 }
             },
-            onClickBookmark = { card ->
-                scope.launch {
-                    viewModel.submitDeleteBookmark(card.id)
-                }
-            }
+            onClickBookmark = { card -> viewModel.submitToggleBookmark(card.id) }
         )
     }
 }

@@ -95,6 +95,18 @@ class CardViewModel @Inject constructor(
         }
     }
 
+    fun submitToggleBookmark(cardId: Int) {
+        viewModelScope.launch {
+            val isBookmarkedCard = _uiState.value.bookmarkedMindCards.find { it.id == cardId } != null
+
+            if(isBookmarkedCard) {
+                submitDeleteBookmark(cardId)
+            } else {
+                submitPostBookmark(cardId)
+            }
+        }
+    }
+
     private fun updateBookmarkState(cardId: Int, updateFunction: (CardUiState, MindCard) -> CardUiState) {
         _uiState.value.mindCards.find { card ->
             card.id == cardId

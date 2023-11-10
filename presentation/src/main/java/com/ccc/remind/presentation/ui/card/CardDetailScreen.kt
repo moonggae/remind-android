@@ -49,7 +49,7 @@ fun CardDetailScreen(
 
     val scope = rememberCoroutineScope()
 
-    var isBookmarked by remember { mutableStateOf(uiState.bookmarkedMindCards.contains(uiState.openedMindCard)) }
+    val isBookmarked = uiState.bookmarkedMindCards.contains(uiState.openedMindCard)
 
     var maxSize by remember { mutableStateOf(IntSize.Zero) }
     val similarCardItemSize = with(LocalDensity.current) { (maxSize.width.toDp() - 60.dp).div(other = 3) }
@@ -77,17 +77,7 @@ fun CardDetailScreen(
                 isBookmarked = isBookmarked,
                 showDisplayName = false,
                 bookmarkSize = 40.dp,
-                onClickBookmark = {
-                    scope.launch {
-                        if (isBookmarked) {
-                            viewModel.submitDeleteBookmark(openedMindCard.id)
-                            isBookmarked = false
-                        } else {
-                            viewModel.submitPostBookmark(openedMindCard.id)
-                            isBookmarked = true
-                        }
-                    }
-                }
+                onClickBookmark = { card -> viewModel.submitToggleBookmark(card.id) }
             )
 
             Spacer(modifier = Modifier.height(44.dp))
