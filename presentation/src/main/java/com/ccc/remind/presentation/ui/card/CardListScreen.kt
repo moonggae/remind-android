@@ -1,6 +1,5 @@
 package com.ccc.remind.presentation.ui.card
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -65,7 +63,7 @@ fun CardListScreen(
             )
         }
     ) {
-        MindCardListFilterBar( // todo : 활력, 쾌적함으로 나누기
+        MindCardListFilterBar(
             filterValues = uiState.mindFilters,
             selectedFilters = uiState.selectedMindFilters,
             onClickFilter = viewModel::updateMindCardFilter,
@@ -73,11 +71,6 @@ fun CardListScreen(
         )
 
         Spacer(modifier = Modifier.height(21.dp))
-
-        LaunchedEffect(uiState.selectedMindFilters) {
-            Log.d("TAG", "selectedMindFilters: ${uiState.selectedMindFilters}")
-            Log.d("TAG", "filteredMindCards: ${uiState.filteredMindCards}")
-        }
 
         MindCardListGrid(
             mindCards = uiState.filteredMindCards,
