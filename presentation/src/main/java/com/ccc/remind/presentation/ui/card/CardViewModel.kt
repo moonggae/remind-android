@@ -131,7 +131,7 @@ class CardViewModel @Inject constructor(
                 )
             }
 
-            else -> { // todo : update post card list screen
+            else -> {
                 val updateFilter = _uiState.value.mindFilters.toMutableList()
                 val updatedSelectedFilter = _uiState.value.selectedMindFilters
                     .filter { it != filter }

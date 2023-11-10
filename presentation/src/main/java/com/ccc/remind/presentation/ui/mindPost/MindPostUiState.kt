@@ -12,6 +12,7 @@ enum class PostViewType {
 }
 
 data class MindPostUiState(
+    val mindFilters:List<MindFilter> = emptyList(),
     val selectedMindFilters: List<MindFilter> = emptyList(),
     val mindCards: List<MindCard> = emptyList(),
     val selectedMindCards: List<MindCard> = emptyList(),
@@ -22,7 +23,38 @@ data class MindPostUiState(
     val viewType: PostViewType = PostViewType.FIRST_POST
 ) {
     val filteredMindCards: List<MindCard>
-        get() = mindCards // todo : 긍정, 부정, 보통 분류 후 작업
+        get() {
+            return if(selectedMindFilters.contains(MindFilter.ALL)) mindCards
+            else {
+                var result = mindCards.toList()
+                if(selectedMindFilters.contains(MindFilter.ENERGY_LOW))
+                    result = result.filter { it.tags.find { cardTag ->
+                        cardTag.tag.name == "energy" &&
+                                cardTag.indicator != null &&
+                                cardTag.indicator!! < 0
+                    } != null }
+                if(selectedMindFilters.contains(MindFilter.ENERGY_HIGH))
+                    result = result.filter { it.tags.find { cardTag ->
+                        cardTag.tag.name == "energy" &&
+                                cardTag.indicator != null &&
+                                cardTag.indicator!! > 0
+                    } != null }
+                if(selectedMindFilters.contains(MindFilter.PLEASANTNESS_LOW))
+                    result = result.filter { it.tags.find { cardTag ->
+                        cardTag.tag.name == "pleasantness" &&
+                                cardTag.indicator != null &&
+                                cardTag.indicator!! < 0
+                    } != null }
+                if(selectedMindFilters.contains(MindFilter.PLEASANTNESS_HIGH))
+                    result = result.filter { it.tags.find { cardTag ->
+                        cardTag.tag.name == "pleasantness" &&
+                                cardTag.indicator != null &&
+                                cardTag.indicator!! > 0
+                    } != null }
+
+                result
+            }
+        }
 
     val enabledCardListSubmit: Boolean
         get() = selectedMindCards.isNotEmpty()

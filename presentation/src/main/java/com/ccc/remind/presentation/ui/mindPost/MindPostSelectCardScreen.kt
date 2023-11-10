@@ -26,7 +26,6 @@ import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.layout.MindCardPostGrid
-import com.ccc.remind.presentation.ui.component.model.MindFilter
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindCardListFilterBar
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.StepBar
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
@@ -111,8 +110,8 @@ fun MindPostSelectCardScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        MindCardListFilterBar(
-            filterValues = MindFilter.values().toList(),
+        MindCardListFilterBar( // todo : make to be clean with card list screen
+            filterValues = uiState.mindFilters,
             selectedFilters = uiState.selectedMindFilters,
             onClickFilter = viewModel::updateMindCardFilter,
             onClickRefresh = viewModel::removeAllSelectedMindCards

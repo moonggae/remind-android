@@ -58,12 +58,13 @@ class MindPostViewModel @Inject constructor(
 
     private fun initUiState() {
         viewModelScope.launch {
-            _uiState.update {
+            _uiState.update { state ->
                 MindPostUiState(
+                    mindFilters = MindFilter.values().filter { it.value == null || it.value!! > 0},
                     selectedMindFilters = listOf(MindFilter.ALL),
-                    mindCards = it.mindCards,
-                    selectedMindCards = it.mindCards.filter { card -> _initialCardIds.value.contains(card.id) },
-                    selectCardScreenBackStackEntryId = it.selectCardScreenBackStackEntryId
+                    mindCards = state.mindCards,
+                    selectedMindCards = state.mindCards.filter { card -> _initialCardIds.value.contains(card.id) },
+                    selectCardScreenBackStackEntryId = state.selectCardScreenBackStackEntryId
                 )
             }
 
@@ -104,22 +105,48 @@ class MindPostViewModel @Inject constructor(
     }
 
     fun updateMindCardFilter(filter: MindFilter) {
-        when(filter) {
-            MindFilter.ALL ->
+        when {
+            filter == MindFilter.ALL ->
                 _uiState.update {
                     it.copy(
                         selectedMindFilters = listOf(MindFilter.ALL)
                     )
                 }
-            else ->
+
+            filter.value == null -> _uiState.update {
+                it.copy(
+                    selectedMindFilters = it.selectedMindFilters
+                        .toMutableList()
+                        .minus(MindFilter.ALL)
+                        .toggle(filter)
+                )
+            }
+
+            else -> {
+                val updateFilter = _uiState.value.mindFilters.toMutableList()
+                val updatedSelectedFilter = _uiState.value.selectedMindFilters
+                    .filter { it != filter }
+                    .filter { it != MindFilter.ALL }
+                    .toMutableList()
+                val currentFilterIndex = updateFilter.indexOf(filter)
+                val newFilter =
+                    if(_uiState.value.selectedMindFilters.contains(filter))
+                        MindFilter.values().find { it.value != filter.value && it.text == filter.text }
+                    else
+                        MindFilter.values().find { it.value == filter.value && it.text == filter.text }
+                newFilter?.let {
+                    updateFilter[currentFilterIndex] = it
+                    updatedSelectedFilter.remove(filter)
+                    updatedSelectedFilter.add(it)
+                }
+
                 _uiState.update {
                     it.copy(
-                        selectedMindFilters = it.selectedMindFilters
-                            .toMutableList()
-                            .minus(MindFilter.ALL)
-                            .toggle(filter)
+                        mindFilters = updateFilter,
+                        selectedMindFilters = updatedSelectedFilter
                     )
                 }
+            }
         }
     }
 
