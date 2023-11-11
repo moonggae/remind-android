@@ -19,13 +19,16 @@ import com.ccc.remind.presentation.ui.card.CardDetailScreen
 import com.ccc.remind.presentation.ui.card.CardListDetailScreen
 import com.ccc.remind.presentation.ui.card.CardListScreen
 import com.ccc.remind.presentation.ui.card.CardViewModel
+import com.ccc.remind.presentation.ui.friend.FriendListScreen
+import com.ccc.remind.presentation.ui.friend.FriendViewModel
+import com.ccc.remind.presentation.ui.friend.UserProfileFriendScreen
+import com.ccc.remind.presentation.ui.friend.invite.InviteScreen
+import com.ccc.remind.presentation.ui.friend.invite.InviteViewModel
+import com.ccc.remind.presentation.ui.friend.invite.UserProfileInviteScreen
 import com.ccc.remind.presentation.ui.history.MindHistoryScreen
 import com.ccc.remind.presentation.ui.history.MindHistoryViewModel
 import com.ccc.remind.presentation.ui.home.HomeScreen
 import com.ccc.remind.presentation.ui.home.HomeViewModel
-import com.ccc.remind.presentation.ui.invite.InviteProfileScreen
-import com.ccc.remind.presentation.ui.invite.InviteScreen
-import com.ccc.remind.presentation.ui.invite.InviteViewModel
 import com.ccc.remind.presentation.ui.memo.MemoEditScreen
 import com.ccc.remind.presentation.ui.memo.MemoEditViewModel
 import com.ccc.remind.presentation.ui.mindPost.MindPostDetailScreen
@@ -36,7 +39,7 @@ import com.ccc.remind.presentation.ui.mindPost.PostViewType
 import com.ccc.remind.presentation.ui.notification.NotificationListScreen
 import com.ccc.remind.presentation.ui.notification.NotificationViewModel
 import com.ccc.remind.presentation.ui.user.UserProfileEditScreen
-import com.ccc.remind.presentation.ui.user.UserProfileViewModel
+import com.ccc.remind.presentation.ui.user.UserProfileEditViewModel
 import com.ccc.remind.presentation.ui.user.UserScreen
 import com.ccc.remind.presentation.util.Constants
 
@@ -89,8 +92,14 @@ sealed class Route(val name: String, val parent: Route? = null) {
 
     object MemoEdit : Route("MemoEdit")
 
-    object Invite : Route("Invite") {
-        object Profile : Route("Invite.Profile", Invite)
+    object Invite : Route("Invite")
+
+    object Friend : Route("Friend")
+
+    object UserProfile : Route("UserProfile") {
+        object Default : Route("UserProfile.Default", UserProfile)
+        object Friend : Route("UserProfile.Friend", UserProfile)
+        object Invite : Route("UserProfile.Invite", UserProfile)
     }
 
     object NotificationList : Route("NotificationList")
@@ -123,7 +132,7 @@ fun NavGraphBuilder.mainNavGraph(
         }
         composable(Route.Main.Home.name) {
             LaunchedEffect(navController.currentDestination) {
-                if(navController.currentDestination?.route?.startsWith(Route.Main.Home.name) == true) {
+                if (navController.currentDestination?.route?.startsWith(Route.Main.Home.name) == true) {
                     homeViewModel.initUiState()
                     notificationViewModel.initNotifications()
                 }
@@ -149,11 +158,11 @@ fun NavGraphBuilder.mainNavGraph(
             )
         }
         composable(Route.Main.User.ProfileEdit.name) {
-            val userProfileViewModel: UserProfileViewModel = hiltViewModel()
-            userProfileViewModel.initUserProfile()
+            val userProfileEditViewModel: UserProfileEditViewModel = hiltViewModel()
+            userProfileEditViewModel.initUserProfile()
             UserProfileEditScreen(
                 navController = navController,
-                viewModel = userProfileViewModel,
+                viewModel = userProfileEditViewModel,
                 sharedViewModel = sharedViewModel
             )
         }
@@ -190,7 +199,7 @@ fun NavGraphBuilder.postMindNavGraph(
                     it.arguments?.getString("cardId")?.let { cardId ->
                         viewModel.setInitialCard(listOf(cardId.toInt()))
                     }
-                    if(it.arguments?.getString("type") == PostViewType.FIRST_POST.name) {
+                    if (it.arguments?.getString("type") == PostViewType.FIRST_POST.name) {
                         viewModel.updateBackStackEntryId(navController.currentBackStackEntry?.id)
                     }
                 }
@@ -229,7 +238,8 @@ fun NavGraphBuilder.postMindNavGraph(
                     it.arguments?.getString("type")?.let { typeString ->
                         try {
                             viewModel.setViewType(PostViewType.valueOf(typeString))
-                        } catch (_:Exception) {}
+                        } catch (_: Exception) {
+                        }
                     }
                 }
             }
@@ -285,14 +295,6 @@ fun NavGraphBuilder.inviteNavGraph(
             navController = navController,
             viewModel = viewModel,
             sharedViewModel = sharedViewModel
-        )
-    }
-    composable(
-        route = Route.Invite.Profile.name
-    ) {
-        InviteProfileScreen(
-            navController = navController,
-            viewModel = viewModel
         )
     }
 }
@@ -373,5 +375,39 @@ fun NavGraphBuilder.mindCardGraph(
                 viewModel = viewModel
             )
         }
+    }
+}
+
+fun NavGraphBuilder.friendGraph(
+    navController: NavController,
+    viewModel: FriendViewModel,
+    sharedViewModel: SharedViewModel
+) {
+    composable(Route.Friend.name) {
+        FriendListScreen(
+            navController = navController,
+            viewModel = viewModel,
+            sharedViewModel = sharedViewModel
+        )
+    }
+}
+
+fun NavGraphBuilder.userProfileGraph(
+    navController: NavController,
+    inviteViewModel: InviteViewModel,
+    friendViewModel: FriendViewModel
+) {
+    composable(Route.UserProfile.Invite.name) {
+        UserProfileInviteScreen(
+            navController = navController,
+            viewModel = inviteViewModel
+        )
+    }
+
+    composable(Route.UserProfile.Friend.name) {
+        UserProfileFriendScreen(
+            navController = navController,
+            viewModel = friendViewModel
+        )
     }
 }

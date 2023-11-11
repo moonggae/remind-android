@@ -17,16 +17,19 @@ import androidx.navigation.compose.rememberNavController
 import com.ccc.remind.presentation.navigation.BottomNavigationBar
 import com.ccc.remind.presentation.navigation.NavigationActions
 import com.ccc.remind.presentation.navigation.Route
+import com.ccc.remind.presentation.navigation.friendGraph
 import com.ccc.remind.presentation.navigation.inviteNavGraph
 import com.ccc.remind.presentation.navigation.mainNavGraph
 import com.ccc.remind.presentation.navigation.memoEditNavGraph
 import com.ccc.remind.presentation.navigation.mindCardGraph
 import com.ccc.remind.presentation.navigation.notificationGraph
 import com.ccc.remind.presentation.navigation.postMindNavGraph
+import com.ccc.remind.presentation.navigation.userProfileGraph
 import com.ccc.remind.presentation.ui.card.CardViewModel
+import com.ccc.remind.presentation.ui.friend.FriendViewModel
+import com.ccc.remind.presentation.ui.friend.invite.InviteViewModel
 import com.ccc.remind.presentation.ui.history.MindHistoryViewModel
 import com.ccc.remind.presentation.ui.home.HomeViewModel
-import com.ccc.remind.presentation.ui.invite.InviteViewModel
 import com.ccc.remind.presentation.ui.memo.MemoEditViewModel
 import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
 import com.ccc.remind.presentation.ui.notification.NotificationViewModel
@@ -80,6 +83,7 @@ private fun NavigationWrapper(
         val homeViewModel: HomeViewModel = hiltViewModel()
         val notificationViewModel: NotificationViewModel = hiltViewModel()
         val cardViewModel: CardViewModel = hiltViewModel()
+        val friendViewModel: FriendViewModel = hiltViewModel()
 
         NavHost(
             navController = navController as NavHostController,
@@ -92,6 +96,8 @@ private fun NavigationWrapper(
             inviteNavGraph(navController, inviteViewModel, sharedViewModel)
             notificationGraph(navController, notificationViewModel)
             mindCardGraph(navController, cardViewModel)
+            friendGraph(navController, friendViewModel, sharedViewModel)
+            userProfileGraph(navController, inviteViewModel, friendViewModel)
         }
 
         if(isNavigationBarVisible) {

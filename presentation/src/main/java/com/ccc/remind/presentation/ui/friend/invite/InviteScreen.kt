@@ -1,4 +1,4 @@
-package com.ccc.remind.presentation.ui.invite
+package com.ccc.remind.presentation.ui.friend.invite
 
 import android.content.Intent
 import android.net.Uri
@@ -28,12 +28,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ccc.remind.R
+import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.button.TextButton
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.layout.BackgroundedTextField
-import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.ClipboardUtil
 import com.ccc.remind.presentation.util.Constants
@@ -66,16 +66,11 @@ fun InviteScreen(
 
     LaunchedEffect(uiState.openedUserProfile) {
         if(uiState.openedUserProfile != null)
-            navController.navigate(Route.Invite.Profile.name)
-    }
-
-    LaunchedEffect(navController.currentDestination) {
-        if(navController.currentDestination?.route == Route.Invite.name) {
-            viewModel.initRequestList()
-        }
+            navController.navigate(Route.UserProfile.Invite.name)
     }
 
     BasicScreen(
+        viewModel = viewModel,
         appBar = {
             AppBar(
                 title = stringResource(R.string.invite_appbar_title),
@@ -105,7 +100,7 @@ fun InviteScreen(
             text = stringResource(R.string.invite_button_label_invite),
             modifier = Modifier.fillMaxWidth(),
             enabled = uiState.validInviteCode,
-            onClick = viewModel::submitGetUserProfile
+            onClick = viewModel::updateOpenProfileUser
         )
         
         
@@ -177,11 +172,5 @@ fun InviteScreen(
         }
 
         Spacer(modifier = Modifier.height(12.dp))
-
-        InviteRequestListView(
-            navController = navController,
-            viewModel = viewModel,
-            sharedViewModel = sharedViewModel
-        )
     }
 }

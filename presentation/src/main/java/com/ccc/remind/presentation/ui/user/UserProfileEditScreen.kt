@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun UserProfileEditScreen(
     navController: NavController = rememberNavController(),
-    viewModel: UserProfileViewModel = hiltViewModel(),
+    viewModel: UserProfileEditViewModel = hiltViewModel(),
     sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()

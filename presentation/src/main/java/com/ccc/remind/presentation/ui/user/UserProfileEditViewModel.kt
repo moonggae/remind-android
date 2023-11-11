@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ccc.remind.domain.usecase.PostImagesUseCase
-import com.ccc.remind.domain.usecase.user.GetUserProfileUseCase
+import com.ccc.remind.domain.usecase.user.GetMyProfileUseCase
 import com.ccc.remind.domain.usecase.user.UpdateUserProfileUseCase
 import com.ccc.remind.presentation.MyApplication
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,8 +16,8 @@ import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
-class UserProfileViewModel @Inject constructor(
-    private val getUserProfile: GetUserProfileUseCase,
+class UserProfileEditViewModel @Inject constructor(
+    private val getMyProfile: GetMyProfileUseCase,
     private val postImages: PostImagesUseCase,
     private val updateUserProfile: UpdateUserProfileUseCase
 ): ViewModel() {
@@ -27,7 +27,7 @@ class UserProfileViewModel @Inject constructor(
 
     fun initUserProfile() {
         viewModelScope.launch {
-            getUserProfile().collect { profile ->
+            getMyProfile().collect { profile ->
                 _uiState.update {
                     it.copy(
                         displayName = profile.displayName ?: "",

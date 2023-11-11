@@ -17,6 +17,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -27,20 +28,22 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ccc.remind.R
+import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.button.OutlinedTextButton
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.pageComponent.user.MenuButton
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserProfileCard
-import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun UserScreen(
     navController: NavController,
     sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
+    val scope = rememberCoroutineScope()
     val sharedUiState by sharedViewModel.uiState.collectAsState()
 
     BasicScreen(
@@ -81,6 +84,9 @@ fun UserScreen(
                 .padding(vertical = 8.dp)
         ) {
             MenuButton(text = stringResource(R.string.user_menu_button_setting)) { /* TODO */ }
+            MenuButton(text = stringResource(R.string.user_menu_button_friend)) {
+                scope.launch { navController.navigate(Route.Friend.name) }
+            }
             MenuButton(text = stringResource(R.string.user_menu_button_qna)) { /* TODO */ }
             MenuButton(text = stringResource(R.string.user_menu_button_user_terms)) { /* TODO */ }
             MenuButton(text = stringResource(R.string.user_menu_button_personal_information_terms)) { /* TODO */ }

@@ -69,7 +69,7 @@ fun HomeOtherUserView(
     Column(modifier) {
         if (postMind == null) {
             EmptyOtherPostMindCard(userDisplayName = displayName) {
-                navController.navigate(Route.Invite.name)
+                navController.navigate(Route.Friend.name)
             }
         } else {
             PostMindCard(

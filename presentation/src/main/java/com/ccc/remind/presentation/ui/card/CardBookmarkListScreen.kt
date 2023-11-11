@@ -1,7 +1,6 @@
 package com.ccc.remind.presentation.ui.card
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -16,7 +15,7 @@ import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.layout.MindCardListGrid
-import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
+import com.ccc.remind.presentation.ui.component.text.SecondaryText
 import kotlinx.coroutines.launch
 
 @Composable
@@ -51,10 +50,8 @@ fun CardBookmarkListScreen(
                 }
             )
         } else {
-            Text(
+            SecondaryText(
                 text = stringResource(R.string.card_bookmark_list_empty_text),
-                style = RemindMaterialTheme.typography.regular_lg,
-                color = RemindMaterialTheme.colorScheme.fg_muted,
                 modifier = Modifier
                     .align(CenterHorizontally)
                     .padding(top = 120.dp)
