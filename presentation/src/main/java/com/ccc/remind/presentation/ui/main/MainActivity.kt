@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 sharedViewModel.uiState.collect { uiState ->
-                    if(uiState.isInitialized && uiState.user == null) {
+                    if(uiState.isInitialized && uiState.currentUser == null) {
                         startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                         finish()
                     }

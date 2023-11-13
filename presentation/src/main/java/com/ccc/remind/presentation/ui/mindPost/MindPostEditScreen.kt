@@ -109,7 +109,7 @@ fun MindPostEditScreen(
         Spacer(modifier = Modifier.height(5.dp))
 
         Text(
-            text = stringResource(R.string.mind_post_edit_title, sharedUiState.user?.displayName ?: "유저"),
+            text = stringResource(R.string.mind_post_edit_title, sharedUiState.currentUser?.displayName ?: "유저"),
             style = RemindMaterialTheme.typography.bold_xl
         )
 

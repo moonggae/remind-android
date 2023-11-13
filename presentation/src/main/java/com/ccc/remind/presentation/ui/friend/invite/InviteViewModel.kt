@@ -7,9 +7,9 @@ import com.ccc.remind.domain.usecase.friend.AcceptFriendRequestUseCase
 import com.ccc.remind.domain.usecase.friend.CancelFriendRequestUseCase
 import com.ccc.remind.domain.usecase.friend.DenyFriendRequestUseCase
 import com.ccc.remind.domain.usecase.friend.GetFriendRequestsUseCase
-import com.ccc.remind.domain.usecase.friend.GetInviteUserProfileUseCase
 import com.ccc.remind.domain.usecase.friend.GetReceivedFriendRequestsUseCase
 import com.ccc.remind.domain.usecase.friend.PostFriendRequestUseCase
+import com.ccc.remind.domain.usecase.user.GetUserUseCase
 import com.ccc.remind.presentation.base.ComposeLifecycleViewModel
 import com.ccc.remind.presentation.util.Constants.BASE_URL
 import com.ccc.remind.presentation.util.Constants.INVITE_CODE_LENGTH
@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InviteViewModel @Inject constructor(
-    private val getProfile: GetInviteUserProfileUseCase,
+    private val getUser: GetUserUseCase,
     private val postFriendRequest: PostFriendRequestUseCase,
     private val getFriendRequests: GetFriendRequestsUseCase,
     private val getReceivedFriendRequests: GetReceivedFriendRequestsUseCase,
@@ -69,10 +69,10 @@ class InviteViewModel @Inject constructor(
 
     fun updateOpenProfileUser() {
         viewModelScope.launch {
-            getProfile(_uiState.value.inputInviteCode).collect { profile ->
+            getUser.fromInviteCode(_uiState.value.inputInviteCode).collect { profile ->
                 _uiState.update {
                     it.copy(
-                        openedUserProfile = profile
+                        openedUser = profile
                     )
                 }
             }
@@ -149,7 +149,7 @@ class InviteViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update {
                 it.copy(
-                    openedUserProfile = null
+                    openedUser = null
                 )
             }
         }

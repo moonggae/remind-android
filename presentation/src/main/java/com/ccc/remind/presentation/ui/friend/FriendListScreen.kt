@@ -24,6 +24,7 @@ import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.layout.fadingEdges
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserProfileCard
+import com.ccc.remind.presentation.ui.component.pageComponent.user.UserRelation
 import com.ccc.remind.presentation.ui.component.text.SecondaryText
 import com.ccc.remind.presentation.ui.friend.invite.InviteRequestListView
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
@@ -75,9 +76,10 @@ fun FriendListScreen(
             } else {
                 sharedUiState.friend?.let { friend ->
                     UserProfileCard(
-                        displayName = friend.displayName ?: "",
-                        profileImageUrl = friend.profileImage?.url,
-                        showTextSuffix = false
+                        user = friend,
+                        showTextSuffix = false,
+                        navController = navController,
+                        relation = UserRelation.FRIEND
                     )
                 }
             }

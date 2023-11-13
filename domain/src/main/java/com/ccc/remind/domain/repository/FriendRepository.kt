@@ -2,13 +2,11 @@ package com.ccc.remind.domain.repository
 
 import com.ccc.remind.domain.entity.friend.FriendRequest
 import com.ccc.remind.domain.entity.friend.ReceivedFriendRequest
-import com.ccc.remind.domain.entity.user.UserProfile
+import com.ccc.remind.domain.entity.user.User
 import kotlinx.coroutines.flow.Flow
 
 interface FriendRepository {
-    fun getFriend(): Flow<UserProfile?>
-
-    fun getProfile(inviteCode: String): Flow<UserProfile>
+    fun getFriend(): Flow<User?>
 
     suspend fun postFriendRequest(inviteCode: String)
 

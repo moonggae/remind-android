@@ -1,6 +1,7 @@
 package com.ccc.remind.presentation.di
 
 import com.ccc.remind.data.repository.AuthRepositoryImpl
+import com.ccc.remind.data.repository.CurrentUserRepositoryImpl
 import com.ccc.remind.data.repository.FriendRepositoryImpl
 import com.ccc.remind.data.repository.ImageRepositoryImpl
 import com.ccc.remind.data.repository.MindCardBookmarkRepositoryImpl
@@ -22,6 +23,7 @@ import com.ccc.remind.data.source.remote.MindRemoteService
 import com.ccc.remind.data.source.remote.UserRemoteService
 import com.ccc.remind.data.source.socket.SocketManager
 import com.ccc.remind.domain.repository.AuthRepository
+import com.ccc.remind.domain.repository.CurrentUserRepository
 import com.ccc.remind.domain.repository.FriendRepository
 import com.ccc.remind.domain.repository.ImageRepository
 import com.ccc.remind.domain.repository.MindCardBookmarkRepository
@@ -43,8 +45,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(userLocalDataSource: UserLocalDataSource, userRemoteService: UserRemoteService) : UserRepository {
-        return UserRepositoryImpl(userLocalDataSource, userRemoteService)
+    fun provideCurrentUserRepository(userLocalDataSource: UserLocalDataSource, userRemoteService: UserRemoteService) : CurrentUserRepository {
+        return CurrentUserRepositoryImpl(userLocalDataSource, userRemoteService)
     }
 
     @Provides
@@ -102,5 +104,11 @@ object RepositoryModule {
     @Singleton
     fun provideSocketRepository(socketManager: SocketManager): SocketRepository {
         return SocketRepositoryImpl(socketManager)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(userRemoteService: UserRemoteService): UserRepository {
+        return UserRepositoryImpl(userRemoteService)
     }
 }

@@ -9,37 +9,37 @@ import com.ccc.remind.data.source.remote.model.user.DisplayNameDto
 import com.ccc.remind.data.source.remote.model.user.UpdateFCMTokenRequestDto
 import com.ccc.remind.data.source.remote.model.user.UserProfileUpdateDto
 import com.ccc.remind.domain.entity.mind.ImageFile
+import com.ccc.remind.domain.entity.user.CurrentUser
 import com.ccc.remind.domain.entity.user.LogInType
 import com.ccc.remind.domain.entity.user.User
-import com.ccc.remind.domain.entity.user.UserProfile
-import com.ccc.remind.domain.repository.UserRepository
+import com.ccc.remind.domain.repository.CurrentUserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class UserRepositoryImpl(
+class CurrentUserRepositoryImpl(
     private val userLocalDataSource: UserLocalDataSource,
     private val userRemoteService: UserRemoteService
-) : UserRepository {
+) : CurrentUserRepository {
     companion object {
         private const val TAG = "UseRepositoryImpl"
     }
     
-    override suspend fun getLoggedInUser(): Flow<User?> = flow {
+    override suspend fun getLoggedInUser(): Flow<CurrentUser?> = flow {
         val user = userLocalDataSource.fetchLoggedInUser()?.toDomain()
         emit(user)
     }
 
-    override suspend fun replaceLoggedInUser(user: User) {
+    override suspend fun replaceLoggedInUser(currentUser: CurrentUser) {
         userLocalDataSource.deleteLoggedInUser()
-        userLocalDataSource.postLoggedInUser(user.toData())
+        userLocalDataSource.postLoggedInUser(currentUser.toData())
     }
 
     override suspend fun deleteLoggedInUser() {
         userLocalDataSource.deleteLoggedInUser()
     }
 
-    override fun getUserProfile(): Flow<UserProfile> = flow {
-        val profile: UserProfile = userRemoteService.fetchUserProfile().body()!!.toDomain()
+    override fun getUserProfile(): Flow<User> = flow {
+        val profile: User = userRemoteService.fetchUserProfile().body()!!.toDomain()
         emit(profile)
     }
 
@@ -70,7 +70,7 @@ class UserRepositoryImpl(
         logInType: LogInType?,
         profileImage: ImageFile?,
         inviteCode: String?
-    ): User? {
+    ): CurrentUser? {
         userLocalDataSource.fetchLoggedInUser()?.let { entity ->
             return userLocalDataSource.updateLoggedInUser(entity.copy(
                 accessToken = accessToken ?: entity.accessToken,

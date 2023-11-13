@@ -1,10 +1,10 @@
 package com.ccc.remind.domain.usecase.user
 
-import com.ccc.remind.domain.repository.UserRepository
+import com.ccc.remind.domain.repository.CurrentUserRepository
 import javax.inject.Inject
 
 class LogoutUseCase @Inject constructor(
-    private val userRepository: UserRepository
+    private val currentUserRepository: CurrentUserRepository
 ) {
-    suspend operator fun invoke() = userRepository.deleteLoggedInUser()
+    suspend operator fun invoke() = currentUserRepository.deleteLoggedInUser()
 }

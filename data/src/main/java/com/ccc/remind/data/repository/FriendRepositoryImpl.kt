@@ -4,7 +4,7 @@ import com.ccc.remind.data.mapper.toDomain
 import com.ccc.remind.data.source.remote.FriendRemoteService
 import com.ccc.remind.domain.entity.friend.FriendRequest
 import com.ccc.remind.domain.entity.friend.ReceivedFriendRequest
-import com.ccc.remind.domain.entity.user.UserProfile
+import com.ccc.remind.domain.entity.user.User
 import com.ccc.remind.domain.repository.FriendRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -12,12 +12,8 @@ import kotlinx.coroutines.flow.flow
 class FriendRepositoryImpl(
     private val friendRemoteService: FriendRemoteService
 ): FriendRepository {
-    override fun getFriend(): Flow<UserProfile?> = flow {
+    override fun getFriend(): Flow<User?> = flow {
         emit(friendRemoteService.fetchFriend().body()?.toDomain())
-    }
-
-    override fun getProfile(inviteCode: String): Flow<UserProfile> = flow {
-        emit(friendRemoteService.fetchUserProfile(inviteCode).body()!!.toDomain())
     }
 
     override suspend fun postFriendRequest(inviteCode: String) =

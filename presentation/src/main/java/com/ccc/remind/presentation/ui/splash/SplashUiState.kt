@@ -1,10 +1,10 @@
 package com.ccc.remind.presentation.ui.splash
 
-import com.ccc.remind.domain.entity.user.User
+import com.ccc.remind.domain.entity.user.CurrentUser
 
 data class SplashUiState(
     val loginState: LoginState = LoginState.EMPTY,
-    val user: User? = null,
+    val currentUser: CurrentUser? = null,
     val doneUserInit: Boolean = false,
     val successFCMTokenInit: Boolean? = null
 ) {

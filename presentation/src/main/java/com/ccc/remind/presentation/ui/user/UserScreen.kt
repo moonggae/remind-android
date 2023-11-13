@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ccc.remind.R
+import com.ccc.remind.domain.entity.user.toUser
 import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.button.OutlinedTextButton
@@ -35,6 +36,7 @@ import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.pageComponent.user.MenuButton
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserProfileCard
+import com.ccc.remind.presentation.ui.component.pageComponent.user.UserRelation
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import kotlinx.coroutines.launch
 
@@ -55,10 +57,13 @@ fun UserScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
-            UserProfileCard(
-                profileImageUrl = sharedUiState.user?.profileImage?.url,
-                displayName = sharedUiState.user?.displayName ?: stringResource(R.string.empty_user_display_name)
-            )
+            sharedUiState.currentUser?.let { user ->
+                UserProfileCard(
+                    user = user.toUser(),
+                    navController = navController,
+                    relation = UserRelation.ME
+                )
+            }
 
             OutlinedTextButton(
                 text = stringResource(R.string.user_profile_management_button),

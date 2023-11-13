@@ -194,7 +194,7 @@ fun MemoEditScreen(
 
         CommentList(
             comments = uiState.openedMemo?.comments ?: emptyList(),
-            myUUID = sharedViewModel.uiState.value.user?.uuid ?: UUID.randomUUID(),
+            myUUID = sharedViewModel.uiState.value.currentUser?.uuid ?: UUID.randomUUID(),
             onClickLike = { clickedComment ->
                 if (clickedComment.likes.isEmpty()) {
                     viewModel.submitPostLike(clickedComment.id)

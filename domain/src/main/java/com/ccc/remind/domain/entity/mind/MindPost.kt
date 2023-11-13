@@ -1,6 +1,6 @@
 package com.ccc.remind.domain.entity.mind
 
-import com.ccc.remind.domain.entity.user.PostUser
+import com.ccc.remind.domain.entity.user.User
 import java.time.ZonedDateTime
 
 data class MindPost(
@@ -9,5 +9,5 @@ data class MindPost(
     val cards: List<MindPostCard>,
     val images: List<ImageFile> = emptyList(),
     val memo: MindMemo?,
-    val user: PostUser?
+    val user: User?
 )

@@ -34,6 +34,7 @@ import com.ccc.remind.presentation.ui.memo.MemoEditViewModel
 import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
 import com.ccc.remind.presentation.ui.notification.NotificationViewModel
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
+import com.ccc.remind.presentation.ui.user.userProfile.UserProfileViewModel
 import com.ccc.remind.presentation.util.Constants
 
 /* TODO
@@ -84,6 +85,7 @@ private fun NavigationWrapper(
         val notificationViewModel: NotificationViewModel = hiltViewModel()
         val cardViewModel: CardViewModel = hiltViewModel()
         val friendViewModel: FriendViewModel = hiltViewModel()
+        val userProfileViewModel: UserProfileViewModel = hiltViewModel()
 
         NavHost(
             navController = navController as NavHostController,
@@ -97,7 +99,7 @@ private fun NavigationWrapper(
             notificationGraph(navController, notificationViewModel)
             mindCardGraph(navController, cardViewModel)
             friendGraph(navController, friendViewModel, sharedViewModel)
-            userProfileGraph(navController, inviteViewModel, friendViewModel)
+            userProfileGraph(navController, inviteViewModel, userProfileViewModel)
         }
 
         if(isNavigationBarVisible) {
@@ -109,3 +111,4 @@ private fun NavigationWrapper(
 
     }
 }
+

@@ -26,7 +26,7 @@ import com.ccc.remind.domain.entity.mind.MindPost
 import com.ccc.remind.domain.entity.mind.MindPostCard
 import com.ccc.remind.domain.entity.mind.MindPostList
 import com.ccc.remind.domain.entity.mind.MindTag
-import com.ccc.remind.domain.entity.user.PostUser
+import com.ccc.remind.domain.entity.user.User
 
 fun MindPostResponseDto.toDomain() = MindPost(
     id = this.id,
@@ -116,10 +116,11 @@ fun AppendMindCommentDto.toDomain() = MindComment(
     likes = this.likes.map { it.toDomain() }
 )
 
-fun UserVO.toDomain() = PostUser(
+fun UserVO.toDomain() = User(
     id = this.id,
     displayName = this.displayName,
-    profileImage = this.profileImage?.toDomain()
+    profileImage = this.profileImage?.toDomain(),
+    inviteCode = this.inviteCode
 )
 
 fun MindLikeVO.toDomain() = MindLike(

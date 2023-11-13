@@ -41,6 +41,8 @@ import com.ccc.remind.presentation.ui.notification.NotificationViewModel
 import com.ccc.remind.presentation.ui.user.UserProfileEditScreen
 import com.ccc.remind.presentation.ui.user.UserProfileEditViewModel
 import com.ccc.remind.presentation.ui.user.UserScreen
+import com.ccc.remind.presentation.ui.user.userProfile.UserProfileDefaultScreen
+import com.ccc.remind.presentation.ui.user.userProfile.UserProfileViewModel
 import com.ccc.remind.presentation.util.Constants
 
 sealed class Route(val name: String, val parent: Route? = null) {
@@ -395,19 +397,44 @@ fun NavGraphBuilder.friendGraph(
 fun NavGraphBuilder.userProfileGraph(
     navController: NavController,
     inviteViewModel: InviteViewModel,
-    friendViewModel: FriendViewModel
+    userProfileViewModel: UserProfileViewModel
 ) {
-    composable(Route.UserProfile.Invite.name) {
+    composable(Route.UserProfile.Invite.name)
+    {
         UserProfileInviteScreen(
             navController = navController,
-            viewModel = inviteViewModel
+            viewModel = userProfileViewModel,
+            inviteViewModel = inviteViewModel
         )
     }
 
-    composable(Route.UserProfile.Friend.name) {
+    composable(
+        route = "${Route.UserProfile.Friend.name}?id={id}",
+        arguments = listOf(navArgument("id") {
+            nullable = true
+            type = NavType.StringType
+            defaultValue = null
+        })
+    ) {
         UserProfileFriendScreen(
             navController = navController,
-            viewModel = friendViewModel
+            viewModel = userProfileViewModel,
+            userId = it.arguments?.getString("id")
+        )
+    }
+
+    composable(
+        route = "${Route.UserProfile.Default.name}?id={id}",
+        arguments = listOf(navArgument("id") {
+            nullable = true
+            type = NavType.StringType
+            defaultValue = null
+        })
+    ) {
+        UserProfileDefaultScreen(
+            navController = navController,
+            viewModel = userProfileViewModel,
+            userId = it.arguments?.getString("id")
         )
     }
 }

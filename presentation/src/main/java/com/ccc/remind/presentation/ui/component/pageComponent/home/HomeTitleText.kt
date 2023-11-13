@@ -4,11 +4,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.ccc.remind.R
-import com.ccc.remind.domain.entity.user.UserProfile
+import com.ccc.remind.domain.entity.user.User
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 
 @Composable
-fun HomeTitleText(page: Int, myDisplayName: String?, friend: UserProfile?) {
+fun HomeTitleText(page: Int, myDisplayName: String?, friend: User?) {
     val titleText = if(page == 0)
         stringResource(
             id = R.string.home_title_my_view,

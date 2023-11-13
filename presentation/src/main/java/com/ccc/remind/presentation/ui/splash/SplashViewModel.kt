@@ -2,7 +2,7 @@ package com.ccc.remind.presentation.ui.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ccc.remind.domain.entity.user.User
+import com.ccc.remind.domain.entity.user.CurrentUser
 import com.ccc.remind.domain.usecase.user.GetLoggedInUserUserCase
 import com.ccc.remind.domain.usecase.user.UpdateFCMTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,7 +37,7 @@ class SplashViewModel @Inject constructor(
                 onFailure = {
                     _uiState.update {
                         it.copy(
-                            user = null,
+                            currentUser = null,
                             successFCMTokenInit = false,
                             loginState = LoginState.REFRESH_TOKEN_EXPIRED
                         )
@@ -59,7 +59,7 @@ class SplashViewModel @Inject constructor(
 
             _uiState.update {
                 it.copy(
-                    user = user,
+                    currentUser = user,
                     loginState = loginState,
                     successFCMTokenInit = successFCMTokenInit,
                     doneUserInit = true
@@ -68,11 +68,11 @@ class SplashViewModel @Inject constructor(
         }
     }
 
-    private fun determineLoginState(result: Result<User?>, user: User?): LoginState =
+    private fun determineLoginState(result: Result<CurrentUser?>, currentUser: CurrentUser?): LoginState =
         when {
             result.isFailure -> LoginState.REFRESH_TOKEN_EXPIRED
-            user == null -> LoginState.EMPTY
-            user.displayName == null -> LoginState.LOGGED_IN_NO_DISPLAY_NAME
+            currentUser == null -> LoginState.EMPTY
+            currentUser.displayName == null -> LoginState.LOGGED_IN_NO_DISPLAY_NAME
             else -> LoginState.LOGGED_IN
         }
 

@@ -25,10 +25,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ccc.remind.R
+import com.ccc.remind.domain.entity.user.User
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.button.TextButton
 import com.ccc.remind.presentation.ui.component.dialog.AlertDialog
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserProfileCard
+import com.ccc.remind.presentation.ui.component.pageComponent.user.UserRelation
 import com.ccc.remind.presentation.ui.friend.FriendViewModel
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import kotlinx.coroutines.launch
@@ -61,8 +63,8 @@ fun InviteRequestListView(
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 uiState.friendRequests.map { request ->
                     RequestFriend(
-                        displayName = request.receivedUser.displayName ?: "",
-                        profileImageUrl = request.receivedUser.profileImage?.url,
+                        user = request.receivedUser,
+                        navController = navController,
                         onClickCancel = {
                             scope.launch {
                                 viewModel.submitCancelFriendRequest(request.id)
@@ -88,8 +90,8 @@ fun InviteRequestListView(
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 uiState.receivedFriendRequest.map { request ->
                     ReceivedFriendRequest(
-                        displayName = request.requestUser.displayName ?: "",
-                        profileImageUrl = request.requestUser.profileImage?.url,
+                        user = request.requestUser,
+                        navController = navController,
                         onClickAccept = {
                             scope.launch {
                                 viewModel.submitAcceptFriendRequest(request.id)
@@ -113,8 +115,8 @@ fun InviteRequestListView(
 @Composable
 fun ReceivedFriendRequest(
     modifier: Modifier = Modifier,
-    profileImageUrl: String? = null,
-    displayName: String,
+    navController: NavController,
+    user: User,
     onClickAccept: () -> Unit = {},
     onClickDeny: () -> Unit = {}
 ) {
@@ -136,9 +138,10 @@ fun ReceivedFriendRequest(
         verticalAlignment = Alignment.CenterVertically
     ) {
         UserProfileCard(
-            profileImageUrl = profileImageUrl,
-            displayName = displayName,
-            showTextSuffix = false
+            user = user,
+            showTextSuffix = false,
+            navController = navController,
+            relation = UserRelation.OTHER
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -182,9 +185,9 @@ fun ReceivedFriendRequest(
 
 @Composable
 fun RequestFriend(
+    user: User,
     modifier: Modifier = Modifier,
-    profileImageUrl: String? = null,
-    displayName: String,
+    navController: NavController,
     onClickCancel: () -> Unit = {}
 ) {
     val scope = rememberCoroutineScope()
@@ -206,9 +209,10 @@ fun RequestFriend(
         verticalAlignment = Alignment.CenterVertically
     ) {
         UserProfileCard(
-            profileImageUrl = profileImageUrl,
-            displayName = displayName,
-            showTextSuffix = false
+            user = user,
+            showTextSuffix = false,
+            navController = navController,
+            relation = UserRelation.OTHER
         )
 
         TextButton(

@@ -1,8 +1,8 @@
 package com.ccc.remind.data.source.remote.model.friend
 
-import com.ccc.remind.data.source.remote.model.user.UserProfileVO
+import com.ccc.remind.data.source.remote.model.user.UserVO
 
 data class ReceivedFriendRequestDto(
     val id: Int,
-    val requestUser: UserProfileVO,
+    val requestUser: UserVO,
 )

@@ -5,7 +5,6 @@ import com.ccc.remind.domain.usecase.friend.AcceptFriendRequestUseCase
 import com.ccc.remind.domain.usecase.friend.CancelFriendRequestUseCase
 import com.ccc.remind.domain.usecase.friend.DenyFriendRequestUseCase
 import com.ccc.remind.domain.usecase.friend.GetFriendRequestsUseCase
-import com.ccc.remind.domain.usecase.friend.GetInviteUserProfileUseCase
 import com.ccc.remind.domain.usecase.friend.GetReceivedFriendRequestsUseCase
 import com.ccc.remind.presentation.base.ComposeLifecycleViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +17,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FriendViewModel @Inject constructor(
-    private val getProfile: GetInviteUserProfileUseCase,
     private val getFriendRequests: GetFriendRequestsUseCase,
     private val getReceivedFriendRequests: GetReceivedFriendRequestsUseCase,
     private val acceptFriendRequest: AcceptFriendRequestUseCase,
@@ -35,18 +33,6 @@ class FriendViewModel @Inject constructor(
 //        initMockData()
         submitGetFriendRequests()
         submitGetReceivedFriendRequests()
-    }
-
-    fun submitGetUserProfile(inviteCode: String) {
-        viewModelScope.launch {
-            getProfile(inviteCode).collect { profile ->
-                _uiState.update {
-                    it.copy(
-                        openedUserProfile = profile
-                    )
-                }
-            }
-        }
     }
 
     private fun initMockData() {
@@ -112,7 +98,7 @@ class FriendViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update {
                 it.copy(
-                    openedUserProfile = null
+                    openedUser = null
                 )
             }
         }

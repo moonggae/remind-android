@@ -62,6 +62,7 @@ import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageList
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindMemoTextField
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ViewCardsDetailTextButton
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserProfileCard
+import com.ccc.remind.presentation.ui.component.pageComponent.user.UserRelation
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.buildCoilRequest
 import com.ccc.remind.presentation.util.toFormatString
@@ -77,7 +78,7 @@ fun MindPostDetailScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val sharedUiState by sharedViewModel.uiState.collectAsStateWithLifecycle()
-    val isMyPost = sharedUiState.user?.uuid == uiState.openedPost?.user?.id
+    val isMyPost = sharedUiState.currentUser?.uuid == uiState.openedPost?.user?.id
     var maxSize by remember { mutableStateOf(IntSize.Zero) }
     val photoItemWidth = with(LocalDensity.current) { (maxSize.width.toDp() - 60.dp).div(other = 3) }
     var selectedImage by remember {
@@ -105,7 +106,12 @@ fun MindPostDetailScreen(
         padding = PaddingValues(start = 20.dp, end = 20.dp, bottom = (56 + 38 + 12).dp)
     ) {
         uiState.openedPost?.let { post ->
-            TitleView(uiState.viewType, post)
+            TitleView(
+                viewType =  uiState.viewType,
+                post =  post,
+                navController = navController,
+                isMine = isMyPost
+            )
 
             Spacer(modifier = Modifier.height(27.dp))
 
@@ -200,7 +206,12 @@ fun MindPostDetailScreen(
 }
 
 @Composable
-private fun TitleView(viewType: PostViewType, post: MindPost) {
+private fun TitleView(
+    viewType: PostViewType,
+    post: MindPost,
+    navController: NavController,
+    isMine: Boolean
+) {
     if (viewType == PostViewType.FIRST_POST) {
         Text(
             text = stringResource(R.string.mind_post_complete_title, post.user?.displayName ?: ""),
@@ -216,11 +227,15 @@ private fun TitleView(viewType: PostViewType, post: MindPost) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        UserProfileCard(
-            displayName = post.user?.displayName ?: "",
-            profileImageUrl = post.user?.profileImage?.url,
-            showTextSuffix = false
-        )
+        post.user?.let { user ->
+            UserProfileCard(
+                user = user,
+                showTextSuffix = false,
+                navController = navController,
+                relation = if(isMine) UserRelation.ME else UserRelation.FRIEND
+            )
+        }
+
     }
 }
 

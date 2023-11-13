@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
@@ -20,43 +21,63 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.transform.CircleCropTransformation
 import com.ccc.remind.R
-import com.ccc.remind.domain.entity.user.UserProfile
+import com.ccc.remind.domain.entity.user.User
+import com.ccc.remind.presentation.ui.component.text.SecondaryText
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.buildCoilRequest
 
 @Composable
-fun UserProfileView(userProfile: UserProfile) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Spacer(modifier = Modifier.weight(1f))
-
-        if(userProfile.profileImage == null) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_user),
-                contentDescription = stringResource(R.string.user_icon),
-                tint = RemindMaterialTheme.colorScheme.bg_muted,
+fun UserProfileView(
+    modifier: Modifier = Modifier,
+    user: User?
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
+        if(user == null) {
+            SecondaryText(
+                text = "사용자 정보를 불러올 수 없어요.",
                 modifier = Modifier
-                    .size(200.dp)
-                    .clip(CircleShape)
-                    .background(RemindMaterialTheme.colorScheme.fg_subtle)
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 120.dp)
             )
         } else {
-            AsyncImage(
-                model = buildCoilRequest(LocalContext.current, userProfile.profileImage!!.url, listOf(CircleCropTransformation())),
-                contentDescription = stringResource(R.string.user_profile_image),
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(200.dp)
+            Spacer(modifier = Modifier.weight(1f))
+
+            if(user.profileImage == null) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_user),
+                    contentDescription = stringResource(R.string.user_icon),
+                    tint = RemindMaterialTheme.colorScheme.bg_muted,
+                    modifier = Modifier
+                        .size(200.dp)
+                        .clip(CircleShape)
+                        .background(RemindMaterialTheme.colorScheme.fg_subtle)
+                )
+            } else {
+                AsyncImage(
+                    model = buildCoilRequest(
+                        LocalContext.current,
+                        user.profileImage!!.url,
+                        listOf(CircleCropTransformation())
+                    ),
+                    contentDescription = stringResource(R.string.user_profile_image),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(200.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Text(
+                text = user.displayName ?: "",
+                style = RemindMaterialTheme.typography.bold_xxl,
+                color = RemindMaterialTheme.colorScheme.fg_default
             )
+
+            Spacer(modifier = Modifier.weight(1f))
         }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Text(
-            text = userProfile.displayName ?: "",
-            style = RemindMaterialTheme.typography.bold_xxl,
-            color = RemindMaterialTheme.colorScheme.fg_default
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
     }
 }

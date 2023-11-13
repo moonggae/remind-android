@@ -2,7 +2,7 @@ package com.ccc.remind.data.source.remote
 
 import com.ccc.remind.data.source.remote.model.friend.FriendRequestsDto
 import com.ccc.remind.data.source.remote.model.friend.ReceivedFriendRequestDto
-import com.ccc.remind.data.source.remote.model.user.UserProfileVO
+import com.ccc.remind.data.source.remote.model.user.UserVO
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -11,10 +11,7 @@ import retrofit2.http.Path
 
 interface FriendRemoteService {
     @GET("/friend")
-    suspend fun fetchFriend(): Response<UserProfileVO?>
-
-    @GET("/friend/user/{inviteCode}")
-    suspend fun fetchUserProfile(@Path("inviteCode") inviteCode: String): Response<UserProfileVO>
+    suspend fun fetchFriend(): Response<UserVO?>
 
     @POST("/friend/request/{inviteCode}")
     suspend fun postFriendRequest(@Path("inviteCode") inviteCode: String)

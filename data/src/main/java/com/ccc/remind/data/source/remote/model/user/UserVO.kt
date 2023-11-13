@@ -6,5 +6,6 @@ import java.util.UUID
 data class UserVO(
     val id: UUID,
     val displayName: String?,
-    val profileImage: ImageFileVO?
+    val profileImage: ImageFileVO?,
+    val inviteCode: String
 )

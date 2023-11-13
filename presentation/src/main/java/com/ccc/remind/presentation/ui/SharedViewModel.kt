@@ -42,7 +42,7 @@ class SharedViewModel @Inject constructor(
             newUser?.let { _->
                 _uiState.update { uiState ->
                     uiState.copy(
-                        user = newUser,
+                        currentUser = newUser,
                         isInitialized = true
                     )
                 }
@@ -66,7 +66,7 @@ class SharedViewModel @Inject constructor(
             getTokenInterceptor()?.removeToken()
             _uiState.update {
                 it.copy(
-                    user = null
+                    currentUser = null
                 )
             }
         }

@@ -64,8 +64,8 @@ fun InviteScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    LaunchedEffect(uiState.openedUserProfile) {
-        if(uiState.openedUserProfile != null)
+    LaunchedEffect(uiState.openedUser) {
+        if(uiState.openedUser != null)
             navController.navigate(Route.UserProfile.Invite.name)
     }
 
@@ -100,7 +100,12 @@ fun InviteScreen(
             text = stringResource(R.string.invite_button_label_invite),
             modifier = Modifier.fillMaxWidth(),
             enabled = uiState.validInviteCode,
-            onClick = viewModel::updateOpenProfileUser
+            onClick = {
+                scope.launch {
+                    viewModel.updateOpenProfileUser()
+                    navController.navigate("${Route.UserProfile.Invite.name}?code=${uiState.inputInviteCode}")
+                }
+            }
         )
         
         
@@ -114,7 +119,7 @@ fun InviteScreen(
         )
 
         BackgroundedTextField(
-            value = "${sharedUiState.user?.inviteCode}",
+            value = "${sharedUiState.currentUser?.inviteCode}",
             onValueChange = {},
             readOnly = true,
             contentAlignment = Alignment.Center,
@@ -127,7 +132,7 @@ fun InviteScreen(
                 IconButton(
                     onClick = {
                         scope.launch {
-                            ClipboardUtil(context).copyText("invite code", "${sharedUiState.user?.inviteCode}")
+                            ClipboardUtil(context).copyText("invite code", "${sharedUiState.currentUser?.inviteCode}")
                         }
                 }) {
                     Icon(
@@ -148,7 +153,7 @@ fun InviteScreen(
                 contentColor = RemindMaterialTheme.colorScheme.fg_default
             ) {
                 scope.launch {
-                    ClipboardUtil(context).copyUri("invite uri", Uri.parse("${Constants.BASE_URL}/${INVITE_URL_PATH}/${sharedUiState.user?.inviteCode}"))
+                    ClipboardUtil(context).copyUri("invite uri", Uri.parse("${Constants.BASE_URL}/${INVITE_URL_PATH}/${sharedUiState.currentUser?.inviteCode}"))
                 }
             }
             TextButton(
@@ -160,7 +165,7 @@ fun InviteScreen(
                 scope.launch {
                     val sendIntent: Intent = Intent().apply {
                         action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, "${Constants.BASE_URL}/${INVITE_URL_PATH}/${sharedUiState.user?.inviteCode}")
+                        putExtra(Intent.EXTRA_TEXT, "${Constants.BASE_URL}/${INVITE_URL_PATH}/${sharedUiState.currentUser?.inviteCode}")
                         type = "text/plain"
                     }
 

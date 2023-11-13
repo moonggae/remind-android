@@ -64,7 +64,7 @@ fun HomeScreen(
     ) {
         HomeTitleText(
             page = pagerState.currentPage,
-            myDisplayName = sharedUiState.user?.displayName,
+            myDisplayName = sharedUiState.currentUser?.displayName,
             friend = sharedUiState.friend
         )
 
@@ -83,7 +83,7 @@ fun HomeScreen(
             when(pageIndex) {
                 0 -> HomeMyView(
                     postMind = uiState.post,
-                    displayName = sharedUiState.user?.displayName,
+                    displayName = sharedUiState.currentUser?.displayName,
                     navController = navController,
                 )
                 1 -> HomeOtherUserView(
