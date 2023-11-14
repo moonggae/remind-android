@@ -32,7 +32,7 @@ import com.ccc.remind.R
 import com.ccc.remind.domain.entity.mind.MindPost
 import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.component.button.PrimaryButton
-import com.ccc.remind.presentation.ui.component.dialog.AlertDialog
+import com.ccc.remind.presentation.ui.component.dialog.DefaultAlertDialog
 import com.ccc.remind.presentation.ui.component.pageComponent.home.EmptyMemoCard
 import com.ccc.remind.presentation.ui.component.pageComponent.home.EmptyOtherPostMindCard
 import com.ccc.remind.presentation.ui.component.pageComponent.home.EmptyPostMindLabelCard
@@ -161,7 +161,7 @@ fun HomeOtherUserView(
     }
 
     if(openAskMindAlertDialog) {
-        AlertDialog(
+        DefaultAlertDialog(
             contentText = stringResource(R.string.home_ask_mind_dialog_content_text, displayName ?: ""),
             onClickConfirmButton = {
                 onRequestFriendMind()

@@ -69,10 +69,10 @@ class InviteViewModel @Inject constructor(
 
     fun updateOpenProfileUser() {
         viewModelScope.launch {
-            getUser.fromInviteCode(_uiState.value.inputInviteCode).collect { profile ->
+            getUser.fromInviteCode(_uiState.value.inputInviteCode).collect { user ->
                 _uiState.update {
                     it.copy(
-                        openedUser = profile
+                        openedUser = user
                     )
                 }
             }

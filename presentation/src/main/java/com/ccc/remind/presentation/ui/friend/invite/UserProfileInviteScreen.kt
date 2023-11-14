@@ -1,5 +1,6 @@
 package com.ccc.remind.presentation.ui.friend.invite
 
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ccc.remind.R
+import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.component.button.PrimaryButton
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
@@ -27,34 +29,41 @@ fun UserProfileInviteScreen(
     inviteViewModel: InviteViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val inviteUiState by viewModel.uiState.collectAsState()
+    val inviteUiState by inviteViewModel.uiState.collectAsState()
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(inviteUiState.user?.id) {
+    LaunchedEffect(inviteUiState.openedUser?.id) {
         scope.launch {
-            viewModel.setUser(inviteUiState.user)
+            viewModel.setUser(inviteUiState.openedUser)
         }
     }
 
     BasicScreen(
         appBar = {
             AppBar(
-                title = "초대하기",
+                title = stringResource(R.string.invite_profile_appbar_title),
                 navController = navController
             )
         }
     ) {
         UserProfileView(
             user = uiState.user,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().weight(1f)
         )
 
         uiState.user?.let {
-            PrimaryButton(text = stringResource(id = R.string.invite_profile_invite_button)) {
+            PrimaryButton(
+                text = stringResource(R.string.invite_profile_invite_button),
+                modifier = Modifier.height(IntrinsicSize.Max)
+            ) {
                 scope.launch {
                     inviteViewModel.submitRequestFriend()
                     inviteViewModel.removeInviteCode()
-                    navController.popBackStack()
+                    navController.popBackStack(
+                        route = Route.Invite.name,
+                        inclusive = true,
+                        saveState = false
+                    )
                 }
             }
 

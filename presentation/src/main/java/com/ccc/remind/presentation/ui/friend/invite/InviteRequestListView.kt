@@ -28,7 +28,7 @@ import com.ccc.remind.R
 import com.ccc.remind.domain.entity.user.User
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.button.TextButton
-import com.ccc.remind.presentation.ui.component.dialog.AlertDialog
+import com.ccc.remind.presentation.ui.component.dialog.DefaultAlertDialog
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserProfileCard
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserRelation
 import com.ccc.remind.presentation.ui.friend.FriendViewModel
@@ -171,7 +171,7 @@ fun ReceivedFriendRequest(
     }
 
     if(showDenyAlertDialog) {
-        AlertDialog(
+        DefaultAlertDialog(
             contentText = stringResource(R.string.friend_list_alert_deny_friend_request),
             onClickConfirmButton = {
                 onClickDeny()
@@ -227,7 +227,7 @@ fun RequestFriend(
     }
 
     if(showCancelAlertDialog) {
-        AlertDialog(
+        DefaultAlertDialog(
             contentText = stringResource(R.string.friend_list_alert_cancel_friend_request),
             onClickConfirmButton = {
                 onClickCancel()

@@ -397,7 +397,10 @@ fun NavGraphBuilder.friendGraph(
 fun NavGraphBuilder.userProfileGraph(
     navController: NavController,
     inviteViewModel: InviteViewModel,
-    userProfileViewModel: UserProfileViewModel
+    userProfileViewModel: UserProfileViewModel,
+    friendViewModel: FriendViewModel,
+    mindHistoryViewModel: MindHistoryViewModel,
+    sharedViewModel: SharedViewModel
 ) {
     composable(Route.UserProfile.Invite.name)
     {
@@ -419,6 +422,9 @@ fun NavGraphBuilder.userProfileGraph(
         UserProfileFriendScreen(
             navController = navController,
             viewModel = userProfileViewModel,
+            friendViewModel = friendViewModel,
+            sharedViewModel = sharedViewModel,
+            mindHistoryViewModel = mindHistoryViewModel,
             userId = it.arguments?.getString("id")
         )
     }

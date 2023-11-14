@@ -99,7 +99,7 @@ private fun NavigationWrapper(
             notificationGraph(navController, notificationViewModel)
             mindCardGraph(navController, cardViewModel)
             friendGraph(navController, friendViewModel, sharedViewModel)
-            userProfileGraph(navController, inviteViewModel, userProfileViewModel)
+            userProfileGraph(navController, inviteViewModel, userProfileViewModel, friendViewModel, mindHistoryViewModel ,sharedViewModel)
         }
 
         if(isNavigationBarVisible) {

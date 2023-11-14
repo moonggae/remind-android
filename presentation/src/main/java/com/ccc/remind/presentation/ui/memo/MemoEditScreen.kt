@@ -33,7 +33,7 @@ import androidx.navigation.NavController
 import com.ccc.remind.R
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
-import com.ccc.remind.presentation.ui.component.dialog.AlertDialog
+import com.ccc.remind.presentation.ui.component.dialog.DefaultAlertDialog
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.pageComponent.memo.CommentInputBox
 import com.ccc.remind.presentation.ui.component.pageComponent.memo.CommentList
@@ -214,7 +214,7 @@ fun MemoEditScreen(
     }
 
     if (openDeleteMemoAlertDialog) {
-        AlertDialog(
+        DefaultAlertDialog(
             contentText = stringResource(R.string.mind_memo_edit_alert_delete),
             onClickConfirmButton = {
                 scope.launch {

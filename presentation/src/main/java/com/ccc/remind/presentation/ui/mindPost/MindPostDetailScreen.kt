@@ -10,23 +10,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,7 +27,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
@@ -50,13 +42,17 @@ import com.ccc.remind.domain.entity.mind.MindPost
 import com.ccc.remind.domain.entity.mind.MindPostCard
 import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.SharedViewModel
+import com.ccc.remind.presentation.ui.component.button.MenuButton
 import com.ccc.remind.presentation.ui.component.button.PrimaryButton
-import com.ccc.remind.presentation.ui.component.button.TextFillButton
+import com.ccc.remind.presentation.ui.component.button.ShareButton
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
-import com.ccc.remind.presentation.ui.component.dialog.AlertDialog
-import com.ccc.remind.presentation.ui.component.dialog.ModalBottomSheet
+import com.ccc.remind.presentation.ui.component.dialog.AlertDialogManager
+import com.ccc.remind.presentation.ui.component.dialog.DefaultAlertDialog
+import com.ccc.remind.presentation.ui.component.dialog.MenuBottomSheetManager
 import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
 import com.ccc.remind.presentation.ui.component.layout.AppBar
+import com.ccc.remind.presentation.ui.component.model.ButtonModel
+import com.ccc.remind.presentation.ui.component.model.ButtonPriority
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageDialog
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageListBar
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindMemoTextField
@@ -86,8 +82,11 @@ fun MindPostDetailScreen(
     }
 
     val scope = rememberCoroutineScope()
-    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
-    var openAlertDialog by rememberSaveable { mutableStateOf(false) }
+
+    val deleteAlertDialog = remember { AlertDialogManager(scope) }
+    val menu = remember { MenuBottomSheetManager(scope) }
+    initMenu(menu, uiState, navController, viewModel, deleteAlertDialog)
+    initDeleteAlertDialog(deleteAlertDialog, menu, viewModel, uiState, navController)
 
     BasicScreen(
         appBar = {
@@ -96,7 +95,9 @@ fun MindPostDetailScreen(
                 navController = navController,
                 suffix = {
                     ShareButton { /* TODO */ }
-                    if(isMyPost) { MenuButton { scope.launch { openBottomSheet = true } } }
+                    if (isMyPost) {
+                        MenuButton { menu.open() }
+                    }
                 }
             )
         },
@@ -107,8 +108,8 @@ fun MindPostDetailScreen(
     ) {
         uiState.openedPost?.let { post ->
             TitleView(
-                viewType =  uiState.viewType,
-                post =  post,
+                viewType = uiState.viewType,
+                post = post,
                 navController = navController,
                 isMine = isMyPost
             )
@@ -140,7 +141,7 @@ fun MindPostDetailScreen(
         }
     }
 
-    if(uiState.viewType == PostViewType.FIRST_POST) {
+    if (uiState.viewType == PostViewType.FIRST_POST) {
         ConfirmButton(navController)
     }
 
@@ -154,36 +155,30 @@ fun MindPostDetailScreen(
         }
     }
 
-    if(isMyPost) {
-        MenuModalBottomSheet(
-            openBottomSheet,
-            onDismiss = { openBottomSheet = false },
-            onUpdateClick = {
-                openBottomSheet = false
-                when(uiState.viewType) {
-                    PostViewType.FIRST_POST -> {
-                        navController.popBackStack(Route.MindPost.SelectCard.name, saveState = true, inclusive = false)
-                    }
-                    PostViewType.DETAIL -> {
-                        uiState.openedPost?.let { post ->
-                            viewModel.initEditPost(post)
-                            navController.navigate("${Route.MindPost.SelectCard.name}?type=${PostViewType.DETAIL}")
-                        }
-                    }
-                }
-            },
-            onDeleteClick = { openAlertDialog = true },
-            onCancelClick = { openBottomSheet = false }
-        )
+    if (isMyPost) {
+        menu.instance()
+        deleteAlertDialog.instance()
+    }
+}
 
-        DeleteMindAlertDialog(
-            openAlertDialog = openAlertDialog,
-            onDismiss = { openAlertDialog = false },
-            onConfirm = {
-                openAlertDialog = false
-                openBottomSheet = false
+@Composable
+private fun initDeleteAlertDialog(
+    deleteAlertDialog: AlertDialogManager,
+    menu: MenuBottomSheetManager,
+    viewModel: MindPostViewModel,
+    uiState: MindPostUiState,
+    navController: NavController
+) {
+    deleteAlertDialog.init(
+        useDefaultCancelButton = true,
+        contentResId = R.string.mind_post_complete_alert_delete,
+        buttons = listOf(ButtonModel(
+            textResId = R.string.to_delete,
+            priority = ButtonPriority.WARN,
+            onClick = {
+                menu.close()
                 viewModel.deleteMind {
-                    when(uiState.viewType) {
+                    when (uiState.viewType) {
                         PostViewType.FIRST_POST -> {
                             navController.popBackStack(
                                 route = Route.Main.Home.name,
@@ -191,6 +186,7 @@ fun MindPostDetailScreen(
                                 inclusive = false
                             )
                         }
+
                         PostViewType.DETAIL -> {
                             navController.popBackStack(
                                 route = Route.Main.MindHistory.name,
@@ -201,8 +197,50 @@ fun MindPostDetailScreen(
                     }
                 }
             }
-        )
-    }
+        ))
+    )
+}
+
+@Composable
+private fun initMenu(
+    menu: MenuBottomSheetManager,
+    uiState: MindPostUiState,
+    navController: NavController,
+    viewModel: MindPostViewModel,
+    deleteAlertDialog: AlertDialogManager
+) {
+    menu.init(
+        buttons = listOf(
+            ButtonModel(
+                textResId = R.string.to_update,
+                priority = ButtonPriority.DEFAULT,
+                onClick = {
+                    when (uiState.viewType) {
+                        PostViewType.FIRST_POST -> {
+                            navController.popBackStack(
+                                Route.MindPost.SelectCard.name,
+                                saveState = true,
+                                inclusive = false
+                            )
+                        }
+
+                        PostViewType.DETAIL -> {
+                            uiState.openedPost?.let { post ->
+                                viewModel.initEditPost(post)
+                                navController.navigate("${Route.MindPost.SelectCard.name}?type=${PostViewType.DETAIL}")
+                            }
+                        }
+                    }
+                }
+            ),
+            ButtonModel(
+                textResId = R.string.to_delete,
+                priority = ButtonPriority.WARN,
+                onClick = { deleteAlertDialog.open() },
+            )
+        ),
+        useDefaultCancelButton = true
+    )
 }
 
 @Composable
@@ -232,7 +270,7 @@ private fun TitleView(
                 user = user,
                 showTextSuffix = false,
                 navController = navController,
-                relation = if(isMine) UserRelation.ME else UserRelation.FRIEND
+                relation = if (isMine) UserRelation.ME else UserRelation.FRIEND
             )
         }
 
@@ -359,34 +397,6 @@ private fun MindCardView(
 }
 
 @Composable
-private fun MenuButton(onClick: () -> Unit) {
-    IconButton(
-        modifier = Modifier.size(24.dp),
-        onClick = onClick
-    ) {
-        Icon(
-            painterResource(id = R.drawable.ic_meatball),
-            contentDescription = stringResource(R.string.menu)
-        )
-    }
-}
-
-@Composable
-private fun ShareButton(
-    onClick: () -> Unit
-) {
-    IconButton(
-        modifier = Modifier.size(24.dp),
-        onClick = onClick
-    ) {
-        Icon(
-            painterResource(id = R.drawable.ic_share),
-            contentDescription = stringResource(R.string.share)
-        )
-    }
-}
-
-@Composable
 fun DeleteMindAlertDialog(
     openAlertDialog: Boolean,
     onDismiss: () -> Unit,
@@ -395,7 +405,7 @@ fun DeleteMindAlertDialog(
     val scope = rememberCoroutineScope()
 
     if (openAlertDialog) {
-        AlertDialog(
+        DefaultAlertDialog(
             contentText = stringResource(R.string.mind_post_complete_alert_delete),
             cancelLabelText = stringResource(R.string.to_cancel),
             confirmLabelText = stringResource(R.string.to_delete),
@@ -403,57 +413,5 @@ fun DeleteMindAlertDialog(
             onClickCancelButton = { scope.launch { onDismiss.invoke() } },
             onDismissRequest = { scope.launch { onDismiss.invoke() } }
         )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MenuModalBottomSheet(
-    openBottomSheet: Boolean,
-    onDismiss: () -> Unit,
-    onUpdateClick: () -> Unit,
-    onDeleteClick: () -> Unit,
-    onCancelClick: () -> Unit
-) {
-    val scope = rememberCoroutineScope()
-
-    if (openBottomSheet) {
-        ModalBottomSheet( // todo: divider color check
-            onDismissRequest = onDismiss,
-            sheetState = rememberModalBottomSheetState(
-                skipPartiallyExpanded = true
-            ),
-            padding = PaddingValues(
-                bottom = 30.dp,
-                start = 20.dp,
-                end = 20.dp
-            ) // todo : divider height 다름 현상
-        ) {
-            TextFillButton(
-                text = stringResource(R.string.to_update),
-                onClick = { scope.launch { onUpdateClick() } }
-            )
-
-            Divider(
-                thickness = 0.5.dp,
-                color = RemindMaterialTheme.colorScheme.fg_muted
-            )
-
-            TextFillButton(
-                text = stringResource(R.string.to_delete),
-                onClick = { scope.launch { onDeleteClick() } }
-            )
-
-            Divider(
-                thickness = 0.5.dp,
-                color = RemindMaterialTheme.colorScheme.fg_muted
-            )
-
-            TextFillButton(
-                text = stringResource(R.string.to_cancel),
-                contentColor = RemindMaterialTheme.colorScheme.accent_default,
-                onClick = { scope.launch { onCancelClick() } }
-            )
-        }
     }
 }

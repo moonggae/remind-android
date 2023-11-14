@@ -30,4 +30,7 @@ interface FriendRemoteService {
 
     @POST("/friend/deny/{requestId}")
     suspend fun postDenyFriendRequest(@Path("requestId") requestId: Int)
+
+    @DELETE("/friend")
+    suspend fun deleteFriend()
 }

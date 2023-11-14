@@ -30,7 +30,7 @@ class MindHistoryViewModel @Inject constructor(
         initMindPostList()
     }
 
-    private fun initMindPostList() {
+    fun initMindPostList() {
         if(_uiState.value.isLastPage) return
         getMindPostList.initObserver(viewModelScope)
         viewModelScope.launch {

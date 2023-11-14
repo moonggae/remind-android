@@ -57,7 +57,7 @@
     <string name="mind_post_complete_label_posted_minds">기록된 감정</string>
     <string name="mind_post_complete_label_memo">감정메모</string>
     <string name="mind_post_complete_label_photo">사진</string>
-    <string name="mind_post_complete_alert_delete">방금 기록한 감정을 삭제 할까요?</string>
+    <string name="mind_post_complete_alert_delete">기록한 감정을 삭제 할까요?</string>
 
     <string name="mind_memo_edit_appbar_title">감정메모</string>
     <string name="mind_memo_edit_alert_delete">메모를 삭제 할까요?</string>
@@ -83,6 +83,9 @@
     <string name="friend_list_alert_deny_friend_request">초대를 거절 할까요?</string>
     <string name="friend_list_alert_cancel_friend_request">초대를 취소 할까요?</string>
 
+    <string name="user_profile_friend_delete_alert_title">정말 삭제 할까요?</string>
+    <string name="user_profile_friend_delete_alert_message">친구 삭제시 친구가 작성한\n모든 기록을 볼 수 없게 돼요.</string>
+
     <string name="invite_appbar_title">초대하기</string>
     <string name="invite_label_use_invite_code">상대방 코드로 초대하기</string>
     <string name="invite_label_my_invite_code">내 코드로 상대방 초대하기</string>
@@ -90,7 +93,10 @@
     <string name="invite_button_label_copy_invite_url">초대 링크 복사</string>
     <string name="invite_button_label_share_invite_url">초대 링크 공유</string>
 
-    <string name="user_profile_appbar_title">사용자 프로필</string>
+    <string name="user_profile_friend_appbar_title">사용자 정보</string>
+    <string name="user_profile_appbar_title">사용자 정보</string>
+
+    <string name="invite_profile_appbar_title">초대하기</string>
     <string name="invite_profile_invite_button">초대하기</string>
 
     <string name="notification_list_title">알림</string>

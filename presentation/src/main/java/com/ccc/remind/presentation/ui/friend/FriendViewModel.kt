@@ -3,6 +3,7 @@ package com.ccc.remind.presentation.ui.friend
 import androidx.lifecycle.viewModelScope
 import com.ccc.remind.domain.usecase.friend.AcceptFriendRequestUseCase
 import com.ccc.remind.domain.usecase.friend.CancelFriendRequestUseCase
+import com.ccc.remind.domain.usecase.friend.DeleteFriendUseCase
 import com.ccc.remind.domain.usecase.friend.DenyFriendRequestUseCase
 import com.ccc.remind.domain.usecase.friend.GetFriendRequestsUseCase
 import com.ccc.remind.domain.usecase.friend.GetReceivedFriendRequestsUseCase
@@ -18,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FriendViewModel @Inject constructor(
     private val getFriendRequests: GetFriendRequestsUseCase,
+    private val deleteFriend: DeleteFriendUseCase,
     private val getReceivedFriendRequests: GetReceivedFriendRequestsUseCase,
     private val acceptFriendRequest: AcceptFriendRequestUseCase,
     private val denyFriendRequest: DenyFriendRequestUseCase,
@@ -94,13 +96,7 @@ class FriendViewModel @Inject constructor(
         }
     }
 
-    fun removeOpenedProfile() {
-        viewModelScope.launch {
-            _uiState.update {
-                it.copy(
-                    openedUser = null
-                )
-            }
-        }
+    suspend fun submitDeleteFriend() {
+        deleteFriend()
     }
 }

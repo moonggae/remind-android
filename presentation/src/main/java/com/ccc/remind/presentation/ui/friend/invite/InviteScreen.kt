@@ -12,7 +12,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -63,11 +62,6 @@ fun InviteScreen(
     val sharedUiState by sharedViewModel.uiState.collectAsState()
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-
-    LaunchedEffect(uiState.openedUser) {
-        if(uiState.openedUser != null)
-            navController.navigate(Route.UserProfile.Invite.name)
-    }
 
     BasicScreen(
         viewModel = viewModel,
@@ -153,7 +147,11 @@ fun InviteScreen(
                 contentColor = RemindMaterialTheme.colorScheme.fg_default
             ) {
                 scope.launch {
-                    ClipboardUtil(context).copyUri("invite uri", Uri.parse("${Constants.BASE_URL}/${INVITE_URL_PATH}/${sharedUiState.currentUser?.inviteCode}"))
+                    ClipboardUtil(context)
+                        .copyUri(
+                            label = "invite uri",
+                            uri = Uri.parse("${Constants.BASE_URL}/${INVITE_URL_PATH}/${sharedUiState.currentUser?.inviteCode}")
+                        )
                 }
             }
             TextButton(

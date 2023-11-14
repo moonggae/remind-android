@@ -35,4 +35,7 @@ class FriendRepositoryImpl(
 
     override suspend fun denyFriendRequest(requestId: Int) =
         friendRemoteService.postDenyFriendRequest(requestId)
+
+    override suspend fun deleteFriend() =
+        friendRemoteService.deleteFriend()
 }

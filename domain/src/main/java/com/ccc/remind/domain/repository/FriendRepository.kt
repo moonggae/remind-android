@@ -19,4 +19,6 @@ interface FriendRepository {
     suspend fun acceptFriendRequest(requestId: Int)
 
     suspend fun denyFriendRequest(requestId: Int)
+
+    suspend fun deleteFriend()
 }
