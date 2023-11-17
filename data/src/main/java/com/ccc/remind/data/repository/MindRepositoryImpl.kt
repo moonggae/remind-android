@@ -110,6 +110,10 @@ class MindRepositoryImpl(
         emit(mindRemoteService.fetchMindPost(id).body()?.toDomain())
     }
 
+    override suspend fun clearCachedPosts() {
+        _postsFlow.emit(emptyList())
+    }
+
     override fun observeSocket(scope: CoroutineScope) {
         scope.launch {
             socketRepository.watchMindPost(scope).collect {

@@ -56,6 +56,12 @@ class SocketManager {
             URI.create("${host}:1234"),
             options
         )
+
+        socket.onAnyIncoming {
+            it.forEachIndexed { index, any ->
+                Log.d(TAG, "SocketManager - onAnyIncoming$index: ${it[index]}")
+            }
+        }
     }
 
     private fun socketConnect() {
@@ -67,7 +73,7 @@ class SocketManager {
         }
     }
 
-    fun <T> listen(event: String, classOfT: Class<T>, scope: CoroutineScope): SharedFlow<T> {
+    fun <T> listen(event: String, classOfT: Class<out T>, scope: CoroutineScope): SharedFlow<T> {
         val flow = eventsFlows.getOrPut(event) {
             val newFlow = MutableSharedFlow<Any>()
             val listener = Emitter.Listener { args ->
@@ -78,6 +84,10 @@ class SocketManager {
                                 gson.fromJson((args[0] as JSONObject).toString(), classOfT)
                             else if (args[0] is JSONArray)
                                 gson.fromJson((args[0] as JSONArray).toString(), classOfT)
+                            else if (classOfT == String::class.java && args[0] is String)
+                                args[0] as T
+                            else if (classOfT == Int::class.java && args[0] is Int)
+                                args[0] as T
                             else
                                 null
 

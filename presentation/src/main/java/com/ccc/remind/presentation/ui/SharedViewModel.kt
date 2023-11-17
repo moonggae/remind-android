@@ -33,7 +33,8 @@ class SharedViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             refreshUser()
-            refreshFriend()
+            getFriend.initObserver(viewModelScope)
+            observeFriend()
         }
     }
 
@@ -50,8 +51,8 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    suspend fun refreshFriend() {
-        getFriend().collect { friend ->
+    suspend fun observeFriend() {
+        getFriend.friend.collect { friend ->
             _uiState.update {
                 it.copy(
                     friend = friend

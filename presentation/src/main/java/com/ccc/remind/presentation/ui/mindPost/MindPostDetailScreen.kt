@@ -172,32 +172,35 @@ private fun initDeleteAlertDialog(
     deleteAlertDialog.init(
         useDefaultCancelButton = true,
         contentResId = R.string.mind_post_complete_alert_delete,
-        buttons = listOf(ButtonModel(
-            textResId = R.string.to_delete,
-            priority = ButtonPriority.WARN,
-            onClick = {
-                menu.close()
-                viewModel.deleteMind {
-                    when (uiState.viewType) {
-                        PostViewType.FIRST_POST -> {
-                            navController.popBackStack(
-                                route = Route.Main.Home.name,
-                                saveState = false,
-                                inclusive = false
-                            )
-                        }
+        buttons = { manager ->
+            listOf(ButtonModel(
+                textResId = R.string.to_delete,
+                priority = ButtonPriority.WARN,
+                onClick = {
+                    manager.close()
+                    menu.close()
+                    viewModel.deleteMind {
+                        when (uiState.viewType) {
+                            PostViewType.FIRST_POST -> {
+                                navController.popBackStack(
+                                    route = Route.Main.Home.name,
+                                    saveState = false,
+                                    inclusive = false
+                                )
+                            }
 
-                        PostViewType.DETAIL -> {
-                            navController.popBackStack(
-                                route = Route.Main.MindHistory.name,
-                                saveState = false,
-                                inclusive = false
-                            )
+                            PostViewType.DETAIL -> {
+                                navController.popBackStack(
+                                    route = Route.Main.MindHistory.name,
+                                    saveState = false,
+                                    inclusive = false
+                                )
+                            }
                         }
                     }
                 }
-            }
-        ))
+            ))
+        }
     )
 }
 

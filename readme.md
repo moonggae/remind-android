@@ -13,11 +13,6 @@
 - Dark Mode 고민중
 - Notification 설정
 
-### 친구관리
-- 친구 추가시 mind history 페이지 업데이트
-- 친구 요청, 요청받음, 삭제 상태에 따른 에러 핸들링
-  - 친구 신청 취소시 상대방 페이지에서 수락, 거부 이벤트
-  - 친구 요청 수락, 거부시 상대방 페이지에서 취소 이벤트
 
 ### 유저 정보 페이지
 - 프로필 사진 클릭시 Image Dialog
@@ -45,3 +40,5 @@
   - user profile 페이지로 라우딩 할 때 Id 넘겨줘서 user profile viewmodel 에서 데이터 처리하기
   - 유저 관계에 따라 프로필 페이지 분리
   - Me, Friend, Invite 프로필 페이지 이동
+- 친구 등록, 삭제 socket 이벤트
+- 친구 추가, 삭제시 mind history 페이지 업데이트

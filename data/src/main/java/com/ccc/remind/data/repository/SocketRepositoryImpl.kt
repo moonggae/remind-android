@@ -1,12 +1,15 @@
 package com.ccc.remind.data.repository
 
+import android.util.Log
 import com.ccc.remind.data.mapper.toDomain
 import com.ccc.remind.data.source.remote.model.mind.dto.MindPostResponseDto
+import com.ccc.remind.data.source.remote.model.user.UserVO
 import com.ccc.remind.data.source.socket.SocketManager
 import com.ccc.remind.data.source.socket.model.AppendMindCommentDto
 import com.ccc.remind.data.source.socket.model.DeleteMindPostDto
 import com.ccc.remind.domain.entity.mind.MindComment
 import com.ccc.remind.domain.entity.mind.MindPost
+import com.ccc.remind.domain.entity.user.User
 import com.ccc.remind.domain.repository.SocketRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -16,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class SocketRepositoryImpl(
     private val socketManager: SocketManager
-): SocketRepository {
+) : SocketRepository {
     companion object {
         private const val TAG = "SocketRepositoryImpl"
     }
@@ -25,12 +28,12 @@ class SocketRepositoryImpl(
         val mutableSharedFlow = MutableSharedFlow<MindComment>()
         val dataFlow: SharedFlow<AppendMindCommentDto> = socketManager.listen(
             event = "mind-memo-comment",
-            classOfT =  AppendMindCommentDto::class.java, scope
+            classOfT = AppendMindCommentDto::class.java, scope
         )
 
         scope.launch {
             dataFlow.collect { dto ->
-                if(dto.memo.id == memoId) {
+                if (dto.memo.id == memoId) {
                     mutableSharedFlow.emit(dto.toDomain())
                 }
             }
@@ -72,4 +75,29 @@ class SocketRepositoryImpl(
 
         return mutableSharedFlow.asSharedFlow()
     }
+
+    override fun watchAcceptFriend(scope: CoroutineScope): SharedFlow<User> {
+        val mutableSharedFlow = MutableSharedFlow<User>()
+        val dataFlow = socketManager.listen<UserVO>(
+            event = "friend-accept",
+            classOfT = UserVO::class.java,
+            scope = scope
+        )
+
+        scope.launch {
+            dataFlow.collect {
+                Log.d("TAG", "SocketRepositoryImpl - watchFriend - it: ${it}")
+                mutableSharedFlow.emit(it.toDomain())
+            }
+        }
+
+        return mutableSharedFlow
+    }
+
+    override fun watchDeleteFriend(scope: CoroutineScope): SharedFlow<String> =
+        socketManager.listen<String>(
+            event = "friend-delete",
+            classOfT = String::class.java,
+            scope = scope
+        )
 }

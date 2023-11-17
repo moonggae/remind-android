@@ -15,6 +15,10 @@ class GetMindPostListUseCase @Inject constructor(
 
     fun initObserver(scope: CoroutineScope) = mindRepository.observeSocket(scope)
 
+    suspend fun clearCache() {
+        mindRepository.clearCachedPosts()
+    }
+
     suspend fun get(): SharedFlow<List<MindPost>> {
         val postList = mindRepository.getPostList(currentPage)
         postList.collect {

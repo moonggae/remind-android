@@ -2,6 +2,7 @@ package com.ccc.remind.presentation.ui.history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ccc.remind.domain.usecase.friend.GetFriendUseCase
 import com.ccc.remind.domain.usecase.post.GetMindPostListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MindHistoryViewModel @Inject constructor(
-    private val getMindPostList: GetMindPostListUseCase
+    private val getMindPostList: GetMindPostListUseCase,
+    private val getFriend: GetFriendUseCase
 ): ViewModel() {
     private val _uiState = MutableStateFlow(MindHistoryUiState())
     val uiState: StateFlow<MindHistoryUiState> get() = _uiState
@@ -24,17 +26,16 @@ class MindHistoryViewModel @Inject constructor(
 
     private val mutex = Mutex()
 
-
-
     init {
+        getMindPostList.initObserver(viewModelScope)
         initMindPostList()
+        observeFriendState()
     }
 
-    fun initMindPostList() {
-        if(_uiState.value.isLastPage) return
-        getMindPostList.initObserver(viewModelScope)
+    private fun initMindPostList() {
         viewModelScope.launch {
             isLoadingData.update { true }
+            getMindPostList.clearCache()
             getMindPostList.get().collectLatest { newPosts ->
                 _uiState.update {
                     it.copy(
@@ -67,4 +68,11 @@ class MindHistoryViewModel @Inject constructor(
         }
     }
 
+    private fun observeFriendState() {
+        viewModelScope.launch {
+            getFriend.friend.collect {
+                initMindPostList()
+            }
+        }
+    }
 }

@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.ccc.remind.R
-import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.button.MenuButton
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.dialog.AlertDialogManager
@@ -19,7 +18,6 @@ import com.ccc.remind.presentation.ui.component.dialog.MenuBottomSheetManager
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.model.ButtonModel
 import com.ccc.remind.presentation.ui.component.model.ButtonPriority
-import com.ccc.remind.presentation.ui.history.MindHistoryViewModel
 import com.ccc.remind.presentation.ui.user.userProfile.UserProfileView
 import com.ccc.remind.presentation.ui.user.userProfile.UserProfileViewModel
 import kotlinx.coroutines.launch
@@ -29,8 +27,6 @@ fun UserProfileFriendScreen(
     navController: NavController,
     viewModel: UserProfileViewModel,
     friendViewModel: FriendViewModel,
-    sharedViewModel: SharedViewModel,
-    mindHistoryViewModel: MindHistoryViewModel,
     userId: String?
 ) {
     val scope = rememberCoroutineScope()
@@ -55,22 +51,22 @@ fun UserProfileFriendScreen(
         useDefaultCancelButton = true,
         titleResId = R.string.user_profile_friend_delete_alert_title,
         contentResId = R.string.user_profile_friend_delete_alert_message,
-        buttons = listOf(
-            ButtonModel(
-                textResId = R.string.to_delete,
-                priority = ButtonPriority.WARN,
-                onClick = {
-                    scope.launch {
-                        friendViewModel.submitDeleteFriend()
-                        sharedViewModel.refreshFriend()
-                        mindHistoryViewModel.initMindPostList()
-                        deleteAlertDialog.close()
-                        menu.close()
-                        navController.popBackStack()
-                    }.runCatching {  }
-                }
+        buttons = { manager ->
+            listOf(
+                ButtonModel(
+                    textResId = R.string.to_delete,
+                    priority = ButtonPriority.WARN,
+                    onClick = {
+                        scope.launch {
+                            friendViewModel.submitDeleteFriend()
+                            manager.close()
+                            menu.close()
+                            navController.popBackStack()
+                        }
+                    }
+                )
             )
-        )
+        }
     )
 
     BasicScreen(

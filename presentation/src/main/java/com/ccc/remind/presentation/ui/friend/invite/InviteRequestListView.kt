@@ -95,7 +95,7 @@ fun InviteRequestListView(
                         onClickAccept = {
                             scope.launch {
                                 viewModel.submitAcceptFriendRequest(request.id)
-                                sharedViewModel.refreshFriend()
+                                sharedViewModel.observeFriend()
                                 navController.popBackStack()
                             }
                         },

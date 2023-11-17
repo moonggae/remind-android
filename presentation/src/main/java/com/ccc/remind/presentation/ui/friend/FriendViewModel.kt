@@ -77,6 +77,12 @@ class FriendViewModel @Inject constructor(
             runBlocking {
                 acceptFriendRequest(requestId)
             }
+
+            _uiState.update { state ->
+                state.copy(
+                    receivedFriendRequest = state.receivedFriendRequest.filter { it.id != requestId }
+                )
+            }
         }
     }
 

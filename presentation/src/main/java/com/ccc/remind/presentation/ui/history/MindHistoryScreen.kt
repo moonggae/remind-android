@@ -50,7 +50,6 @@ import com.ccc.remind.presentation.util.toFormatString
 import kotlinx.coroutines.launch
 import java.time.ZonedDateTime
 
-// TODO: update post list when post is created
 
 @Composable
 @Preview(showBackground = true)
@@ -65,7 +64,6 @@ fun MindHistoryScreen(
 ) {
     val scope = rememberCoroutineScope()
     val uiState by viewModel.uiState.collectAsState()
-    val mindList = uiState.postMinds
     val scrollState = rememberLazyListState()
 
     LaunchedEffect(scrollState.firstVisibleItemIndex) {
@@ -92,12 +90,12 @@ fun MindHistoryScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
         ) {
             itemsIndexed(
-                items = mindList,
+                items = uiState.postMinds,
 //                key = { _, item -> item.id }  // todo: conflict when load data
             ) { index, item ->
                 if (
                     index == 0 ||
-                    mindList[index - 1].createdAt.dayOfMonth != item.createdAt.dayOfMonth
+                    uiState.postMinds[index - 1].createdAt.dayOfMonth != item.createdAt.dayOfMonth
                 ) {
                     PostDateLabel(item.createdAt)
                     Spacer(modifier = Modifier.height(8.dp))

@@ -39,13 +39,13 @@ class AlertDialogManager(
     }
 
     fun init(
-        buttons: List<ButtonModel>,
+        buttons: (manager: AlertDialogManager) -> List<ButtonModel>,
         useDefaultCancelButton: Boolean = true,
         titleResId: Int? = null,
         contentResId: Int,
         onDismiss: (() -> Unit)? = null
     ): AlertDialogManager = this.apply {
-        this.buttons = buttons
+        this.buttons = buttons(this@AlertDialogManager)
         this.useDefaultCancelButton = useDefaultCancelButton
         this.titleResId = titleResId
         this.contentResId = contentResId

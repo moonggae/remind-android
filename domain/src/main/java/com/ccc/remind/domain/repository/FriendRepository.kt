@@ -3,10 +3,12 @@ package com.ccc.remind.domain.repository
 import com.ccc.remind.domain.entity.friend.FriendRequest
 import com.ccc.remind.domain.entity.friend.ReceivedFriendRequest
 import com.ccc.remind.domain.entity.user.User
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 interface FriendRepository {
-    fun getFriend(): Flow<User?>
+    val friendFlow: StateFlow<User?>
 
     suspend fun postFriendRequest(inviteCode: String)
 
@@ -21,4 +23,6 @@ interface FriendRepository {
     suspend fun denyFriendRequest(requestId: Int)
 
     suspend fun deleteFriend()
+
+    suspend fun observeSocket(scope: CoroutineScope)
 }

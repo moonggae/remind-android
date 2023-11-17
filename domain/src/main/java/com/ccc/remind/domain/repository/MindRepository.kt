@@ -41,5 +41,7 @@ interface MindRepository {
 
     fun getOne(id: Int): Flow<MindPost?>
 
+    suspend fun clearCachedPosts()
+
     fun observeSocket(scope: CoroutineScope)
 }

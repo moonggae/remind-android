@@ -78,8 +78,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideFriendRepository(friendRemoteService: FriendRemoteService): FriendRepository {
-        return FriendRepositoryImpl(friendRemoteService)
+    fun provideFriendRepository(friendRemoteService: FriendRemoteService, socketRepository: SocketRepository): FriendRepository {
+        return FriendRepositoryImpl(friendRemoteService, socketRepository)
     }
 
     @Provides
