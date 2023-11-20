@@ -1,6 +1,7 @@
 package com.ccc.remind.presentation.ui.user.userProfile
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -10,6 +11,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,22 +28,27 @@ import coil.compose.AsyncImage
 import coil.transform.CircleCropTransformation
 import com.ccc.remind.R
 import com.ccc.remind.domain.entity.user.User
+import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageDialog
 import com.ccc.remind.presentation.ui.component.text.SecondaryText
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.buildCoilRequest
+import kotlinx.coroutines.launch
 
 @Composable
 fun UserProfileView(
     modifier: Modifier = Modifier,
     user: User?
 ) {
+    val scope = rememberCoroutineScope()
+    var openImageDialog by remember { mutableStateOf(false) }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
         if(user == null) {
             SecondaryText(
-                text = "사용자 정보를 불러올 수 없어요.",
+                text = stringResource(R.string.user_profile_view_empty_user_message),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(top = 120.dp)
@@ -66,6 +77,9 @@ fun UserProfileView(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(200.dp)
+                        .clickable {
+                            scope.launch { openImageDialog = true }
+                        }
                 )
             }
 
@@ -79,5 +93,14 @@ fun UserProfileView(
 
             Spacer(modifier = Modifier.weight(1f))
         }
+    }
+
+    if(openImageDialog) {
+        ImageDialog(
+            images = if(user?.profileImage != null) listOf(user.profileImage!!) else listOf(),
+            initialIndex = 0,
+            contentScale = ContentScale.Fit,
+            onDismissRequest = { scope.launch { openImageDialog = false } }
+        )
     }
 }

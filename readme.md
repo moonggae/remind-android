@@ -14,9 +14,6 @@
 - Notification 설정
 
 
-### 유저 정보 페이지
-- 프로필 사진 클릭시 Image Dialog
-
 ### Test
 - to do learn
 
@@ -42,3 +39,6 @@
   - Me, Friend, Invite 프로필 페이지 이동
 - 친구 등록, 삭제 socket 이벤트
 - 친구 추가, 삭제시 mind history 페이지 업데이트
+
+### 유저 정보 페이지
+- 프로필 사진 클릭시 Image Dialog

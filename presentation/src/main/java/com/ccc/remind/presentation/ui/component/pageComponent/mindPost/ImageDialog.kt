@@ -29,6 +29,7 @@ import com.ccc.remind.presentation.util.buildCoilRequest
 fun ImageDialog(
     images: List<ImageFile>,
     initialIndex: Int,
+    contentScale: ContentScale = ContentScale.Crop,
     onDismissRequest: () -> Unit
 ) {
     Dialog(
@@ -55,7 +56,7 @@ fun ImageDialog(
                         url = images[index].url
                     ),
                     contentDescription = "",
-                    contentScale = ContentScale.Crop
+                    contentScale = contentScale
                 )
             }
 
