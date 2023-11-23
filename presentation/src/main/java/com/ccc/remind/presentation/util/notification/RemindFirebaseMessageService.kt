@@ -1,19 +1,17 @@
 package com.ccc.remind.presentation.util.notification
 
-import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.ccc.remind.R
 import com.ccc.remind.domain.usecase.notification.PostNotificationUseCase
+import com.ccc.remind.domain.usecase.setting.GetNotificationSettingUseCase
 import com.ccc.remind.presentation.ui.main.MainActivity
 import com.ccc.remind.presentation.util.Constants.NOTIFICATION_INTENT_EXTRA_TARGET_ID
 import com.ccc.remind.presentation.util.Constants.NOTIFICATION_INTENT_EXTRA_TYPE
@@ -23,17 +21,21 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 import kotlin.random.Random
-
-/* TODO: Notification
-- 감정 묻기
-*/
 
 @AndroidEntryPoint
 class RemindFirebaseMessageService : FirebaseMessagingService() {
     @Inject
     lateinit var postNotificationsUseCase: PostNotificationUseCase
+    @Inject
+    lateinit var getNotificationSettingUseCase: GetNotificationSettingUseCase
+
+    private val atomicId = AtomicInteger(0)
+
+    private val notificationId: Int
+        get() = atomicId.incrementAndGet()
 
     override fun onNewToken(p0: String) {
         super.onNewToken(p0)
@@ -57,25 +59,26 @@ class RemindFirebaseMessageService : FirebaseMessagingService() {
             postNotificationsUseCase(title, text, type, targetId)
         }
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
+        CoroutineScope(Dispatchers.IO).launch {
+            getNotificationSettingUseCase().collect { isOn ->
+                if(checkNotificationPermission() && isOn) {
+                    NotificationManagerCompat.from(this@RemindFirebaseMessageService)
+                        .notify(notificationId, createNotification(title, text, type, targetId))
+                }
+            }
         }
-        NotificationManagerCompat.from(this)
-            .notify(1, createNotification(title, text, type, targetId))
+    }
+
+    private fun checkNotificationPermission(): Boolean {
+         val notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        return notificationManager.areNotificationsEnabled()
     }
 
 
     private fun createNotificationChannel() {
 
         // 만약 현재 버전이 Oreo( 8버전 )버전 보다 크다면 채널을 만듬
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
                 CHANNEL_NAME,
@@ -123,9 +126,9 @@ class RemindFirebaseMessageService : FirebaseMessagingService() {
     }
 
     companion object {
-        private const val CHANNEL_NAME = "친구 알림"
-        private const val CHANNEL_DESCRIPTION = "친구 이벤트 알림"
-        private const val CHANNEL_ID = "Friend Event Notification"
+        private const val CHANNEL_NAME = "Friend Event"
+        private const val CHANNEL_DESCRIPTION = "Friend Event Notification"
+        private const val CHANNEL_ID = "Friend Event"
     }
 
 }

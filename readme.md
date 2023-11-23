@@ -11,8 +11,8 @@
 - 개인정보 처리방침
 - 회원탈퇴
 - Dark Mode 고민중
-- Notification 설정
 
+### App Icon
 
 ### Test
 - to do learn
@@ -42,3 +42,6 @@
 
 ### 유저 정보 페이지
 - 프로필 사진 클릭시 Image Dialog
+
+### Notification Permission 관리
+- anodrid 13 이상, 12이하 별로 푸쉬알림 설정

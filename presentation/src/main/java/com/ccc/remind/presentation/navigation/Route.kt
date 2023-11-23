@@ -38,6 +38,8 @@ import com.ccc.remind.presentation.ui.mindPost.MindPostViewModel
 import com.ccc.remind.presentation.ui.mindPost.PostViewType
 import com.ccc.remind.presentation.ui.notification.NotificationListScreen
 import com.ccc.remind.presentation.ui.notification.NotificationViewModel
+import com.ccc.remind.presentation.ui.setting.NotificationSettingViewModel
+import com.ccc.remind.presentation.ui.setting.SettingScreen
 import com.ccc.remind.presentation.ui.user.UserProfileEditScreen
 import com.ccc.remind.presentation.ui.user.UserProfileEditViewModel
 import com.ccc.remind.presentation.ui.user.UserScreen
@@ -105,6 +107,8 @@ sealed class Route(val name: String, val parent: Route? = null) {
     }
 
     object NotificationList : Route("NotificationList")
+
+    object Setting: Route("Setting")
 
     val root: Route
         get() = parent?.root ?: this
@@ -437,6 +441,18 @@ fun NavGraphBuilder.userProfileGraph(
             navController = navController,
             viewModel = userProfileViewModel,
             userId = it.arguments?.getString("id")
+        )
+    }
+}
+
+fun NavGraphBuilder.settingGraph(
+    navController: NavController
+) {
+    composable(Route.Setting.name) {
+        val notificationSettingViewModel: NotificationSettingViewModel = hiltViewModel()
+        SettingScreen(
+            navController = navController,
+            notificationViewModel = notificationSettingViewModel
         )
     }
 }

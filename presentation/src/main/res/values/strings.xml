@@ -103,6 +103,10 @@
     <string name="notification_list_title">알림</string>
     <string name="notification_list_load_before_items_button">이전 알림 보기</string>
 
+    <string name="setting_appbar_title">설정</string>
+    <string name="setting_label_notification">푸쉬알림</string>
+    <string name="setting_notification_move_to_setting">어플리케이션 설정 페이지에서 알람 권한을 허용해야 해요.\n설정 페이지로 이동할까요?</string>
+
     <string name="timestamp_just_before">방금 전</string>
     <string name="timestamp_minutes_ago">분 전</string>
     <string name="timestamp_hours_ago">시간 전</string>
@@ -135,6 +139,7 @@
     <string name="to_deny">거부</string>
     <string name="to_detail_view">자세히 보기</string>
     <string name="to_logout">로그아웃</string>
+    <string name="to_move">이동</string>
 
     <string name="yyyy_mm_dd_e">yyyy년 MM월 dd일 E요일</string>
 
@@ -160,5 +165,5 @@
     <string name="bookmark_on">bookmark on</string>
     <string name="bookmark_off">bookmark off</string>
 
-    <string name="default_notification_channel_id">Channel Id</string>
+    <string name="default_notification_channel_id">Friend Event</string>
 </resources>

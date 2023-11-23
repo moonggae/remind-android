@@ -95,6 +95,8 @@ dependencies {
     implementation libs.circleindicator
     implementation libs.bundles.androidx.navigation
     implementation libs.sandwich
+    implementation libs.androidbrowserhelper
+    implementation libs.accompanist.permissions
 
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit

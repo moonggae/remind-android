@@ -88,7 +88,9 @@ fun UserScreen(
                 .background(RemindMaterialTheme.colorScheme.bg_subtle)
                 .padding(vertical = 8.dp)
         ) {
-            MenuButton(text = stringResource(R.string.user_menu_button_setting)) { /* TODO */ }
+            MenuButton(text = stringResource(R.string.user_menu_button_setting)) {
+                scope.launch { navController.navigate(Route.Setting.name) }
+            }
             MenuButton(text = stringResource(R.string.user_menu_button_friend)) {
                 scope.launch { navController.navigate(Route.Friend.name) }
             }

@@ -11,8 +11,13 @@ class SettingRepositoryImpl(
     private val settingLocalDataSource: SettingLocalDataSource
 ): SettingRepository {
     override fun getNotificationSetting(): Flow<Boolean> = flow {
-        val settingValue = settingLocalDataSource.fetchSetting(Constants.SETTING_NOTIFICATION_KEY)
-        emit(settingValue?.toBooleanStrictOrNull() == true)
+        val settingValue = settingLocalDataSource.fetchSetting(Constants.SETTING_NOTIFICATION_KEY)?.toBooleanStrictOrNull()
+        if(settingValue == null) {
+            updateNotificationSetting(true)
+            emit(true)
+        } else {
+            emit(settingValue)
+        }
     }
 
     override suspend fun updateNotificationSetting(enable: Boolean) {
