@@ -12,8 +12,6 @@
 - 회원탈퇴
 - Dark Mode 고민중
 
-### App Icon
-
 ### Test
 - to do learn
 
@@ -45,3 +43,5 @@
 
 ### Notification Permission 관리
 - anodrid 13 이상, 12이하 별로 푸쉬알림 설정
+
+### App Icon
