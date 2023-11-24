@@ -43,6 +43,7 @@ import com.ccc.remind.domain.entity.mind.MindPostCard
 import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.button.MenuButton
+import com.ccc.remind.presentation.ui.component.button.MoveIconButton
 import com.ccc.remind.presentation.ui.component.button.PrimaryButton
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.dialog.AlertDialogManager
@@ -52,9 +53,9 @@ import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.model.ButtonModel
 import com.ccc.remind.presentation.ui.component.model.ButtonPriority
+import com.ccc.remind.presentation.ui.component.pageComponent.home.MindMemoCard
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageDialog
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageListBar
-import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindMemoTextField
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ViewCardsDetailTextButton
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserProfileCard
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserRelation
@@ -127,7 +128,12 @@ fun MindPostDetailScreen(
             MindListView(navController, post.cards)
 
             post.memo?.let { memo ->
-                MemoView(memo)
+                MemoView(
+                    memo = memo,
+                    navController = navController,
+                    mindPostId = post.id,
+                    isMind = isMyPost
+                )
             }
 
             if (post.images.isNotEmpty()) {
@@ -326,22 +332,43 @@ private fun PhotoView(
 }
 
 @Composable
-private fun MemoView(memo: MindMemo) {
+private fun MemoView(
+    memo: MindMemo,
+    mindPostId: Int,
+    isMind: Boolean,
+    navController: NavController
+) {
     Spacer(modifier = Modifier.height(38.dp))
 
-    Text(
-        text = stringResource(R.string.mind_post_complete_label_memo),
-        style = RemindMaterialTheme.typography.bold_lg,
-        color = RemindMaterialTheme.colorScheme.fg_muted
-    )
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = stringResource(R.string.mind_post_complete_label_memo),
+            style = RemindMaterialTheme.typography.bold_lg,
+            color = RemindMaterialTheme.colorScheme.fg_muted
+        )
 
-    Spacer(modifier = Modifier.height(12.dp))
+        MoveIconButton {
+            navController.navigate(route = "${Route.MemoEdit.name}/${mindPostId}/${memo.id}/${!isMind}")
+        }
+    }
 
-    MindMemoTextField(
-        value = memo.text,
-        enabled = false,
+    Spacer(modifier = Modifier.height(4.dp))
+
+    MindMemoCard(
+        text =  memo.text,
+        commentSize = memo.comments.size,
         modifier = Modifier.defaultMinSize(minHeight = 34.dp)
     )
+
+//    MindMemoTextField(
+//        value = memo.text,
+//        enabled = false,
+//        modifier = Modifier.defaultMinSize(minHeight = 34.dp)
+//    )
 }
 
 @Composable

@@ -12,6 +12,9 @@
 - 회원탈퇴
 - Dark Mode 고민중
 
+### Memo
+- listen socket for Like
+
 ### Test
 - to do learn
 
@@ -48,3 +51,7 @@
 
 ### 개발 하지 않은 기능 제거
 - 공유 기능
+
+### Post Detail
+- display Memo Comment count
+- move to memo detail page
