@@ -44,7 +44,6 @@ import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.SharedViewModel
 import com.ccc.remind.presentation.ui.component.button.MenuButton
 import com.ccc.remind.presentation.ui.component.button.PrimaryButton
-import com.ccc.remind.presentation.ui.component.button.ShareButton
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.dialog.AlertDialogManager
 import com.ccc.remind.presentation.ui.component.dialog.DefaultAlertDialog
@@ -94,7 +93,7 @@ fun MindPostDetailScreen(
                 title = "",
                 navController = navController,
                 suffix = {
-                    ShareButton { /* TODO */ }
+//                    ShareButton {  }
                     if (isMyPost) {
                         MenuButton { menu.open() }
                     }

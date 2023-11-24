@@ -5,12 +5,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -142,17 +138,17 @@ fun CardDetailScreen(
 
             Row(
                 modifier = Modifier.padding(top = 20.dp, bottom = 36.dp),
-                horizontalArrangement = Arrangement.spacedBy(24.dp),
+//                horizontalArrangement = Arrangement.spacedBy(24.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_share),
-                        contentDescription = "share mind card button",
-                        modifier = Modifier.size(32.dp),
-                        tint = RemindMaterialTheme.colorScheme.fg_subtle
-                    )
-                }
+//                IconButton(onClick = {  }) {
+//                    Icon(
+//                        painter = painterResource(id = R.drawable.ic_share),
+//                        contentDescription = "share mind card button",
+//                        modifier = Modifier.size(32.dp),
+//                        tint = RemindMaterialTheme.colorScheme.fg_subtle
+//                    )
+//                }
 
                 PrimaryButton(text = stringResource(R.string.card_detail_button_post_this_mind_card)) {
                     scope.launch {
