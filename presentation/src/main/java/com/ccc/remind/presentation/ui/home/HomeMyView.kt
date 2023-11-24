@@ -30,7 +30,6 @@ import com.ccc.remind.presentation.ui.component.pageComponent.home.PostMindLabel
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ViewCardsDetailTextButton
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeMyView(
     modifier: Modifier = Modifier,

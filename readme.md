@@ -55,3 +55,6 @@
 ### Post Detail
 - display Memo Comment count
 - move to memo detail page
+
+### Home
+- padding bottom

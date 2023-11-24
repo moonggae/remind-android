@@ -60,7 +60,8 @@ fun HomeScreen(
                     )
                 }
             )
-        }
+        },
+        modifier = Modifier.padding(bottom = 12.dp)
     ) {
         HomeTitleText(
             page = pagerState.currentPage,

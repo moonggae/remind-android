@@ -36,8 +36,6 @@ import com.ccc.remind.presentation.ui.component.pageComponent.home.PostMindLabel
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ViewCardsDetailTextButton
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import kotlinx.coroutines.launch
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeOtherUserView(
     modifier: Modifier = Modifier,
