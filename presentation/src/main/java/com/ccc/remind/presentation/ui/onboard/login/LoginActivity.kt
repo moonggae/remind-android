@@ -61,7 +61,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
     @SuppressLint("ResourceAsColor")
     override fun initView() {
         binding.slideIndicator.apply {
-            createIndicators(4, 0)
+            createIndicators(1, 0)
             setViewPager(binding.slideViewpager)
         }
 
@@ -69,9 +69,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
             adapter = SlideViewPagerAdapter(
                 arrayListOf(
                     R.drawable.login_slide_0,
-                    R.drawable.login_slide_0,
-                    R.drawable.login_slide_0,
-                    R.drawable.login_slide_0
+//                    R.drawable.login_slide_0,
+//                    R.drawable.login_slide_0,
+//                    R.drawable.login_slide_0
                 )
             )
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
