@@ -75,11 +75,19 @@ fun UserProfileEditScreen(
             onValueChange = viewModel::updateDisplayName
         )
 
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Text(
+            text = stringResource(R.string.login_display_name_register_rule),
+            style = RemindMaterialTheme.typography.regular_sm,
+            color = RemindMaterialTheme.colorScheme.fg_muted
+        )
+
         Spacer(modifier = Modifier.weight(1f))
 
         PrimaryButton(
             text = stringResource(id = R.string.to_save),
-            enabled = uiState.isAnyEdited
+            enabled = uiState.isAnyEdited && uiState.isValidDisplayName
         ) {
             scope.launch {
                 viewModel.submitUpdateUserProfile()

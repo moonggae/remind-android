@@ -26,14 +26,16 @@ fun BackgroundedTextField(
     textStyle: TextStyle = RemindMaterialTheme.typography.regular_lg
         .copy(color = RemindMaterialTheme.colorScheme.fg_default),
     suffix: (@Composable () -> Unit)? = null,
-    padding: PaddingValues = PaddingValues(horizontal = 22.dp)
+    padding: PaddingValues = PaddingValues(horizontal = 22.dp),
+    singleLine: Boolean = true
 ) {
     BasicTextField(
         value = value,
         onValueChange = onValueChange,
         textStyle = textStyle,
         enabled = enabled,
-        readOnly = readOnly
+        readOnly = readOnly,
+        singleLine = singleLine
     ) {
         Box(
             modifier = Modifier

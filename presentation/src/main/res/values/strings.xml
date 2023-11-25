@@ -9,7 +9,7 @@
 
     <string name="login_display_name_register_title">뭐라고 불러드릴까요?</string>
     <string name="login_display_name_register_placeholder">ex) 여름</string>
-    <string name="login_display_name_register_rule">공백없이 한글,영문,숫자(2~10)자로 설정해주세요.</string>
+    <string name="login_display_name_register_rule">공백없이 한글,영문,숫자(2~10)자로 입력 해주세요.</string>
     <string name="login_display_name_show_greeting">님, 안녕하세요.</string>
 
     <string name="empty_screen_title">작업중인 페이지 입니다</string>
