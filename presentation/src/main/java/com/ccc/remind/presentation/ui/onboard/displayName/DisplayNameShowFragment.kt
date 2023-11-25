@@ -1,9 +1,11 @@
 package com.ccc.remind.presentation.ui.onboard.displayName
 
+import android.content.Intent
 import androidx.fragment.app.activityViewModels
 import com.ccc.remind.R
 import com.ccc.remind.databinding.FragmentDisplayNameShowBinding
 import com.ccc.remind.presentation.base.BaseFragment
+import com.ccc.remind.presentation.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -16,7 +18,12 @@ class DisplayNameShowFragment : BaseFragment<FragmentDisplayNameShowBinding, Dis
         binding.viewModel = viewModel
     }
 
-    override fun initListener() {}
+    override fun initListener() {
+        binding.completeButton.setOnClickListener {
+            startActivity(Intent(this.activity, MainActivity::class.java))
+            this.activity?.finish()
+        }
+    }
 
     override fun initObserver() {}
 

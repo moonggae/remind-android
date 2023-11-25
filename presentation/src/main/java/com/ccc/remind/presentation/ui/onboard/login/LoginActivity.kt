@@ -52,6 +52,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
                 } else {
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                 }
+
+                finish()
             }
         }
     }

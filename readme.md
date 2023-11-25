@@ -25,6 +25,9 @@
 ### Test
 - to do learn
 
+### History
+- 데이터 없을 때 문구 띄우기
+
 # In Progress
 
 
@@ -66,3 +69,6 @@
 
 ### Home
 - padding bottom
+
+### On Board
+- 뒤로가기 막기
