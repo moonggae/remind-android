@@ -7,7 +7,7 @@ data class ImageFile(
     val fileName: String
 ) {
     companion object {
-        private const val urlPrefix = "http://10.0.2.2/image"
+        private const val urlPrefix = "https://egchoi.dev/image"
         fun fromUrl(url: String): ImageFile? {
             val parsedId = url.replace("${urlPrefix}/", "")
             val uuid = try {

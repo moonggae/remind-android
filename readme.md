@@ -11,9 +11,17 @@
 - 개인정보 처리방침
 - 회원탈퇴
 - Dark Mode 고민중
+- 프로필 수정 페이지 닉네임 max length, max line
 
 ### Memo
 - listen socket for Like
+
+### Common
+- 페이지 이동 후 렌더링 모션 수정
+  - 페이지 이동 하고 렌더링 하니까 안좋아 보임
+
+### 친구 초대
+- URL 이벤트 처리
 
 ### Test
 - to do learn
