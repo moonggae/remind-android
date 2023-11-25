@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">remind</string>
+    <string name="app_name">리마인드</string>
 
     <string name="login_index_title">감정으로 기록하는 일상</string>
     <string name="login_index_subtitle">간단하게 소중한 감정을 공유해요</string>
