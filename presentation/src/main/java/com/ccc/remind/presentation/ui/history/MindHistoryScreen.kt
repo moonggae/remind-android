@@ -44,6 +44,7 @@ import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.icon.RoundedTextIcon
 import com.ccc.remind.presentation.ui.component.icon.UserProfileIcon
 import com.ccc.remind.presentation.ui.component.layout.AppBar
+import com.ccc.remind.presentation.ui.component.text.SecondaryText
 import com.ccc.remind.presentation.ui.mindPost.PostViewType
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.toFormatString
@@ -84,35 +85,44 @@ fun MindHistoryScreen(
             )
         }
     ) {
-        LazyColumn( // todo: performance
-            state = scrollState,
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
-        ) {
-            itemsIndexed(
-                items = uiState.postMinds,
+        if (uiState.postMinds.isEmpty()) {
+            SecondaryText(
+                text = stringResource(R.string.mind_history_list_empty_text),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 120.dp)
+            )
+        } else {
+            LazyColumn( // todo: performance
+                state = scrollState,
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
+            ) {
+                itemsIndexed(
+                    items = uiState.postMinds,
 //                key = { _, item -> item.id }  // todo: conflict when load data
-            ) { index, item ->
-                if (
-                    index == 0 ||
-                    uiState.postMinds[index - 1].createdAt.dayOfMonth != item.createdAt.dayOfMonth
-                ) {
-                    PostDateLabel(item.createdAt)
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-
-
-                MindPostListItem(
-                    data = item,
-                    modifier = Modifier.clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(bounded = true)
+                ) { index, item ->
+                    if (
+                        index == 0 ||
+                        uiState.postMinds[index - 1].createdAt.dayOfMonth != item.createdAt.dayOfMonth
                     ) {
-                        scope.launch {
-                            navController.navigate("${Route.MindPost.Detail.name}?id=${item.id}&type=${PostViewType.DETAIL}")
-                        }
+                        PostDateLabel(item.createdAt)
+                        Spacer(modifier = Modifier.height(8.dp))
                     }
-                )
+
+
+                    MindPostListItem(
+                        data = item,
+                        modifier = Modifier.clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = rememberRipple(bounded = true)
+                        ) {
+                            scope.launch {
+                                navController.navigate("${Route.MindPost.Detail.name}?id=${item.id}&type=${PostViewType.DETAIL}")
+                            }
+                        }
+                    )
+                }
             }
         }
     }

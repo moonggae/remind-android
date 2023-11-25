@@ -25,9 +25,6 @@
 ### Test
 - to do learn
 
-### History
-- 데이터 없을 때 문구 띄우기
-
 # In Progress
 
 
@@ -72,3 +69,6 @@
 
 ### On Board
 - 뒤로가기 막기
+
+### History
+- 데이터 없을 때 문구 띄우기

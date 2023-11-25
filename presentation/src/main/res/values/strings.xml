@@ -29,6 +29,7 @@
     <string name="home_my_view_button_post_mind">감정 기록하기</string>
 
     <string name="mind_history_appbar_title">감정 기록</string>
+    <string name="mind_history_list_empty_text">기록한 감정이 없어요.</string>
 
     <string name="card_list_appbar_title">감정카드</string>
 
