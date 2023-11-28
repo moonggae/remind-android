@@ -11,13 +11,16 @@
 - 개인정보 처리방침
 - 회원탈퇴
 - Dark Mode 고민중
+- open source list
 
 ### Memo
 - listen socket for Like
+- delete comment
 
 ### Common
 - 페이지 이동 후 렌더링 모션 수정
   - 페이지 이동 하고 렌더링 하니까 안좋아 보임
+- 인터넷 연결 상태 alert
 
 ### 친구 초대
 - URL 이벤트 처리

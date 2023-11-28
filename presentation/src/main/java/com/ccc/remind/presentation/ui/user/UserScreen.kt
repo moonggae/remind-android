@@ -94,9 +94,9 @@ fun UserScreen(
             MenuButton(text = stringResource(R.string.user_menu_button_friend)) {
                 scope.launch { navController.navigate(Route.Friend.name) }
             }
-            MenuButton(text = stringResource(R.string.user_menu_button_qna)) { /* TODO */ }
-            MenuButton(text = stringResource(R.string.user_menu_button_user_terms)) { /* TODO */ }
-            MenuButton(text = stringResource(R.string.user_menu_button_personal_information_terms)) { /* TODO */ }
+//            MenuButton(text = stringResource(R.string.user_menu_button_qna)) { /* TODO */ }
+//            MenuButton(text = stringResource(R.string.user_menu_button_user_terms)) { /* TODO */ }
+//            MenuButton(text = stringResource(R.string.user_menu_button_personal_information_terms)) { /* TODO */ }
         }
 
         Spacer(modifier = Modifier.weight(1f))
