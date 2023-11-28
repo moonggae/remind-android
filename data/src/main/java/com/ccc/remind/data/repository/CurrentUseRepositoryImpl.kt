@@ -38,8 +38,8 @@ class CurrentUserRepositoryImpl(
         userLocalDataSource.deleteLoggedInUser()
     }
 
-    override fun getUserProfile(): Flow<User> = flow {
-        val profile: User = userRemoteService.fetchUserProfile().body()!!.toDomain()
+    override fun getUserProfile(): Flow<User?> = flow {
+        val profile: User? = userRemoteService.fetchUserProfile().body()?.toDomain()
         emit(profile)
     }
 

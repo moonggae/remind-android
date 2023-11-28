@@ -14,12 +14,14 @@ class GetLoggedInUserUserCase @Inject constructor(private val currentUserReposit
         }
 
         loggedInUser?.let {
-            currentUserRepository.getUserProfile().collect { profile ->
-                loggedInUser = currentUserRepository.updateLocalUser(
-                    displayName = profile.displayName,
-                    profileImage = profile.profileImage,
-                    inviteCode = profile.inviteCode
-                )
+            currentUserRepository.getUserProfile().collect { nullableProfile ->
+                nullableProfile?.let { profile ->
+                    loggedInUser = currentUserRepository.updateLocalUser(
+                        displayName = profile.displayName,
+                        profileImage = profile.profileImage,
+                        inviteCode = profile.inviteCode
+                    )
+                }
             }
         }
 

@@ -27,14 +27,16 @@ class UserProfileEditViewModel @Inject constructor(
 
     fun initUserProfile() {
         viewModelScope.launch {
-            getMyProfile().collect { profile ->
-                _uiState.update {
-                    it.copy(
-                        displayName = profile.displayName ?: "",
-                        originDisplayName = profile.displayName ?: "",
-                        profileImage = profile.profileImage,
-                        originProfileImage = profile.profileImage
-                    )
+            getMyProfile().collect { nullableProfile ->
+                nullableProfile?.let { profile ->
+                    _uiState.update {
+                        it.copy(
+                            displayName = profile.displayName ?: "",
+                            originDisplayName = profile.displayName ?: "",
+                            profileImage = profile.profileImage,
+                            originProfileImage = profile.profileImage
+                        )
+                    }
                 }
             }
         }

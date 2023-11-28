@@ -28,12 +28,14 @@ class LoginUseCase @Inject constructor(
 
         currentUserRepository.replaceLoggedInUser(user)
 
-        currentUserRepository.getUserProfile().collect { profile ->
-            user = user.copy(
-                displayName = profile.displayName,
-                profileImage = profile.profileImage,
-                inviteCode = profile.inviteCode
-            )
+        currentUserRepository.getUserProfile().collect { nullableProfile ->
+            nullableProfile?.let { profile ->
+                user = user.copy(
+                    displayName = profile.displayName,
+                    profileImage = profile.profileImage,
+                    inviteCode = profile.inviteCode
+                )
+            }
         }
 
         currentUserRepository.replaceLoggedInUser(user)

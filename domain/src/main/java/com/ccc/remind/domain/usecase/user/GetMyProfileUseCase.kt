@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetMyProfileUseCase @Inject constructor(private val currentUserRepository: CurrentUserRepository){
-    operator fun invoke() : Flow<User> = currentUserRepository.getUserProfile()
+    operator fun invoke() : Flow<User?> = currentUserRepository.getUserProfile()
 }
