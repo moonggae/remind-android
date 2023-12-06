@@ -38,6 +38,10 @@ class CurrentUserRepositoryImpl(
         userLocalDataSource.deleteLoggedInUser()
     }
 
+    override suspend fun deleteAccount(logInType: LogInType) {
+        userRemoteService.deleteUser(logInType.name)
+    }
+
     override fun getUserProfile(): Flow<User?> = flow {
         val profile: User? = userRemoteService.fetchUserProfile().body()?.toDomain()
         emit(profile)

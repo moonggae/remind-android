@@ -9,7 +9,6 @@
 ### User 페이지 메뉴
 - 필요 기능에 따라 추가 및 삭제
 - 개인정보 처리방침
-- 회원탈퇴
 - Dark Mode 고민중
 - open source list
 
@@ -54,6 +53,7 @@
 ### 유저 정보 페이지
 - 프로필 사진 클릭시 Image Dialog
 - 프로필 수정시 닉네임 max length, max line 설정
+- 회원탈퇴
 
 ### Notification Permission 관리
 - anodrid 13 이상, 12이하 별로 푸쉬알림 설정

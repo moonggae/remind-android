@@ -14,6 +14,8 @@ interface CurrentUserRepository {
 
     suspend fun deleteLoggedInUser()
 
+    suspend fun deleteAccount(logInType: LogInType)
+
     fun getUserProfile(): Flow<User?>
 
     suspend fun updateUserDisplayName(displayName: String)

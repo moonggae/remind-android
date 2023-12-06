@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ccc.remind.domain.usecase.PostImagesUseCase
+import com.ccc.remind.domain.usecase.user.DeleteAccountUseCase
 import com.ccc.remind.domain.usecase.user.GetMyProfileUseCase
 import com.ccc.remind.domain.usecase.user.UpdateUserProfileUseCase
 import com.ccc.remind.presentation.MyApplication
@@ -19,7 +20,8 @@ import javax.inject.Inject
 class UserProfileEditViewModel @Inject constructor(
     private val getMyProfile: GetMyProfileUseCase,
     private val postImages: PostImagesUseCase,
-    private val updateUserProfile: UpdateUserProfileUseCase
+    private val updateUserProfile: UpdateUserProfileUseCase,
+    private val deleteAccount: DeleteAccountUseCase
 ): ViewModel() {
     private val _uiState = MutableStateFlow(UserProfileUiState())
     val uiState: StateFlow<UserProfileUiState>
@@ -73,6 +75,12 @@ class UserProfileEditViewModel @Inject constructor(
                     profileImage = _uiState.value.profileImage
                 )
             }
+        }
+    }
+
+    fun submitDeleteAccount() {
+        viewModelScope.launch {
+            deleteAccount()
         }
     }
 }
