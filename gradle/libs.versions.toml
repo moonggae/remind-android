@@ -33,6 +33,7 @@ okio-jvm = "3.3.0"
 socket-io = "2.1.0"
 accompanist-permissions = "0.30.1"
 play-services-oss-licenses = "17.0.0"
+calendar-compose = "2.3.0"
 
 [libraries]
 androidx-core-ktx                     = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
@@ -91,6 +92,7 @@ socket-io                             = { group = "io.socket", name = "socket.io
 androidbrowserhelper                  = { group = "com.google.androidbrowserhelper", name = "androidbrowserhelper", version = "2.5.0" }
 accompanist-permissions               = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist-permissions" }
 play-services-oss-licenses            = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "play-services-oss-licenses" }
+calendar-compose                      = { group = "com.kizitonwose.calendar", name = "compose", version.ref = "calendar-compose" }
 
 [plugins]
 

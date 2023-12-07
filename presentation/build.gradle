@@ -99,6 +99,7 @@ dependencies {
     implementation libs.androidbrowserhelper
     implementation libs.accompanist.permissions
     implementation libs.play.services.oss.licenses
+    implementation libs.calendar.compose
 
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit

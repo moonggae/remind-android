@@ -4,5 +4,6 @@ import com.ccc.remind.domain.entity.mind.MindPost
 
 data class MindHistoryUiState(
     val isLastPage: Boolean = false,
-    val postMinds: List<MindPost> = emptyList()
+    val postMinds: List<MindPost> = emptyList(),
+    val viewType: HistoryViewType = HistoryViewType.CALENDAR
 )

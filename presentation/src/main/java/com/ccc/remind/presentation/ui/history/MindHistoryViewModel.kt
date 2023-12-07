@@ -75,4 +75,14 @@ class MindHistoryViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateViewType(type: HistoryViewType) {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    viewType = type
+                )
+            }
+        }
+    }
 }
