@@ -32,7 +32,7 @@ okhttp3 = "4.11.0"
 okio-jvm = "3.3.0"
 socket-io = "2.1.0"
 accompanist-permissions = "0.30.1"
-
+play-services-oss-licenses = "17.0.0"
 
 [libraries]
 androidx-core-ktx                     = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
@@ -90,6 +90,7 @@ okio-jvm                              = { group = "com.squareup.okio", name = "o
 socket-io                             = { group = "io.socket", name = "socket.io-client", version.ref = "socket-io" }
 androidbrowserhelper                  = { group = "com.google.androidbrowserhelper", name = "androidbrowserhelper", version = "2.5.0" }
 accompanist-permissions               = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist-permissions" }
+play-services-oss-licenses            = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "play-services-oss-licenses" }
 
 [plugins]
 

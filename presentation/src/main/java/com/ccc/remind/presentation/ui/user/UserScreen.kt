@@ -1,5 +1,7 @@
 package com.ccc.remind.presentation.ui.user
 
+import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,6 +25,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,6 +41,7 @@ import com.ccc.remind.presentation.ui.component.pageComponent.user.MenuButton
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserProfileCard
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserRelation
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import kotlinx.coroutines.launch
 
 @Composable
@@ -45,6 +49,7 @@ fun UserScreen(
     navController: NavController,
     sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val sharedUiState by sharedViewModel.uiState.collectAsState()
 
@@ -94,7 +99,12 @@ fun UserScreen(
             MenuButton(text = stringResource(R.string.user_menu_button_friend)) {
                 scope.launch { navController.navigate(Route.Friend.name) }
             }
-//            MenuButton(text = stringResource(R.string.user_menu_button_qna)) { /* TODO */ }
+            val openLicenseString = stringResource(R.string.user_menu_button_open_source_licenses)
+            MenuButton(text = openLicenseString) {
+                val activity = context as Activity
+                OssLicensesMenuActivity.setActivityTitle(openLicenseString)
+                activity.startActivity(Intent(context, OssLicensesMenuActivity::class.java))
+            }
 //            MenuButton(text = stringResource(R.string.user_menu_button_user_terms)) { /* TODO */ }
 //            MenuButton(text = stringResource(R.string.user_menu_button_personal_information_terms)) { /* TODO */ }
         }

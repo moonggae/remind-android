@@ -69,6 +69,7 @@
     <string name="user_profile_management_button">프로필 관리</string>
     <string name="user_menu_button_setting">설정</string>
     <string name="user_menu_button_qna">건의 및 문의하기</string>
+    <string name="user_menu_button_open_source_licenses">오픈소스 라이선스</string>
     <string name="user_menu_button_user_terms">이용약관</string>
     <string name="user_menu_button_personal_information_terms">개인정보 처리방침</string>
     <string name="user_menu_button_friend">친구 관리</string>

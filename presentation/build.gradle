@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
     id 'de.mannodermaus.android-junit5'
+    id 'com.google.android.gms.oss-licenses-plugin'
 }
 
 def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -97,6 +98,7 @@ dependencies {
     implementation libs.sandwich
     implementation libs.androidbrowserhelper
     implementation libs.accompanist.permissions
+    implementation libs.play.services.oss.licenses
 
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit

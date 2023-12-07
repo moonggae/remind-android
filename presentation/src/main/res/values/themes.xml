@@ -7,9 +7,15 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/white</item>
         <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@mipmap/splash</item>
-
+        <item name="backgroundColor">@color/white</item>
         <item name="android:fontFamily">@font/pretendard</item>
     </style>
 
     <style name="Theme.Remind" parent="Base.Theme.Remind" />
+
+    <style name="OSSTheme" parent="Theme.Material3.Light">
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:fontFamily">@font/pretendard</item>
+    </style>
 </resources>
