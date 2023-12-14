@@ -46,7 +46,7 @@
 
             <intent-filter android:autoVerify="true">
                 <data android:scheme="https" />
-                <data android:host="egchoi.dev" />
+                <data android:host="${SERVER_HOST}" />
                 <data android:pathPrefix="/app/android" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -60,7 +60,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="http" />
-                <data android:host="egchoi.dev" />
+                <data android:host="${SERVER_HOST}" />
                 <data android:pathPrefix="/app/android" />
             </intent-filter>
         </activity>

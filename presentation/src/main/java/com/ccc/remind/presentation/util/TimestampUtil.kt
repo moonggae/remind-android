@@ -2,7 +2,6 @@ package com.ccc.remind.presentation.util
 
 import com.ccc.remind.R
 import com.ccc.remind.presentation.MyApplication
-import java.time.ZonedDateTime
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
@@ -28,6 +27,3 @@ fun getTimestamp(createDateTime: Long): String {
     return getString(R.string.timestamp_just_before)
 }
 
-fun ZonedDateTime.toTimestamp(): String {
-    return getTimestamp(this.toInstant().toEpochMilli())
-}

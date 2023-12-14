@@ -24,6 +24,7 @@ import coil.request.ImageRequest
 import com.ccc.remind.R
 import com.ccc.remind.domain.entity.mind.ImageFile
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
+import com.ccc.remind.presentation.util.extensions.domain.url
 
 @Composable
 fun UploadedPhotoCard(

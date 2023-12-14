@@ -8,7 +8,7 @@ import com.ccc.remind.domain.usecase.mind.bookmark.DeleteMindCardBookmarkUseCase
 import com.ccc.remind.domain.usecase.mind.bookmark.GetMindCardBookmarksUseCase
 import com.ccc.remind.domain.usecase.mind.bookmark.PostMindCardBookmarkUseCase
 import com.ccc.remind.presentation.ui.component.model.MindFilter
-import com.ccc.remind.presentation.util.toggle
+import com.ccc.remind.presentation.util.extensions.toggle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

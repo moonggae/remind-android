@@ -1,24 +1,9 @@
-package com.ccc.remind.presentation.util
+package com.ccc.remind.presentation.util.extensions
 
+import com.ccc.remind.presentation.util.getTimestamp
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-
-fun <E> List<E>.toggle(value: E): List<E> {
-    return if(contains(value)) {
-        minus(value)
-    } else {
-        plus(value)
-    }
-}
-
-fun <E> MutableList<E>.toggle(value: E): Boolean {
-    return if(contains(value)) {
-        add(value)
-    } else {
-        remove(value)
-    }
-}
 
 fun ZonedDateTime.toFormatString(
     pattern: String,
@@ -28,4 +13,8 @@ fun ZonedDateTime.toFormatString(
         .ofPattern(pattern)
         .withLocale(locale)
     return this.format(formatter)
+}
+
+fun ZonedDateTime.toTimestamp(): String {
+    return getTimestamp(this.toInstant().toEpochMilli())
 }

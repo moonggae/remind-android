@@ -15,7 +15,7 @@ import com.ccc.remind.domain.usecase.post.PostMindUseCase
 import com.ccc.remind.domain.usecase.post.UpdateMindUseCase
 import com.ccc.remind.presentation.MyApplication
 import com.ccc.remind.presentation.ui.component.model.MindFilter
-import com.ccc.remind.presentation.util.toggle
+import com.ccc.remind.presentation.util.extensions.toggle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

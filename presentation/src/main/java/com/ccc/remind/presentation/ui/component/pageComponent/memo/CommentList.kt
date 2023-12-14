@@ -16,7 +16,8 @@ import androidx.compose.ui.unit.dp
 import com.ccc.remind.R
 import com.ccc.remind.domain.entity.mind.MindComment
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
-import com.ccc.remind.presentation.util.toFormatString
+import com.ccc.remind.presentation.util.extensions.domain.url
+import com.ccc.remind.presentation.util.extensions.toFormatString
 import java.util.UUID
 
 @Composable

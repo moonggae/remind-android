@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,6 +34,7 @@ import com.ccc.remind.presentation.ui.component.pageComponent.home.PostMindCard
 import com.ccc.remind.presentation.ui.component.pageComponent.home.PostMindLabelBar
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ViewCardsDetailTextButton
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
+import com.ccc.remind.presentation.util.extensions.domain.url
 import kotlinx.coroutines.launch
 @Composable
 fun HomeOtherUserView(
@@ -65,7 +65,7 @@ fun HomeOtherUserView(
             }
         } else {
             PostMindCard(
-                mindCardUrl = postMind.cards.first().card.imageUrl ?: "",
+                mindCardUrl = postMind.cards.first().card.imageFile?.url ?: "",
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 

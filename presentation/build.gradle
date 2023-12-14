@@ -50,6 +50,9 @@ android {
 
             manifestPlaceholders["NATIVE_APP_KEY"] =
                     properties.getProperty("KAKAO_NATIVE_APP_KEY_NO_QUOTES")
+
+            manifestPlaceholders["SERVER_HOST"] =
+                    properties.getProperty("RELEASE_SERVER_HOST_NO_QUOTES")
         }
     }
 
@@ -59,10 +62,20 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField(
+                    "String",
+                    "SERVER_URL",
+                    properties.getProperty("RELEASE_SERVER_URL")
+            )
         }
 
         debug {
             signingConfig signingConfigs.release
+            buildConfigField(
+                    "String",
+                    "SERVER_URL",
+                    properties.getProperty("DEBUG_SERVER_URL")
+            )
         }
     }
     compileOptions {

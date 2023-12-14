@@ -55,7 +55,8 @@ import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.text.SecondaryText
 import com.ccc.remind.presentation.ui.mindPost.PostViewType
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
-import com.ccc.remind.presentation.util.toFormatString
+import com.ccc.remind.presentation.util.extensions.domain.url
+import com.ccc.remind.presentation.util.extensions.toFormatString
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
 import com.kizitonwose.calendar.core.CalendarDay

@@ -39,7 +39,7 @@ import com.ccc.remind.presentation.ui.component.pageComponent.memo.CommentInputB
 import com.ccc.remind.presentation.ui.component.pageComponent.memo.CommentList
 import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.MindMemoTextField
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
-import com.ccc.remind.presentation.util.toFormatString
+import com.ccc.remind.presentation.util.extensions.toFormatString
 import kotlinx.coroutines.launch
 import java.util.UUID
 

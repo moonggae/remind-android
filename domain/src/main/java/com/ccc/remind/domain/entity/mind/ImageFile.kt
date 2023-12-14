@@ -5,25 +5,4 @@ import java.util.UUID
 data class ImageFile(
     val id: UUID,
     val fileName: String
-) {
-    companion object {
-        private const val urlPrefix = "https://egchoi.dev/image"
-        fun fromUrl(url: String): ImageFile? {
-            val parsedId = url.replace("${urlPrefix}/", "")
-            val uuid = try {
-                UUID.fromString(parsedId)
-            } catch (_: IllegalArgumentException) {
-                null
-            } ?: return null
-
-            return ImageFile(
-                id = uuid,
-                fileName = ""
-            )
-        }
-    }
-
-
-    val url: String
-        get() = "$urlPrefix/$id"
-}
+)

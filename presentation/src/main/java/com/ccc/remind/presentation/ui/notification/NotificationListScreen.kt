@@ -34,7 +34,7 @@ import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.pageComponent.notification.NotificationListItem
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
-import com.ccc.remind.presentation.util.toTimestamp
+import com.ccc.remind.presentation.util.extensions.toTimestamp
 import kotlinx.coroutines.launch
 
 @Preview(showBackground = true)

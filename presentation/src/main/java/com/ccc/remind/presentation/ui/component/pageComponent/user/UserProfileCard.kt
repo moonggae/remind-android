@@ -16,6 +16,7 @@ import com.ccc.remind.domain.entity.user.User
 import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.component.icon.UserProfileIcon
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
+import com.ccc.remind.presentation.util.extensions.domain.url
 import kotlinx.coroutines.launch
 
 enum class UserRelation {

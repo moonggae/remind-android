@@ -22,6 +22,7 @@ import com.ccc.remind.R
 import com.ccc.remind.domain.entity.mind.MindCard
 import com.ccc.remind.domain.entity.mind.MindCardSelectType
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
+import com.ccc.remind.presentation.util.extensions.domain.url
 import kotlinx.coroutines.launch
 
 @Composable
@@ -49,7 +50,7 @@ fun MindCard(
                 ) { onClick(mindCard) }
         ) {
             MindCardImage(
-                url = mindCard.imageUrl ?: "",
+                url = mindCard.imageFile?.url ?: "",
                 selectType = selectType,
                 radius = 12.dp,
                 size = cardSize

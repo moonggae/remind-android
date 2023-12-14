@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.ccc.remind.R
 import com.ccc.remind.presentation.ui.component.icon.UserProfileIcon
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
-import com.ccc.remind.presentation.util.toFormatString
+import com.ccc.remind.presentation.util.extensions.toFormatString
 import java.time.ZonedDateTime
 
 @Composable

@@ -32,6 +32,7 @@ import com.ccc.remind.presentation.ui.component.pageComponent.mindPost.ImageDial
 import com.ccc.remind.presentation.ui.component.text.SecondaryText
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.buildCoilRequest
+import com.ccc.remind.presentation.util.extensions.domain.url
 import kotlinx.coroutines.launch
 
 @Composable

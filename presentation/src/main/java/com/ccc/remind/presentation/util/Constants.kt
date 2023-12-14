@@ -8,10 +8,7 @@ object Constants {
         if(BuildConfig.DEBUG) Route.Main.Home
         else Route.Main.Home
 
-    val BASE_URL =
-        if(BuildConfig.DEBUG) "http://10.0.2.2"
-        else "https://egchoi.dev"
-//    const val BASE_URL = "http://10.0.2.2"
+    val BASE_URL = BuildConfig.SERVER_URL
 
     const val INVITE_URL_PATH = "app/android"
 

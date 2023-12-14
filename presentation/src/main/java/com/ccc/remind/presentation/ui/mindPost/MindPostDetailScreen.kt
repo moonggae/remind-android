@@ -61,7 +61,8 @@ import com.ccc.remind.presentation.ui.component.pageComponent.user.UserProfileCa
 import com.ccc.remind.presentation.ui.component.pageComponent.user.UserRelation
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 import com.ccc.remind.presentation.util.buildCoilRequest
-import com.ccc.remind.presentation.util.toFormatString
+import com.ccc.remind.presentation.util.extensions.domain.url
+import com.ccc.remind.presentation.util.extensions.toFormatString
 import kotlinx.coroutines.launch
 
 // TODO 코드 정리
@@ -117,7 +118,7 @@ fun MindPostDetailScreen(
             Spacer(modifier = Modifier.height(27.dp))
 
             MindCardView(
-                url = post.cards.first().card.imageUrl ?: "",
+                url = post.cards.first().card.imageFile?.url ?: "",
                 modifier = Modifier
                     .width(153.dp)
                     .align(Alignment.CenterHorizontally)
