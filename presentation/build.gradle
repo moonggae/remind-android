@@ -12,6 +12,10 @@ def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
+def localPropertiesFile = rootProject.file("local.properties")
+def properties = new Properties()
+properties.load(new FileInputStream(localPropertiesFile))
+
 android {
     namespace 'com.ccc.remind'
     compileSdk 33
@@ -36,12 +40,24 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        defaultConfig {
+            buildConfigField(
+                    "String",
+                    "KAKAO_NATIVE_APP_KEY",
+                    properties.getProperty("KAKAO_NATIVE_APP_KEY")
+            )
+
+            manifestPlaceholders["NATIVE_APP_KEY"] =
+                    properties.getProperty("KAKAO_NATIVE_APP_KEY_NO_QUOTES")
+        }
     }
 
     buildTypes {
         release {
             signingConfig signingConfigs.release
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 

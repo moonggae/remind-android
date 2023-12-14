@@ -9,9 +9,11 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.ccc.remind.BuildConfig
 import com.ccc.remind.R
 import com.ccc.remind.databinding.ActivityLoginBinding
+import com.ccc.remind.presentation.MyApplication
 import com.ccc.remind.presentation.base.BaseActivity
 import com.ccc.remind.presentation.ui.main.MainActivity
 import com.ccc.remind.presentation.ui.onboard.displayName.DisplayNameActivity
+import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -26,11 +28,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
 
     override fun initVariable() {
         binding.viewModel = viewModel
+        KakaoSdk.init(MyApplication.applicationContext(), BuildConfig.KAKAO_NATIVE_APP_KEY)
     }
 
     override fun initListener() {
         binding.kakaoLoginButton.setOnClickListener {
-            viewModel.kakaoLogin()
+            viewModel.kakaoLogin(this)
         }
         if(BuildConfig.DEBUG) {
             binding.test1LoginButton.setOnClickListener {
@@ -83,6 +86,4 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
             })
         }
     }
-
-
 }

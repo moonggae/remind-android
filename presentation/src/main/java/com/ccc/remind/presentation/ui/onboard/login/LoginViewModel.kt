@@ -1,14 +1,13 @@
 package com.ccc.remind.presentation.ui.onboard.login
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ccc.remind.BuildConfig
 import com.ccc.remind.domain.entity.user.LogInType
 import com.ccc.remind.domain.usecase.user.LoginUseCase
-import com.ccc.remind.presentation.MyApplication
 import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
@@ -20,15 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
-
-    private val context = MyApplication.applicationContext()
-
     companion object {
         private const val TAG = "LoginViewModel"
-    }
-
-    init {
-        KakaoSdk.init(MyApplication.applicationContext(), "KAKAO_APP_KEY")
     }
 
     private val _displayName: MutableStateFlow<String?> = MutableStateFlow(null)
@@ -69,7 +61,7 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
         }
     }
 
-    fun kakaoLogin() {
+    fun kakaoLogin(context: Context) {
         // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
             UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
