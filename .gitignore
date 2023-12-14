@@ -14,3 +14,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+keystore.properties
+presentation/remind.keystore
+presentation/google-services.json
