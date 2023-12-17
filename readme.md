@@ -10,7 +10,6 @@
 - 필요 기능에 따라 추가 및 삭제
 - 개인정보 처리방침
 - Dark Mode 고민중
-- open source list
 
 ### Memo
 - listen socket for Like
@@ -49,15 +48,15 @@
 - 친구 등록, 삭제 socket 이벤트
 - 친구 추가, 삭제시 mind history 페이지 업데이트
 
-### 유저 정보 페이지
+### User 페이지
 - 프로필 사진 클릭시 Image Dialog
 - 프로필 수정시 닉네임 max length, max line 설정
 - 회원탈퇴
+- open source list
 
-### Notification Permission 관리
-- anodrid 13 이상, 12이하 별로 푸쉬알림 설정
-
-### App Icon
+### Notification
+- anodrid 13 이상, 12이하 별로 푸쉬알림 Permission 설정
+- App이 background 동작시 heads-up 알림
 
 ### 개발 하지 않은 기능 제거
 - 공유 기능
@@ -69,11 +68,14 @@
 ### Home
 - padding bottom
 
-### On Board
-- 뒤로가기 막기
-
 ### History
 - 데이터 없을 때 문구 띄우기
 
 ### Common
 - 처음 시작시 인터넷 연결 확인
+- App Icon
+- On Board 뒤로가기 막기
+
+### Structure
+- gitignore secure 파일 업데이트
+- local properties 사용
