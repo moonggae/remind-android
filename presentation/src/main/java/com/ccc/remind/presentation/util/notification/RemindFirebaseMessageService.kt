@@ -9,10 +9,13 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.Lifecycle
 import com.ccc.remind.R
 import com.ccc.remind.domain.usecase.notification.PostNotificationUseCase
 import com.ccc.remind.domain.usecase.setting.GetNotificationSettingUseCase
+import com.ccc.remind.presentation.MyApplication
 import com.ccc.remind.presentation.ui.main.MainActivity
+import com.ccc.remind.presentation.util.Constants
 import com.ccc.remind.presentation.util.Constants.NOTIFICATION_INTENT_EXTRA_TARGET_ID
 import com.ccc.remind.presentation.util.Constants.NOTIFICATION_INTENT_EXTRA_TYPE
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -41,6 +44,9 @@ class RemindFirebaseMessageService : FirebaseMessagingService() {
         super.onNewToken(p0)
     }
 
+    private val isAppForeground: Boolean
+        get() = MyApplication.lifecycleEvent == Lifecycle.Event.ON_RESUME
+
     // 데이터 메시지 !!
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
@@ -50,8 +56,13 @@ class RemindFirebaseMessageService : FirebaseMessagingService() {
         // 8.0 이상일 경우에만 채널이 생성됨( 코드상 )
         createNotificationChannel()
 
-        val title = message.notification?.title
-        val text = message.notification?.body
+        /* note
+        기존에 앱이 background 상태에서 알림을 수신하면 onMessageReceived를 실행하지 않고 알림을 발생시킴
+        message.notification -> message.data 로 변경 후
+        모든 notification이 onMessageReceived를 실행하여 알림을 발생시킴
+        * */
+        val title = message.data["title"]
+        val text = message.data["body"]
         val type: String? = message.data["type"]
         val targetId: String? = message.data["targetId"]
 
@@ -62,15 +73,17 @@ class RemindFirebaseMessageService : FirebaseMessagingService() {
         CoroutineScope(Dispatchers.IO).launch {
             getNotificationSettingUseCase().collect { isOn ->
                 if(checkNotificationPermission() && isOn) {
-                    NotificationManagerCompat.from(this@RemindFirebaseMessageService)
-                        .notify(notificationId, createNotification(title, text, type, targetId))
+                    NotificationManagerCompat.from(this@RemindFirebaseMessageService).apply {
+                        notify(notificationId, createNotification(title, text, type, targetId))
+                        notify(100, createSummaryNotification())
+                    }
                 }
             }
         }
     }
 
     private fun checkNotificationPermission(): Boolean {
-         val notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         return notificationManager.areNotificationsEnabled()
     }
 
@@ -82,7 +95,7 @@ class RemindFirebaseMessageService : FirebaseMessagingService() {
             val channel = NotificationChannel(
                 CHANNEL_ID,
                 CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
             )
             channel.description = CHANNEL_DESCRIPTION
 
@@ -92,12 +105,23 @@ class RemindFirebaseMessageService : FirebaseMessagingService() {
         }
     }
 
+    private fun createSummaryNotification() = NotificationCompat.Builder(this, CHANNEL_ID)
+        .setSmallIcon(R.drawable.ic_r_small)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        .setAutoCancel(true)
+        // 앱이 foreground 상태에서만 heads-up 알림 실행
+        .setSilent(this.isAppForeground)
+        .setGroup(Constants.NOTIFICATION_COMMON_GROUP_KEY)
+        .setGroupSummary(true)
+        .build()
+
     private fun createNotification(
         title: String?,
         text: String?,
         type: String?,
         targetId: String?
     ): Notification {
+//        Log.d("TAG", "RemindFirebaseMessageService - createNotification - MyApplication.lifecycleEvent: ${MyApplication.lifecycleEvent}")
         val requestCode = Random.nextInt()
 
         val intent = Intent(this, MainActivity::class.java).apply {
@@ -116,10 +140,14 @@ class RemindFirebaseMessageService : FirebaseMessagingService() {
         val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_r_small)
             .setContentTitle(title)
-            .setContentText(text)
+            .setContentText("[${MyApplication.lifecycleEvent}]${text}")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
+            .setSilent(this.isAppForeground)
+            .setGroup(Constants.NOTIFICATION_COMMON_GROUP_KEY)
+
+
         // 여기서 setAutoCancel(true)은 알림 클릭시에 알림이 실행되면서 알림이 자동으로 사라지게 하는 설정이다.( 이걸 안하면 알림을 클릭해도 사라지지 않고 남아있는다 )
 
         return notificationBuilder.build()

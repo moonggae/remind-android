@@ -81,7 +81,8 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         setIntent(intent)
-        lifecycleScope.launch {
+        lifecycleScope.launch {// todo : 앱 완전 종료 상태에서 실행 안됨
+//            Log.d("TAG", "MainActivity - onNewIntent - MyApplication.lifecycleEvent: ${MyApplication.lifecycleEvent}")
             moveToNotificationRoute(
                 navController = navController,
                 notificationType = intent?.getStringExtra(NOTIFICATION_INTENT_EXTRA_TYPE),
