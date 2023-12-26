@@ -6,5 +6,5 @@ import javax.inject.Inject
 class GetMindPostUseCase @Inject constructor(
     private val mindRepository: MindRepository
 ) {
-    operator fun invoke(id: Int) = mindRepository.getOne(id)
+    operator fun invoke(id: Int) = mindRepository.get(id)
 }

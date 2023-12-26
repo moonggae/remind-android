@@ -15,5 +15,5 @@ class UpdateMindUseCase @Inject constructor(private val mindRepository: MindRepo
         images: List<UUID>,
         memo: String?
     ) : Flow<MindPost>
-    = mindRepository.updateMinds(id, mindCards, images, memo)
+    = mindRepository.update(id, mindCards, images, memo)
 }

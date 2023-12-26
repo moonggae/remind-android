@@ -1,6 +1,5 @@
 package com.ccc.remind.data.repository
 
-import android.util.Log
 import com.ccc.remind.data.mapper.toDomain
 import com.ccc.remind.data.source.remote.MindRemoteService
 import com.ccc.remind.data.source.remote.model.mind.dto.MindPostCardRequest
@@ -27,20 +26,19 @@ class MindRepositoryImpl(
         private const val TAG = "MindRepositoryImpl"
     }
 
-
     private val _postsFlow = MutableSharedFlow<List<MindPost>>(replay = 1)
     override val postsFlow: SharedFlow<List<MindPost>> get() = _postsFlow
 
     override fun getMindCards(): Flow<List<MindCard>> = flow {
-        emit(mindRemoteService.fetchMindCards().body()?.map { it.toDomain() } ?: listOf() )
+        emit(mindRemoteService.fetchMindCards().body()?.map { it.toDomain() } ?: listOf())
     }
 
-    override fun postMinds(
+    override fun post(
         mindCards: Map<MindCard, MindCardSelectType>,
         images: List<UUID>,
         memo: String?
     ) = flow {
-        val cards =  mindCards.map {
+        val cards = mindCards.map {
             MindPostCardRequest(
                 id = it.key.id,
                 type = it.value.name
@@ -55,17 +53,17 @@ class MindRepositoryImpl(
 
         val postedMind = mindRemoteService.postMindPost(dto).body()!!.toDomain()
 
-        updatePostFlow(listOf(postedMind))
+        updateItemsInFlow(listOf(postedMind))
         emit(postedMind)
     }
 
-    override fun updateMinds(
+    override fun update(
         id: Int,
         mindCards: Map<MindCard, MindCardSelectType>,
         images: List<UUID>,
         memo: String?
     ): Flow<MindPost> = flow {
-        val cards =  mindCards.map {
+        val cards = mindCards.map {
             MindPostCardRequest(
                 id = it.key.id,
                 type = it.value.name
@@ -79,34 +77,34 @@ class MindRepositoryImpl(
         )
 
         val updatedMind = mindRemoteService.putMindPost(id, dto).body()!!.toDomain()
-        updatePostFlow(listOf(updatedMind))
+        updateItemsInFlow(listOf(updatedMind))
         emit(updatedMind)
     }
 
-    override suspend fun deleteMind(id: Int) = flow {
+    override suspend fun delete(id: Int) = flow {
         emit(mindRemoteService.deleteMindPost(id))
-        deletePostFlow(id)
+        deleteItemInFlow(id)
     }
 
-    override fun getLastPostedMind(): Flow<MindPost?> = flow {
+    override fun getLast(): Flow<MindPost?> = flow {
         emit(mindRemoteService.fetchLastPostMind().body()?.toDomain())
     }
 
-    override fun getFriendLastPostedMind(): Flow<MindPost?> = flow {
+    override fun getFriendLast(): Flow<MindPost?> = flow {
         emit(mindRemoteService.fetchFriendLastPostMind().body()?.toDomain())
     }
 
-    override suspend fun requestFriendMind() {
+    override suspend fun requestFriend() {
         mindRemoteService.postRequestFriendMind()
     }
 
-    override fun getPostList(page: Int): Flow<MindPostList> = flow {
+    override fun getList(page: Int): Flow<MindPostList> = flow {
         val postList = mindRemoteService.fetchMindPostPagination(page).body()!!.toDomain()
-        updatePostFlow(postList.data)
+        updateItemsInFlow(postList.data)
         emit(postList)
     }
 
-    override fun getOne(id: Int): Flow<MindPost?> = flow {
+    override fun get(id: Int): Flow<MindPost?> = flow {
         emit(mindRemoteService.fetchMindPost(id).body()?.toDomain())
     }
 
@@ -117,45 +115,41 @@ class MindRepositoryImpl(
     override fun observeSocket(scope: CoroutineScope) {
         scope.launch {
             socketRepository.watchMindPost(scope).collect {
-                Log.d(TAG, "observeSocket - it: ${it}")
-                updatePostFlow(listOf(it))
+                updateItemsInFlow(listOf(it))
             }
         }
 
         scope.launch {
             socketRepository.watchDeleteMindPost(scope).collect { deletePostId ->
-                deletePostFlow(deletePostId)
+                deleteItemInFlow(deletePostId)
             }
         }
     }
 
-    private suspend fun deletePostFlow(id: Int) {
+    private suspend fun deleteItemInFlow(id: Int) {
         val currentPosts = _postsFlow.replayCache.lastOrNull() ?: return
         val existsItemId = currentPosts.indexOfFirst { it.id == id }
-        if(existsItemId > -1) {
+        if (existsItemId > -1) {
             val updateList = currentPosts.toMutableList()
             updateList.removeAt(existsItemId)
             _postsFlow.emit(updateList)
         }
     }
 
-    private suspend fun updatePostFlow(newItems: List<MindPost>) {
-        val currentPosts = _postsFlow.replayCache.lastOrNull()
-        if(currentPosts == null) {
-            _postsFlow.emit(newItems.sortedByDescending { it.id })
-            return
-        }
+    private suspend fun updateItemsInFlow(newItems: List<MindPost>) {
+        val currentPosts = _postsFlow.replayCache.lastOrNull().orEmpty()
 
-        val updatedPosts = currentPosts.toMutableList()
-        newItems.forEach { newItem ->
-            val index = updatedPosts.indexOfFirst { it.id == newItem.id }
-            if (index != -1) {
-                updatedPosts[index] = newItem
-            } else {
-                updatedPosts.add(newItem)
+        val updatedPosts = currentPosts.toMutableList().apply {
+            newItems.forEach { newItem ->
+                val index = indexOfFirst { it.id == newItem.id }
+                if (index != -1) {
+                    set(index, newItem) // 기존 게시물 업데이트
+                } else {
+                    add(newItem) // 새 게시물 추가
+                }
             }
-        }
+        }.sortedByDescending { it.createdAt } // 날짜 기준 내림차순 정렬
 
-        _postsFlow.emit(updatedPosts.sortedByDescending { it.id })
+        _postsFlow.emit(updatedPosts)
     }
 }

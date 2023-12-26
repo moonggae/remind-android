@@ -6,6 +6,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharedFlow
 import javax.inject.Inject
 
+
+// todo: to refactor pagination
 class GetMindPostListUseCase @Inject constructor(
     private val mindRepository: MindRepository
 ) {
@@ -20,7 +22,7 @@ class GetMindPostListUseCase @Inject constructor(
     }
 
     suspend fun get(): SharedFlow<List<MindPost>> {
-        val postList = mindRepository.getPostList(currentPage)
+        val postList = mindRepository.getList(currentPage)
         postList.collect {
             currentPage = it.page
             lastPage = it.lastPage
@@ -32,8 +34,8 @@ class GetMindPostListUseCase @Inject constructor(
     // return value tells getting more data or not
     suspend fun next(): Boolean {
         if(lastPage == null) return false
-        if(currentPage >= lastPage!!) {
-            mindRepository.getPostList(++currentPage).collect {
+        if(currentPage <= lastPage!!) {
+            mindRepository.getList(++currentPage).collect {
                 currentPage = it.page
                 lastPage = it.lastPage
             }

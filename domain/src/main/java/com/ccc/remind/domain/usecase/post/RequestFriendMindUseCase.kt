@@ -6,5 +6,5 @@ import javax.inject.Inject
 class RequestFriendMindUseCase @Inject constructor(
     private val mindRepository: MindRepository
 ) {
-    suspend operator fun invoke() = mindRepository.requestFriendMind()
+    suspend operator fun invoke() = mindRepository.requestFriend()
 }

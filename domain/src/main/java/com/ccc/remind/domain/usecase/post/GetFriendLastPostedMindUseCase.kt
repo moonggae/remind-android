@@ -8,5 +8,5 @@ import javax.inject.Inject
 class GetFriendLastPostedMindUseCase @Inject constructor(
     private val mindRepository: MindRepository
 ) {
-    operator fun invoke(): Flow<MindPost?> = mindRepository.getFriendLastPostedMind()
+    operator fun invoke(): Flow<MindPost?> = mindRepository.getFriendLast()
 }

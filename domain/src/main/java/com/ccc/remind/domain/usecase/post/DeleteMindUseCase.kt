@@ -7,5 +7,5 @@ import javax.inject.Inject
 class DeleteMindUseCase @Inject constructor(
     private val mindRepository: MindRepository
 ) {
-    suspend operator fun invoke(id: Int): Flow<Unit> = mindRepository.deleteMind(id)
+    suspend operator fun invoke(id: Int): Flow<Unit> = mindRepository.delete(id)
 }

@@ -14,32 +14,32 @@ interface MindRepository {
 
     fun getMindCards(): Flow<List<MindCard>>
 
-    fun postMinds(
+    fun post(
         mindCards: Map<MindCard, MindCardSelectType>,
         images: List<UUID>,
         memo: String?
     ): Flow<MindPost>
 
-    fun updateMinds(
+    fun update(
         id: Int,
         mindCards: Map<MindCard, MindCardSelectType>,
         images: List<UUID>,
         memo: String?
     ): Flow<MindPost>
 
-    suspend fun deleteMind(
+    suspend fun delete(
         id: Int
     ): Flow<Unit>
 
-    fun getLastPostedMind(): Flow<MindPost?>
+    fun getLast(): Flow<MindPost?>
 
-    fun getFriendLastPostedMind(): Flow<MindPost?>
+    fun getFriendLast(): Flow<MindPost?>
 
-    suspend fun requestFriendMind()
+    suspend fun requestFriend()
 
-    fun getPostList(page: Int): Flow<MindPostList>
+    fun getList(page: Int): Flow<MindPostList>
 
-    fun getOne(id: Int): Flow<MindPost?>
+    fun get(id: Int): Flow<MindPost?>
 
     suspend fun clearCachedPosts()
 

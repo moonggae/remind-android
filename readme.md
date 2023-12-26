@@ -15,6 +15,10 @@
 - listen socket for Like
 - delete comment
 
+### History
+- to refactor pagination
+- to save view type
+
 ### Common
 - 페이지 이동 후 렌더링 모션 수정
   - 페이지 이동 하고 렌더링 하니까 안좋아 보임
@@ -70,6 +74,7 @@
 
 ### History
 - 데이터 없을 때 문구 띄우기
+- Calendar View
 
 ### Common
 - 처음 시작시 인터넷 연결 확인
