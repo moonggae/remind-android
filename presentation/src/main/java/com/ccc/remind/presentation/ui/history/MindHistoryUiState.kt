@@ -1,6 +1,7 @@
 package com.ccc.remind.presentation.ui.history
 
 import com.ccc.remind.domain.entity.mind.MindPost
+import com.ccc.remind.domain.entity.setting.HistoryViewType
 import com.kizitonwose.calendar.core.CalendarDay
 
 data class MindHistoryUiState(

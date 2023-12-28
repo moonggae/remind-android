@@ -12,7 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ccc.remind.R
-import com.ccc.remind.presentation.ui.history.HistoryViewType
+import com.ccc.remind.domain.entity.setting.HistoryViewType
 import com.ccc.remind.presentation.ui.theme.RemindMaterialTheme
 
 @Composable

@@ -2,8 +2,11 @@ package com.ccc.remind.presentation.ui.history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ccc.remind.domain.entity.setting.HistoryViewType
 import com.ccc.remind.domain.usecase.friend.GetFriendUseCase
 import com.ccc.remind.domain.usecase.post.GetMindPostListUseCase
+import com.ccc.remind.domain.usecase.setting.GetHistoryViewTypeUseCase
+import com.ccc.remind.domain.usecase.setting.UpdateHistoryViewTypeUseCase
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.CalendarMonth
 import com.kizitonwose.calendar.core.yearMonth
@@ -20,7 +23,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MindHistoryViewModel @Inject constructor(
     private val getMindPostList: GetMindPostListUseCase,
-    private val getFriend: GetFriendUseCase
+    private val getFriend: GetFriendUseCase,
+    private val getViewType: GetHistoryViewTypeUseCase,
+    private val updateViewType: UpdateHistoryViewTypeUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(MindHistoryUiState())
     val uiState: StateFlow<MindHistoryUiState> get() = _uiState
@@ -33,6 +38,7 @@ class MindHistoryViewModel @Inject constructor(
         getMindPostList.initObserver(viewModelScope)
         initMindPostList()
         observeFriendState()
+        initViewType()
     }
 
     private fun initMindPostList() {
@@ -46,6 +52,18 @@ class MindHistoryViewModel @Inject constructor(
                     )
                 }
                 isLoadingData.update { false }
+            }
+        }
+    }
+
+    private fun initViewType() {
+        viewModelScope.launch {
+            getViewType().collect { viewType ->
+                _uiState.update {
+                    it.copy(
+                        viewType = viewType
+                    )
+                }
             }
         }
     }
@@ -79,8 +97,9 @@ class MindHistoryViewModel @Inject constructor(
         }
     }
 
-    fun updateViewType(type: HistoryViewType) {
+    fun changeViewType(type: HistoryViewType) {
         viewModelScope.launch {
+            updateViewType(type)
             _uiState.update {
                 it.copy(
                     viewType = type

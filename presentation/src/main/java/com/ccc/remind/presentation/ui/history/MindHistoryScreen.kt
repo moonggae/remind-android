@@ -1,7 +1,5 @@
 package com.ccc.remind.presentation.ui.history
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
@@ -17,12 +15,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ccc.remind.R
+import com.ccc.remind.domain.entity.setting.HistoryViewType
 import com.ccc.remind.presentation.ui.component.container.BasicScreen
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.pageComponent.history.ItemListTypeSelector
 import com.ccc.remind.presentation.ui.component.pageComponent.history.calendar.MindPostCalendarView
+import com.ccc.remind.presentation.ui.component.pageComponent.history.list.PostDateLabel
 import com.ccc.remind.presentation.ui.component.pageComponent.history.list.PostMindListView
 import com.ccc.remind.presentation.ui.component.text.SecondaryText
+import com.ccc.remind.presentation.util.extensions.toZonedDateTime
 
 
 @Composable
@@ -57,7 +58,7 @@ fun MindHistoryScreen(
                 suffix = {
                     ItemListTypeSelector(
                         selectedType = uiState.viewType,
-                        onTypeChanged = viewModel::updateViewType
+                        onTypeChanged = viewModel::changeViewType
                     )
                 }
             )
@@ -85,8 +86,16 @@ fun MindHistoryScreen(
                         onClickDay = viewModel::selectCalendarDay,
                         onChangeMonth = viewModel::changeCalendarMonth
                     )
-                    
-                    Spacer(modifier = Modifier.height(20.dp))
+
+                    uiState.selectedDay?.date?.toZonedDateTime()?.let { day ->
+                        PostDateLabel(
+                            createdAt = day,
+                            modifier = Modifier.padding(
+                                top = 8.dp,
+                                bottom = 4.dp
+                            )
+                        )
+                    }
 
                     PostMindListView(
                         posts = uiState.selectedDayPostMinds,

@@ -1,4 +1,4 @@
-package com.ccc.remind.presentation.ui.history
+package com.ccc.remind.domain.entity.setting
 
 enum class HistoryViewType {
     LIST,
