@@ -44,7 +44,6 @@ class MainActivity : ComponentActivity() {
             NotificationUtil(this@MainActivity).askNotificationPermission()
         }
         observeLoginState()
-        mainViewModel.checkNotificationPermission()
         initCoil(
             context = this,
             okHttpClient = okHttpClient

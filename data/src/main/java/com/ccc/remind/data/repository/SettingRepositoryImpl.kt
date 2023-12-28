@@ -26,16 +26,4 @@ class SettingRepositoryImpl(
             value = "$enable"
         ))
     }
-
-    override fun getUserDenyNotificationPermission(): Flow<Boolean> = flow {
-        val settingValue = settingLocalDataSource.fetchSetting(Constants.SETTING_DENY_NOTIFICATION_KEY)
-        emit(settingValue?.toBooleanStrictOrNull() == true)
-    }
-
-    override suspend fun updateUserDenyNotificationPermission(deny: Boolean) {
-        settingLocalDataSource.updateSetting(SettingEntity(
-            key = Constants.SETTING_NOTIFICATION_KEY,
-            value = "$deny"
-        ))
-    }
 }
