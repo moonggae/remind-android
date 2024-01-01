@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -35,7 +36,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun MindPostListItem(
     modifier: Modifier = Modifier,
-    data: MindPost
+    data: MindPost,
+    backgroundColor: Color = RemindMaterialTheme.colorScheme.bg_muted
 ) {
     val scope = rememberCoroutineScope()
     var showCardTagCount by remember { mutableStateOf(data.cards.size) }
@@ -49,7 +51,7 @@ fun MindPostListItem(
     Card(
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
-            containerColor = RemindMaterialTheme.colorScheme.bg_muted
+            containerColor = backgroundColor
         ),
         modifier = Modifier
             .clip(RoundedCornerShape(20.dp))

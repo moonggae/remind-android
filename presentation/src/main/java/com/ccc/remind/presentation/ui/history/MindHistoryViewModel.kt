@@ -109,10 +109,12 @@ class MindHistoryViewModel @Inject constructor(
     }
 
     fun selectCalendarDay(day: CalendarDay) {
+        if (_uiState.value.selectedDay == day) return
+
         viewModelScope.launch {
             _uiState.update {
                 it.copy(
-                    selectedDay = if (it.selectedDay == day) null else day
+                    selectedDay = day
                 )
             }
         }

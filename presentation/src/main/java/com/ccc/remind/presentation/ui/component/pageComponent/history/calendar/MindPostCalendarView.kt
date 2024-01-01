@@ -27,7 +27,8 @@ fun MindPostCalendarView(
     selectedDay: CalendarDay?,
     postMinds: List<MindPost>,
     onClickDay: (day: CalendarDay) -> Unit,
-    onChangeMonth: (month: CalendarMonth) -> Unit
+    onChangeMonth: (month: CalendarMonth) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val scope = rememberCoroutineScope()
 
@@ -76,8 +77,9 @@ fun MindPostCalendarView(
                     }
                 }
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             DaysOfWeekTitle(daysOfWeek = daysOfWeek)
-        }
+        },
+        modifier = modifier
     )
 }

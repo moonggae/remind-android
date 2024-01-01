@@ -17,7 +17,6 @@
 
 ### History
 - to refactor pagination
-- update calendar ui
 
 ### Common
 - 페이지 이동 후 렌더링 모션 수정
@@ -76,6 +75,7 @@
 - 데이터 없을 때 문구 띄우기
 - Calendar View
 - to save view type
+- update calendar ui
 
 ### Common
 - 처음 시작시 인터넷 연결 확인
