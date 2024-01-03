@@ -2,6 +2,7 @@ package com.ccc.remind.presentation.ui.component.pageComponent.user
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -59,7 +60,9 @@ fun UserPictureEditButton(
                     ),
                     contentDescription = "user profile image",
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier.background(RemindMaterialTheme.colorScheme.bg_default)
+                    modifier = Modifier
+                        .background(RemindMaterialTheme.colorScheme.bg_default)
+                        .fillMaxSize()
                 )
             }
         }

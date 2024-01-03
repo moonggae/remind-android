@@ -140,7 +140,7 @@ class RemindFirebaseMessageService : FirebaseMessagingService() {
         val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_r_small)
             .setContentTitle(title)
-            .setContentText("[${MyApplication.lifecycleEvent}]${text}")
+            .setContentText(text)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
@@ -158,5 +158,4 @@ class RemindFirebaseMessageService : FirebaseMessagingService() {
         private const val CHANNEL_DESCRIPTION = "Friend Event Notification"
         private const val CHANNEL_ID = "Friend Event"
     }
-
 }

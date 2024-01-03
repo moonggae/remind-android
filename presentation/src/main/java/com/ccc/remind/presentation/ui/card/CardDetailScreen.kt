@@ -73,18 +73,19 @@ fun CardDetailScreen(
                 isBookmarked = isBookmarked,
                 showDisplayName = false,
                 bookmarkSize = 40.dp,
-                onClickBookmark = { card -> viewModel.submitToggleBookmark(card.id) }
+                onClickBookmark = { card -> viewModel.submitToggleBookmark(card.id) },
+                modifier = Modifier.padding(horizontal = 24.dp)
             )
 
-            Spacer(modifier = Modifier.height(44.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             Text(
                 text = openedMindCard.displayName,
-                style = RemindMaterialTheme.typography.bold_xxl,
-                color = RemindMaterialTheme.colorScheme.fg_default
+                style = RemindMaterialTheme.typography.bold_lg,
+                color = RemindMaterialTheme.colorScheme.fg_muted
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start)
@@ -94,16 +95,16 @@ fun CardDetailScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             openedMindCard.description?.let { description ->
                 Text(
                     text = stringResource(R.string.card_detail_label_description),
-                    style = RemindMaterialTheme.typography.bold_xxl,
-                    color = RemindMaterialTheme.colorScheme.fg_default
+                    style = RemindMaterialTheme.typography.bold_lg,
+                    color = RemindMaterialTheme.colorScheme.fg_muted
                 )
 
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
                     text = description,
@@ -116,11 +117,11 @@ fun CardDetailScreen(
 
             Text(
                 text = stringResource(R.string.card_detail_label_similar_cards),
-                style = RemindMaterialTheme.typography.bold_xxl,
-                color = RemindMaterialTheme.colorScheme.fg_default
+                style = RemindMaterialTheme.typography.bold_lg,
+                color = RemindMaterialTheme.colorScheme.fg_muted
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
             LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 items(count = similarCards.size) { index ->
