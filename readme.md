@@ -1,87 +1,79 @@
-# TODO
-### Presentation 모듈에서 App 모듈 분리
-- 분리할 상세 내용 정리 필요
-- route, navigation
-- Constants
-- DI
-- utils
-
-### User 페이지 메뉴
-- 필요 기능에 따라 추가 및 삭제
-- 개인정보 처리방침
-- Dark Mode 고민중
-
-### Memo
-- listen socket for Like
-- delete comment
-
-### History
-- to refactor pagination
-
-### Common
-- 페이지 이동 후 렌더링 모션 수정
-  - 페이지 이동 하고 렌더링 하니까 안좋아 보임
-
-### 친구 초대
-- URL 이벤트 처리
-
-### Test
-- to do learn
-
-# In Progress
+# Remind
+<img src="https://github.com/moonggae/remind-android/assets/74220198/c6f2b6ff-c576-4ebb-a546-b8d286c7a6de">
 
 
-# Paused
-### 에러 핸들링
-- message string 리소스 종속성 문제로 잠시 중단
-- network connection, server error, unknown exception 등 global 오류 처리 필요
+### 📝 Summary
+이유 없이 기분이 좋지 않거나 스스로의 감정을 잘 파악하지 못해 답답할 때가 있습니다. 이를 해결하기 위해 현재 감정을 간단하게 기록하고 글로 풀어보면서 좀 더 자신을 알아가고 앞으로의 감정 변화에 대응할 수 있도록 성장하고 싶은 마음에 개발한 앱 입니다.
+
+### ✅ Features
+- 감정 아이콘을 선택하여 감정을 기록
+- 감정 등록을 할 때 선택적으로 사진, 메모를 등록할 수 있음
+- 메모 페이지에서 코멘트 입력 및 코멘트 좋아요
+- 1:1로 이용할 수 있는 친구 추가 기능
+- 친구의 활동을 알림으로 받고 실시간 데이터 동기화
+
+### 🛠️ Tech
+`Kotlin`, `MVVM`, `Compose`, `Hilt`, `Coroutines`, `Flow`, `Retrofit`, `Socket.io`, `Room`, `Coil`, `FCM`, `Navigation Compose`
+
+### 📱 Result
+Onboarding
 
 
-# Done
-### 친구관리
-- User 페이지에 메뉴 추가
-- Invite 페이지에서 친구 관리 기능 분리
-- 친구 삭제 기능 추가
-- 유저 프로필 아이콘 클릭시 유저 프로필 페이지로 이동
-- 유저 프로필 페이지 변경
-  - user 정보 가져올 때 id 가져오기
-  - user profile 페이지로 라우딩 할 때 Id 넘겨줘서 user profile viewmodel 에서 데이터 처리하기
-  - 유저 관계에 따라 프로필 페이지 분리
-  - Me, Friend, Invite 프로필 페이지 이동
-- 친구 등록, 삭제 socket 이벤트
-- 친구 추가, 삭제시 mind history 페이지 업데이트
+<p>
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/f1e7f78c-d2be-4c42-9e12-3fd899754c64">
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/56f0bd17-7fd0-4cd3-a8a1-ed548bad9a85">
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/4f6fc967-5a28-4651-ae3b-b20c5806c4e7">
+</p>
 
-### User 페이지
-- 프로필 사진 클릭시 Image Dialog
-- 프로필 수정시 닉네임 max length, max line 설정
-- 회원탈퇴
-- open source list
 
-### Notification
-- anodrid 13 이상, 12이하 별로 푸쉬알림 Permission 설정
-- App이 background 동작시 heads-up 알림
+Home
 
-### 개발 하지 않은 기능 제거
-- 공유 기능
 
-### Post Detail
-- display Memo Comment count
-- move to memo detail page
+<p>
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/39a74a5b-f8c2-4ee1-b3cd-6f071311391b">
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/267f4974-c4b9-46f7-99f6-845fb2819331">
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/5751019e-cee7-4dbf-b150-8dfb84e28b12">
+</p>
 
-### Home
-- padding bottom
 
-### History
-- 데이터 없을 때 문구 띄우기
-- Calendar View
-- to save view type
-- update calendar ui
+Post
 
-### Common
-- 처음 시작시 인터넷 연결 확인
-- App Icon
-- On Board 뒤로가기 막기
 
-### Structure
-- gitignore secure 파일 업데이트
-- local properties 사용
+<p>
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/81c2daaa-fe73-4d4f-9cb5-0ab138dd50d1">
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/a1c6781e-a7a6-42df-851e-b1e4552c81b2">
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/fe76d648-68b4-4859-9708-dd38dce45e81">
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/359fb076-8930-4a0a-9668-37b720efccfc">
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/771d12ee-93d6-4f7b-8bbf-dfb72bcc58d2">
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/73168f82-ca1c-4bc5-a2bf-1655d117f54d">
+</p>
+
+
+Mind Cards
+
+
+<p>
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/1ca3563d-1298-4e55-87de-393acc377709">
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/e31e8d2c-ff2a-4ef8-b7de-7af6d2f403f1">
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/0bd5b6c3-6672-4e9a-b383-c8188eabd85e">
+</p>
+
+
+My Page
+
+
+<p>
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/bf5f52ab-2765-4dd5-a4d0-868ce9420fa6">
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/8e6e18a7-a7ef-4c2c-ba05-833de521dc6d">
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/9224b1b2-57f2-4efe-b559-00041390e861">
+</p>
+
+
+Friend
+
+
+<p>
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/e2890e50-16f9-4aa3-8cb4-b2bf3c54938d">
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/d9f74459-54af-46a1-a314-c29e1035c794">
+<img width="32.5%" src="https://github.com/moonggae/remind-android/assets/74220198/57268650-1dfa-4256-a194-645c1d73f10c">
+</p>
