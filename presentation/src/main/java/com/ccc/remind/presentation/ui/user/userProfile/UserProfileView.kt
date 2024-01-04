@@ -78,6 +78,7 @@ fun UserProfileView(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(200.dp)
+                        .clip(CircleShape)
                         .clickable {
                             scope.launch { openImageDialog = true }
                         }
