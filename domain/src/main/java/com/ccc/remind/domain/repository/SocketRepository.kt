@@ -4,6 +4,7 @@ import com.ccc.remind.domain.entity.mind.MindComment
 import com.ccc.remind.domain.entity.mind.MindPost
 import com.ccc.remind.domain.entity.user.User
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 
 interface SocketRepository {
@@ -13,7 +14,7 @@ interface SocketRepository {
 
     fun watchDeleteMindPost(scope: CoroutineScope): SharedFlow<Int>
 
-    fun watchAcceptFriend(scope: CoroutineScope): SharedFlow<User>
+    fun watchAcceptFriend(scope: CoroutineScope): Flow<User>
 
-    fun watchDeleteFriend(scope: CoroutineScope): SharedFlow<String>
+    fun watchDeleteFriend(scope: CoroutineScope): Flow<String>
 }

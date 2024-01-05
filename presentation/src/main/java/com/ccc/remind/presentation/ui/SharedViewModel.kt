@@ -1,27 +1,24 @@
 package com.ccc.remind.presentation.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ccc.remind.domain.usecase.friend.GetFriendUseCase
 import com.ccc.remind.domain.usecase.user.GetLoggedInUserUserCase
 import com.ccc.remind.domain.usecase.user.LogoutUseCase
-import com.ccc.remind.presentation.di.network.InterceptorOkHttpClient
-import com.ccc.remind.presentation.di.network.TokenInterceptor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
 import javax.inject.Inject
 
 @HiltViewModel
 class SharedViewModel @Inject constructor(
     private val getLoggedInUser: GetLoggedInUserUserCase,
     private val logoutUseCase: LogoutUseCase,
-    private val getFriend: GetFriendUseCase,
-    @InterceptorOkHttpClient private val okHttpClient: OkHttpClient
+    private val getFriend: GetFriendUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SharedUiState())
     val uiState: StateFlow<SharedUiState> get() = _uiState
@@ -31,33 +28,33 @@ class SharedViewModel @Inject constructor(
     }
 
     init {
-        viewModelScope.launch {
-            refreshUser()
-            getFriend.initObserver(viewModelScope)
-            observeFriend()
-        }
+        initUser()
+        initFriend()
     }
 
-    suspend fun refreshUser() {
-        getLoggedInUser().collect { newUser ->
-            newUser?.let { _->
-                _uiState.update { uiState ->
-                    uiState.copy(
-                        currentUser = newUser,
-                        isInitialized = true
-                    )
+    fun initUser() {
+        viewModelScope.launch {
+            getLoggedInUser().collect { newUser ->
+                newUser?.let { _->
+                    _uiState.update { uiState ->
+                        uiState.copy(
+                            currentUser = newUser,
+                            isInitialized = true
+                        )
+                    }
                 }
             }
         }
     }
 
-    suspend fun observeFriend() {
-        getFriend.friend.collect { friend ->
-            Log.d(TAG, "SharedViewModel - observeFriend - friend: ${friend}")
-            _uiState.update {
-                it.copy(
-                    friend = friend
-                )
+    fun initFriend() {
+        viewModelScope.launch {
+            getFriend(this).stateIn(this).collectLatest { friend ->
+                _uiState.update {
+                    it.copy(
+                        friend = friend
+                    )
+                }
             }
         }
     }
@@ -65,18 +62,11 @@ class SharedViewModel @Inject constructor(
     fun logout() {
         viewModelScope.launch {
             logoutUseCase()
-            getTokenInterceptor()?.removeToken()
             _uiState.update {
                 it.copy(
                     currentUser = null
                 )
             }
         }
-    }
-
-    private fun getTokenInterceptor(): TokenInterceptor? {
-        return okHttpClient.interceptors.find { interceptor ->
-            interceptor::class == TokenInterceptor::class
-        } as TokenInterceptor?
     }
 }

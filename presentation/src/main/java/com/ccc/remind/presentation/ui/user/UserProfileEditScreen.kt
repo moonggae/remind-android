@@ -107,7 +107,7 @@ fun UserProfileEditScreen(
         ) {
             scope.launch {
                 viewModel.submitUpdateUserProfile()
-                sharedViewModel.refreshUser()
+                sharedViewModel.initUser()
                 navController.popBackStack()
             }
         }

@@ -8,34 +8,26 @@ import com.ccc.remind.domain.entity.user.User
 import com.ccc.remind.domain.repository.FriendRepository
 import com.ccc.remind.domain.repository.SocketRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class FriendRepositoryImpl(
     private val friendRemoteService: FriendRemoteService,
     private val socketRepository: SocketRepository
-): FriendRepository {
+) : FriendRepository {
     private val _friendFlow = MutableStateFlow<User?>(null)
     override val friendFlow: StateFlow<User?> = _friendFlow
 
-    init {
-        CoroutineScope(Dispatchers.IO).launch {
-            getFriend()
-                .take(1)
-                .collect {
-                    _friendFlow.emit(it)
-                }
-        }
-    }
-
-    private fun getFriend(): Flow<User?> = flow {
+    override suspend fun getFriend(): Flow<User?> {
         val friend = friendRemoteService.fetchFriend().body()?.toDomain()
-        emit(friend)
+        _friendFlow.update { friend }
+        return friendFlow
     }
 
     override suspend fun postFriendRequest(inviteCode: String) =
@@ -68,15 +60,23 @@ class FriendRepositoryImpl(
 
     override suspend fun observeSocket(scope: CoroutineScope) {
         scope.launch {
-            socketRepository.watchAcceptFriend(scope).collect {
-                _friendFlow.emit(it)
+            launch {
+                socketRepository.watchAcceptFriend(scope).shareIn(
+                    scope = this,
+                    started = SharingStarted.Eagerly
+                ).collect {
+                    _friendFlow.emit(it)
+                }
             }
-        }
 
-        scope.launch {
-            socketRepository.watchDeleteFriend(scope).collect { deletedFriendId ->
-                if(_friendFlow.value?.id.toString() == deletedFriendId) {
-                    _friendFlow.emit(null)
+            launch {
+                socketRepository.watchDeleteFriend(scope).shareIn(
+                    scope = this,
+                    started = SharingStarted.Eagerly
+                ).collect { deletedFriendId ->
+                    if (_friendFlow.value?.id.toString() == deletedFriendId) {
+                        _friendFlow.emit(null)
+                    }
                 }
             }
         }

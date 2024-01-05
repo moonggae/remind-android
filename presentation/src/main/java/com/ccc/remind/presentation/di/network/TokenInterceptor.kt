@@ -1,6 +1,5 @@
 package com.ccc.remind.presentation.di.network
 
-import com.ccc.remind.domain.entity.user.JwtToken
 import com.ccc.remind.domain.repository.AuthRepository
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,16 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class TokenInterceptor @Inject constructor(private val authRepository: AuthRepository) : Interceptor {
     private val TAG = "TokenInterceptor"
-    private lateinit var accessToken: String
     private val isGettingToken = MutableStateFlow(false)
-
-    fun removeToken() {
-        accessToken = ""
-    }
-
-    private fun updateToken(token: JwtToken) {
-        accessToken = token.accessToken
-    }
 
     private fun waitForTokenRefresh() {
         try {
@@ -36,19 +26,13 @@ class TokenInterceptor @Inject constructor(private val authRepository: AuthRepos
         } catch (_: Throwable) { }
     }
 
-    private fun initToken() {
-        val token = runBlocking { authRepository.getToken() }
-        if (token != null) {
-            updateToken(token)
-        }
-    }
-
     override fun intercept(chain: Interceptor.Chain): Response {
         if(isGettingToken.value) {
             waitForTokenRefresh()
         }
-        if (!this::accessToken.isInitialized || accessToken.isEmpty()) {
-            initToken()
+
+        val accessToken = runBlocking {
+            authRepository.getToken()?.accessToken ?: ""
         }
 
         val request = chain.request().putTokenHeader(accessToken)
@@ -59,7 +43,6 @@ class TokenInterceptor @Inject constructor(private val authRepository: AuthRepos
             runBlocking {
                 val newToken = authRepository.getNewToken()
                 if (newToken != null) {
-                    updateToken(newToken)
                     val newRequest = chain.request().putTokenHeader(accessToken)
                     response.close()
                     response = chain.proceed(newRequest)

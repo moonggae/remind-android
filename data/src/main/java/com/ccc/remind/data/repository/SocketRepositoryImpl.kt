@@ -12,6 +12,7 @@ import com.ccc.remind.domain.entity.mind.MindPost
 import com.ccc.remind.domain.entity.user.User
 import com.ccc.remind.domain.repository.SocketRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -76,7 +77,7 @@ class SocketRepositoryImpl(
         return mutableSharedFlow.asSharedFlow()
     }
 
-    override fun watchAcceptFriend(scope: CoroutineScope): SharedFlow<User> {
+    override fun watchAcceptFriend(scope: CoroutineScope): Flow<User> {
         val mutableSharedFlow = MutableSharedFlow<User>()
         val dataFlow = socketManager.listen<UserVO>(
             event = "friend-accept",
@@ -94,7 +95,7 @@ class SocketRepositoryImpl(
         return mutableSharedFlow
     }
 
-    override fun watchDeleteFriend(scope: CoroutineScope): SharedFlow<String> =
+    override fun watchDeleteFriend(scope: CoroutineScope): Flow<String> =
         socketManager.listen<String>(
             event = "friend-delete",
             classOfT = String::class.java,

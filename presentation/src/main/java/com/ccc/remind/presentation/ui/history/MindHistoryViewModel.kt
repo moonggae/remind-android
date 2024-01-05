@@ -3,9 +3,11 @@ package com.ccc.remind.presentation.ui.history
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ccc.remind.domain.entity.setting.HistoryViewType
+import com.ccc.remind.domain.usecase.friend.GetFriendUseCase
 import com.ccc.remind.domain.usecase.post.GetMindPostListUseCase
 import com.ccc.remind.domain.usecase.setting.GetHistoryViewTypeUseCase
 import com.ccc.remind.domain.usecase.setting.UpdateHistoryViewTypeUseCase
+import com.ccc.remind.domain.usecase.user.GetLoggedInUserUserCase
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.CalendarMonth
 import com.kizitonwose.calendar.core.yearMonth
@@ -23,7 +25,9 @@ import javax.inject.Inject
 class MindHistoryViewModel @Inject constructor(
     private val getMindPostList: GetMindPostListUseCase,
     private val getViewType: GetHistoryViewTypeUseCase,
-    private val updateViewType: UpdateHistoryViewTypeUseCase
+    private val updateViewType: UpdateHistoryViewTypeUseCase,
+    private val getFriend: GetFriendUseCase,
+    private val getLoggedInUser: GetLoggedInUserUserCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(MindHistoryUiState())
     val uiState: StateFlow<MindHistoryUiState> get() = _uiState
@@ -34,8 +38,9 @@ class MindHistoryViewModel @Inject constructor(
 
     init {
         getMindPostList.initObserver(viewModelScope)
-        initMindPostList()
         initViewType()
+        initCurrentUser()
+        initFriend()
     }
 
     private fun initMindPostList() {
@@ -61,6 +66,31 @@ class MindHistoryViewModel @Inject constructor(
                         viewType = viewType
                     )
                 }
+            }
+        }
+    }
+
+    private fun initCurrentUser() {
+        viewModelScope.launch {
+            getLoggedInUser().collectLatest { user ->
+                _uiState.update {
+                    it.copy(
+                        currentUser = user
+                    )
+                }
+            }
+        }
+    }
+
+    private fun initFriend() {
+        viewModelScope.launch {
+            getFriend.friendStateFlow.collectLatest { friend ->
+                _uiState.update {
+                    it.copy(
+                        friend = friend
+                    )
+                }
+                initMindPostList()
             }
         }
     }

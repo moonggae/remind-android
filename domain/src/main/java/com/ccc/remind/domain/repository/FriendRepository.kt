@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface FriendRepository {
     val friendFlow: StateFlow<User?>
+    suspend fun getFriend(): Flow<User?>
 
     suspend fun postFriendRequest(inviteCode: String)
 

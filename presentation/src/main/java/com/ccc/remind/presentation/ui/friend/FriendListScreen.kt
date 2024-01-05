@@ -13,8 +13,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import com.ccc.remind.R
 import com.ccc.remind.presentation.navigation.Route
@@ -36,12 +39,12 @@ fun FriendListScreen(
     viewModel: FriendViewModel,
     sharedViewModel: SharedViewModel
 ) {
-    val sharedUiState by sharedViewModel.uiState.collectAsState()
     val scope = rememberCoroutineScope()
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+    val sharedUiState by sharedViewModel.uiState.collectAsState()
 
-    // todo : base viewmodel addOn route 추가 후 start 이벤트에 넣기
-    LaunchedEffect(navController.currentBackStackEntry) {
-        if(navController.currentDestination?.route == Route.Friend.name) {
+    LaunchedEffect(Unit) {
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.initRequestList()
         }
     }

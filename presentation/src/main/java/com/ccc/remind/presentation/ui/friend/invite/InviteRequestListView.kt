@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ccc.remind.R
@@ -47,38 +47,43 @@ fun InviteRequestListView(
     viewModel: FriendViewModel = hiltViewModel(), // todo : invite viewmodel
     sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val sharedUiState by sharedViewModel.uiState.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
 
     Column {
-        if(uiState.friendRequests.isNotEmpty()) {
-            Text(
-                text = stringResource(R.string.friend_list_label_my_friend_request),
-                style = RemindMaterialTheme.typography.bold_lg,
-                color = RemindMaterialTheme.colorScheme.fg_default,
-            )
+        uiState.friendRequests
+            .filter { request -> request.receivedUser.id != sharedUiState.friend?.id }
+            .takeIf { it.isNotEmpty() }
+            ?.let { requests ->
+                Text(
+                    text = stringResource(R.string.friend_list_label_my_friend_request),
+                    style = RemindMaterialTheme.typography.bold_lg,
+                    color = RemindMaterialTheme.colorScheme.fg_default,
+                )
 
-            Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                uiState.friendRequests.map { request ->
-                    RequestFriend(
-                        user = request.receivedUser,
-                        navController = navController,
-                        onClickCancel = {
-                            scope.launch {
-                                viewModel.submitCancelFriendRequest(request.id)
-                                viewModel.initRequestList()
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    requests.map { request ->
+                        RequestFriend(
+                            user = request.receivedUser,
+                            navController = navController,
+                            onClickCancel = {
+                                scope.launch {
+                                    viewModel.submitCancelFriendRequest(request.id)
+                                    viewModel.initRequestList()
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
+
+                Spacer(modifier = Modifier.height(24.dp))
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
-        }
 
-        if(uiState.receivedFriendRequest.isNotEmpty()) {
+        if (uiState.receivedFriendRequest.isNotEmpty()) {
             Text(
                 text = stringResource(R.string.friend_list_received_friend_request),
                 style = RemindMaterialTheme.typography.bold_lg,
@@ -95,7 +100,7 @@ fun InviteRequestListView(
                         onClickAccept = {
                             scope.launch {
                                 viewModel.submitAcceptFriendRequest(request.id)
-                                sharedViewModel.observeFriend()
+                                sharedViewModel.initFriend()
                                 navController.popBackStack()
                             }
                         },
@@ -170,7 +175,7 @@ fun ReceivedFriendRequest(
         )
     }
 
-    if(showDenyAlertDialog) {
+    if (showDenyAlertDialog) {
         DefaultAlertDialog(
             contentText = stringResource(R.string.friend_list_alert_deny_friend_request),
             onClickConfirmButton = {
@@ -226,7 +231,7 @@ fun RequestFriend(
         )
     }
 
-    if(showCancelAlertDialog) {
+    if (showCancelAlertDialog) {
         DefaultAlertDialog(
             contentText = stringResource(R.string.friend_list_alert_cancel_friend_request),
             onClickConfirmButton = {

@@ -96,16 +96,12 @@ fun HomeScreen(
         ) { pageIndex ->
             when(pageIndex) {
                 0 -> HomeMyView(
-                    postMind = sharedUiState.currentUser?.uuid?.let { userId ->
-                        mindHistoryUiState.getLastPostByUser(userId)
-                    },
+                    postMind = mindHistoryUiState.myLastPost,
                     displayName = sharedUiState.currentUser?.displayName,
                     navController = navController,
                 )
                 1 -> HomeOtherUserView(
-                    postMind = sharedUiState.friend?.id?.let { userId ->
-                        mindHistoryUiState.getLastPostByUser(userId)
-                    },
+                    postMind = mindHistoryUiState.friendLastPost,
                     displayName = sharedUiState.friend?.displayName,
                     navController = navController,
                     onRequestFriendMind = viewModel::submitRequestFriendMind
