@@ -6,11 +6,11 @@ import com.ccc.remind.domain.entity.mind.MindPost
 import com.ccc.remind.domain.entity.mind.MindPostList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import java.util.UUID
 
 interface MindRepository {
-    val postsFlow: SharedFlow<List<MindPost>>
+    val mindPosts: StateFlow<List<MindPost>>
 
     fun getMindCards(): Flow<List<MindCard>>
 
@@ -27,19 +27,11 @@ interface MindRepository {
         memo: String?
     ): Flow<MindPost>
 
-    suspend fun delete(
-        id: Int
-    ): Flow<Unit>
-
-    fun getLast(): Flow<MindPost?>
-
-    fun getFriendLast(): Flow<MindPost?>
+    suspend fun delete(id: Int)
 
     suspend fun requestFriend()
 
     fun getList(page: Int): Flow<MindPostList>
-
-    fun get(id: Int): Flow<MindPost?>
 
     suspend fun clearCachedPosts()
 

@@ -175,6 +175,8 @@ private fun initDeleteAlertDialog(
     uiState: MindPostUiState,
     navController: NavController
 ) {
+    val scope = rememberCoroutineScope()
+
     deleteAlertDialog.init(
         useDefaultCancelButton = true,
         contentResId = R.string.mind_post_complete_alert_delete,
@@ -185,22 +187,24 @@ private fun initDeleteAlertDialog(
                 onClick = {
                     manager.close()
                     menu.close()
-                    viewModel.deleteMind {
-                        when (uiState.viewType) {
-                            PostViewType.FIRST_POST -> {
-                                navController.popBackStack(
-                                    route = Route.Main.Home.name,
-                                    saveState = false,
-                                    inclusive = false
-                                )
-                            }
+                    scope.launch {
+                        viewModel.deleteMind {
+                            when (uiState.viewType) {
+                                PostViewType.FIRST_POST -> {
+                                    navController.popBackStack(
+                                        route = Route.Main.Home.name,
+                                        saveState = false,
+                                        inclusive = false
+                                    )
+                                }
 
-                            PostViewType.DETAIL -> {
-                                navController.popBackStack(
-                                    route = Route.Main.MindHistory.name,
-                                    saveState = false,
-                                    inclusive = false
-                                )
+                                PostViewType.DETAIL -> {
+                                    navController.popBackStack(
+                                        route = Route.Main.MindHistory.name,
+                                        saveState = false,
+                                        inclusive = false
+                                    )
+                                }
                             }
                         }
                     }

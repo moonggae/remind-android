@@ -137,18 +137,12 @@ fun NavGraphBuilder.mainNavGraph(
             )
         }
         composable(Route.Main.Home.name) {
-            LaunchedEffect(navController.currentDestination) {
-                if (navController.currentDestination?.route?.startsWith(Route.Main.Home.name) == true) {
-                    homeViewModel.initUiState()
-                    notificationViewModel.initNotifications()
-                }
-            }
-
             HomeScreen(
                 navController = navController,
                 viewModel = homeViewModel,
                 notificationViewModel = notificationViewModel,
-                sharedViewModel = sharedViewModel
+                sharedViewModel = sharedViewModel,
+                mindHistoryViewModel = mindHistoryViewModel
             )
         }
         composable(Route.Main.MindHistory.name) {

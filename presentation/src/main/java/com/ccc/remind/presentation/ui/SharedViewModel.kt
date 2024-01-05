@@ -1,5 +1,6 @@
 package com.ccc.remind.presentation.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ccc.remind.domain.usecase.friend.GetFriendUseCase
@@ -29,7 +30,6 @@ class SharedViewModel @Inject constructor(
         private const val TAG = "SharedViewModel"
     }
 
-
     init {
         viewModelScope.launch {
             refreshUser()
@@ -53,6 +53,7 @@ class SharedViewModel @Inject constructor(
 
     suspend fun observeFriend() {
         getFriend.friend.collect { friend ->
+            Log.d(TAG, "SharedViewModel - observeFriend - friend: ${friend}")
             _uiState.update {
                 it.copy(
                     friend = friend

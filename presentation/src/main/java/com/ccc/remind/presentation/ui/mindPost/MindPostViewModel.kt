@@ -10,7 +10,7 @@ import com.ccc.remind.domain.entity.mind.MindPost
 import com.ccc.remind.domain.usecase.PostImagesUseCase
 import com.ccc.remind.domain.usecase.mind.GetMindCardsUseCase
 import com.ccc.remind.domain.usecase.post.DeleteMindUseCase
-import com.ccc.remind.domain.usecase.post.GetMindPostUseCase
+import com.ccc.remind.domain.usecase.post.GetMindPostListUseCase
 import com.ccc.remind.domain.usecase.post.PostMindUseCase
 import com.ccc.remind.domain.usecase.post.UpdateMindUseCase
 import com.ccc.remind.presentation.MyApplication
@@ -32,7 +32,7 @@ class MindPostViewModel @Inject constructor(
     private val postMind: PostMindUseCase,
     private val updateMind: UpdateMindUseCase,
     private val deleteMind: DeleteMindUseCase,
-    private val getMindPost: GetMindPostUseCase
+    private val getMindPost: GetMindPostListUseCase
 ) : ViewModel() {
 
     companion object {
@@ -235,24 +235,19 @@ class MindPostViewModel @Inject constructor(
         }
     }
 
-    fun deleteMind(onSuccess: () -> Unit = {}) {
-        viewModelScope.launch {
-            deleteMind(_uiState.value.openedPost!!.id).collect {
-                _uiState.update {
-                    it.copy(
-                        openedPost = null
-                    )
-                }
-                onSuccess()
-            }
+    suspend fun deleteMind(onSuccess: () -> Unit = {}) {
+        deleteMind(_uiState.value.openedPost!!.id)
+        _uiState.update {
+            it.copy(
+                openedPost = null
+            )
         }
+        onSuccess()
     }
 
     fun setOpenedMindPost(id: Int) {
         viewModelScope.launch {
-            getMindPost(id).collect { post ->
-                setOpenedMindPost(post)
-            }
+            setOpenedMindPost(getMindPost.posts.value.find { it.id == id })
         }
     }
 

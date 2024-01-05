@@ -1,9 +1,10 @@
 package com.ccc.remind.domain.usecase.post
 
+import android.util.Log
 import com.ccc.remind.domain.entity.mind.MindPost
 import com.ccc.remind.domain.repository.MindRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 
@@ -13,7 +14,7 @@ class GetMindPostListUseCase @Inject constructor(
 ) {
     private var currentPage: Int = 0
     private var lastPage: Int? = null
-    val posts = mindRepository.postsFlow
+    val posts = mindRepository.mindPosts
 
     fun initObserver(scope: CoroutineScope) = mindRepository.observeSocket(scope)
 
@@ -21,7 +22,8 @@ class GetMindPostListUseCase @Inject constructor(
         mindRepository.clearCachedPosts()
     }
 
-    suspend fun get(): SharedFlow<List<MindPost>> {
+    suspend operator fun invoke(): StateFlow<List<MindPost>> {
+        Log.d("TAG", "GetMindPostListUseCase - invoke")
         val postList = mindRepository.getList(currentPage)
         postList.collect {
             currentPage = it.page
@@ -33,6 +35,7 @@ class GetMindPostListUseCase @Inject constructor(
 
     // return value tells getting more data or not
     suspend fun next(): Boolean {
+        Log.d("TAG", "GetMindPostListUseCase - next")
         if(lastPage == null) return false
         if(currentPage <= lastPage!!) {
             mindRepository.getList(++currentPage).collect {

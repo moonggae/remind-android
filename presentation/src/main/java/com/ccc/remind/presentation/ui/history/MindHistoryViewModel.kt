@@ -3,7 +3,6 @@ package com.ccc.remind.presentation.ui.history
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ccc.remind.domain.entity.setting.HistoryViewType
-import com.ccc.remind.domain.usecase.friend.GetFriendUseCase
 import com.ccc.remind.domain.usecase.post.GetMindPostListUseCase
 import com.ccc.remind.domain.usecase.setting.GetHistoryViewTypeUseCase
 import com.ccc.remind.domain.usecase.setting.UpdateHistoryViewTypeUseCase
@@ -23,7 +22,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MindHistoryViewModel @Inject constructor(
     private val getMindPostList: GetMindPostListUseCase,
-    private val getFriend: GetFriendUseCase,
     private val getViewType: GetHistoryViewTypeUseCase,
     private val updateViewType: UpdateHistoryViewTypeUseCase
 ) : ViewModel() {
@@ -37,7 +35,6 @@ class MindHistoryViewModel @Inject constructor(
     init {
         getMindPostList.initObserver(viewModelScope)
         initMindPostList()
-        observeFriendState()
         initViewType()
     }
 
@@ -45,10 +42,10 @@ class MindHistoryViewModel @Inject constructor(
         viewModelScope.launch {
             isLoadingData.update { true }
             getMindPostList.clearCache()
-            getMindPostList.get().collectLatest { newPosts ->
-                _uiState.update {
-                    it.copy(
-                        postMinds = newPosts
+            getMindPostList().collectLatest { posts ->
+                _uiState.update { uiState ->
+                    uiState.copy(
+                        posts = posts.sortedByDescending { it.createdAt }
                     )
                 }
                 isLoadingData.update { false }
@@ -75,25 +72,9 @@ class MindHistoryViewModel @Inject constructor(
                 isLoadingData.value = true
             }
 
-            val dataUpdated = getMindPostList.next()
-
-            if (dataUpdated) {
-                getMindPostList.posts.replayCache.lastOrNull()?.let { newPosts ->
-                    _uiState.update { it.copy(postMinds = newPosts) }
-                }
-            } else {
-                _uiState.update { it.copy(isLastPage = true) }
-            }
+            getMindPostList.next()
 
             isLoadingData.value = false
-        }
-    }
-
-    private fun observeFriendState() {
-        viewModelScope.launch {
-            getFriend.friend.collect {
-                initMindPostList()
-            }
         }
     }
 
@@ -123,7 +104,7 @@ class MindHistoryViewModel @Inject constructor(
     fun changeCalendarMonth(calendarMonth: CalendarMonth) {
         if (_uiState.value.isLastPage) return
 
-        val lastItemMonth = _uiState.value.postMinds.lastOrNull()?.createdAt?.toLocalDate()?.yearMonth
+        val lastItemMonth = _uiState.value.posts.lastOrNull()?.createdAt?.toLocalDate()?.yearMonth
 
         if(lastItemMonth == null || lastItemMonth >= calendarMonth.yearMonth) {
             loadNextPage()

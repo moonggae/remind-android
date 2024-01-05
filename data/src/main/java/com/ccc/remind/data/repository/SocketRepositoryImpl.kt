@@ -42,7 +42,7 @@ class SocketRepositoryImpl(
         return mutableSharedFlow.asSharedFlow()
     }
 
-    override fun watchMindPost(scope: CoroutineScope): SharedFlow<MindPost> {
+    override fun watchCreateOrUpdateMindPost(scope: CoroutineScope): SharedFlow<MindPost> {
         val mutableSharedFlow = MutableSharedFlow<MindPost>()
         val dataFlow: SharedFlow<MindPostResponseDto> = socketManager.listen(
             event = "mind-post",

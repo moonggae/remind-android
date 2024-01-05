@@ -7,12 +7,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import com.ccc.remind.presentation.navigation.Route
 import com.ccc.remind.presentation.ui.SharedViewModel
@@ -21,6 +25,7 @@ import com.ccc.remind.presentation.ui.component.icon.CircleIndicator
 import com.ccc.remind.presentation.ui.component.layout.AppBar
 import com.ccc.remind.presentation.ui.component.pageComponent.home.HomeTitleText
 import com.ccc.remind.presentation.ui.component.pageComponent.home.NotificationIconButton
+import com.ccc.remind.presentation.ui.history.MindHistoryViewModel
 import com.ccc.remind.presentation.ui.notification.NotificationViewModel
 import kotlinx.coroutines.launch
 
@@ -34,12 +39,20 @@ fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
     notificationViewModel: NotificationViewModel,
-    sharedViewModel: SharedViewModel = hiltViewModel()
+    sharedViewModel: SharedViewModel = hiltViewModel(),
+    mindHistoryViewModel: MindHistoryViewModel
 ) {
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
     val scope = rememberCoroutineScope()
-    val uiState by viewModel.uiState.collectAsState()
-    val notificationUiState by notificationViewModel.uiState.collectAsState()
-    val sharedUiState by sharedViewModel.uiState.collectAsState()
+    val notificationUiState by notificationViewModel.uiState.collectAsStateWithLifecycle()
+    val sharedUiState by sharedViewModel.uiState.collectAsStateWithLifecycle()
+    val mindHistoryUiState by mindHistoryViewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+            notificationViewModel.initNotifications()
+        }
+    }
 
     val pagerState = rememberPagerState(
         initialPage = 0
@@ -83,12 +96,16 @@ fun HomeScreen(
         ) { pageIndex ->
             when(pageIndex) {
                 0 -> HomeMyView(
-                    postMind = uiState.post,
+                    postMind = sharedUiState.currentUser?.uuid?.let { userId ->
+                        mindHistoryUiState.getLastPostByUser(userId)
+                    },
                     displayName = sharedUiState.currentUser?.displayName,
                     navController = navController,
                 )
                 1 -> HomeOtherUserView(
-                    postMind = uiState.friendPost,
+                    postMind = sharedUiState.friend?.id?.let { userId ->
+                        mindHistoryUiState.getLastPostByUser(userId)
+                    },
                     displayName = sharedUiState.friend?.displayName,
                     navController = navController,
                     onRequestFriendMind = viewModel::submitRequestFriendMind

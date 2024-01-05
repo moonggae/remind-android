@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -18,7 +17,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,7 +43,6 @@ fun MindHistoryScreenPreview() {
     MindHistoryScreen()
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MindHistoryScreen(
     navController: NavController = rememberNavController(),
@@ -53,7 +50,6 @@ fun MindHistoryScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val listViewScrollState = rememberLazyListState()
-    val density = LocalDensity.current
 
     LaunchedEffect(listViewScrollState.firstVisibleItemIndex) {
         if (!uiState.isLastPage) {
@@ -80,7 +76,7 @@ fun MindHistoryScreen(
         },
         padding = PaddingValues(0.dp)
     ) {
-        if (uiState.postMinds.isEmpty()) {
+        if (uiState.posts.isEmpty()) {
             SecondaryText(
                 text = stringResource(R.string.mind_history_list_empty_text),
                 modifier = Modifier
@@ -90,7 +86,7 @@ fun MindHistoryScreen(
         } else {
             when (uiState.viewType) {
                 HistoryViewType.LIST -> PostMindListView(
-                    posts = uiState.postMinds,
+                    posts = uiState.posts,
                     navController = navController,
                     scrollState = listViewScrollState,
                     modifier = Modifier.padding(horizontal = 20.dp)
@@ -99,7 +95,7 @@ fun MindHistoryScreen(
                 HistoryViewType.CALENDAR -> {
                     MindPostCalendarView(
                         selectedDay = uiState.selectedDay,
-                        postMinds = uiState.postMinds,
+                        postMinds = uiState.posts,
                         onClickDay = viewModel::selectCalendarDay,
                         onChangeMonth = viewModel::changeCalendarMonth,
                         modifier = Modifier.padding(horizontal = 44.5.dp)
