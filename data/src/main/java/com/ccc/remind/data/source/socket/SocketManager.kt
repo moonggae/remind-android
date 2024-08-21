@@ -53,7 +53,7 @@ class SocketManager {
             .build()
 
         socket = IO.socket(
-            URI.create("${host}:1234"),
+            URI.create(host),
             options
         )
 

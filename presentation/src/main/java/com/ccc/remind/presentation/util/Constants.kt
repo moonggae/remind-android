@@ -9,6 +9,7 @@ object Constants {
         else Route.Main.Home
 
     val BASE_URL = BuildConfig.SERVER_URL
+    val SOCKET_URL = BuildConfig.SOCKET_URL
 
     const val INVITE_URL_PATH = "app/android"
 

@@ -18,7 +18,7 @@ object SocketModule {
     fun provideSocketManager(authRepository: AuthRepository): SocketManager {
         return SocketManager().apply {
             socketConnect(
-                host = Constants.BASE_URL,
+                host = Constants.SOCKET_URL,
                 token = flow { emit(authRepository.getToken()) }
             )
         }
