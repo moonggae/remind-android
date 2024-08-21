@@ -18,7 +18,7 @@ properties.load(new FileInputStream(localPropertiesFile))
 
 android {
     namespace 'com.ccc.remind'
-    compileSdk 33
+    compileSdk 34
 
     signingConfigs {
         release {
@@ -32,9 +32,9 @@ android {
     defaultConfig {
         applicationId "com.ccc.remind"
         minSdk 27
-        targetSdk 33
-        versionCode 4
-        versionName "0.0.3"
+        targetSdkVersion 34
+        versionCode 5
+        versionName "0.0.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
